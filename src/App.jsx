@@ -4,9 +4,11 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
 
+  fetch("/api/actuator/health").then((res) => res.json());
+
   return (
     <>
-      <div>test!</div>
+      <div>modi</div>
     </>
   );
 }
