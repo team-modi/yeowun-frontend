@@ -76,6 +76,17 @@
                 },
                 "type": "object"
             },
+            "ApiResponseString": {
+                "properties": {
+                    "data": {
+                        "type": "string"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Metadata"
+                    }
+                },
+                "type": "object"
+            },
             "ApiResponseTokenResponse": {
                 "properties": {
                     "data": {
@@ -1399,6 +1410,26 @@
                     }
                 ],
                 "summary": "\uac1c\uc778 \uc804\uc2dc \ub4f1\ub85d",
+                "tags": [
+                    "Exhibition"
+                ]
+            }
+        },
+        "/api/v1/exhibitions/featured": {
+            "get": {
+                "operationId": "featured",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseString"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
                 "tags": [
                     "Exhibition"
                 ]

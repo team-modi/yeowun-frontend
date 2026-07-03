@@ -11,3 +11,9 @@ export const getDetailExhibition = async (exhibitionId) => {
   const data = await axiosInstance.get(`/exhibitions/${exhibitionId}`);
   return data;
 };
+
+// 추천 전시 조회
+export const getFeaturedExhibition = async () => {
+  const data = await axiosInstance.get("/exhibitions/featured");
+  return data;
+};
