@@ -86,47 +86,114 @@ jobs:
             echo "classification=initial" >> "$GITHUB_OUTPUT"
           fi
 
-      # ── 3. AI 동기화: 로컬에서 쓰는 그 Claude Code의 헤드리스 모드 ──
+      # ── 3. AI 동기화(자가복구 포함): 로컬에서 쓰는 그 Claude Code의 헤드리스 모드 ──
       #    --allowedTools 로 능력을 제한한다: 읽기 + 편집 + lint/build 실행만.
-      - name: AI sync (Claude Code headless)
+      #    AI는 자기 턴 안에서 lint/build를 직접 돌려, 실패하면 src/api 안에서 고쳐
+      #    green이 될 때까지 반복한다(인세션 자가복구 루프). --max-turns 가 그 상한(유계).
+      - name: AI sync (Claude Code headless, self-healing)
         if: steps.change.outputs.changed == 'true'
         env:
           # Claude Max/Pro 구독 인증. `claude setup-token`으로 발급한 장기 OAuth 토큰.
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
           npm install -g @anthropic-ai/claude-code
+          # --max-turns 50: 인세션 lint/build 재시도 여유(유계 상한). 초과 시 실패가 아니라
+          # 아래 검증 게이트가 판정 → 사람 에스컬레이션으로 빠진다.
           claude -p "$(cat api-sync/prompts/sync.md)" \
             --allowedTools "Read,Grep,Glob,Edit,Bash(npm run lint*),Bash(npm run build*)" \
-            --max-turns 30 \
+            --max-turns 50 \
             || echo "agent ended non-zero (검증 단계에서 판정)"
 
-      # ── 4. 가드레일: AI가 src/api와 하네스 산출물 밖을 건드렸으면 실패 ──
-      - name: Guardrail (blast radius)
+      # ── 3.5 메타 가드레일(치팅 통과 차단): AI가 억제 주석으로 lint를 넘기려 하면 폐기 ──
+      #    sync.md 금지 규칙만으론 부족 → 기계적으로 막는다. (경계는 협상 불가)
+      - name: Anti-cheat (no new suppression comments)
         if: steps.change.outputs.changed == 'true'
         run: |
-          bad=$(git diff --name-only | grep -Ev '^(src/api/|api-sync/)' || true)
-          if [ -n "$bad" ]; then
-            echo "::error::허용 경로 밖 수정 감지:"
-            echo "$bad"
+          if git diff -- src/api | grep -E '^\+' | grep -Eq 'eslint-disable|@ts-ignore|@ts-nocheck'; then
+            echo "::error::억제 주석(eslint-disable/@ts-ignore/@ts-nocheck)으로 통과 시도 감지 — 폐기"
+            git diff -- src/api | grep -E '^\+' | grep -E 'eslint-disable|@ts-ignore|@ts-nocheck'
             exit 1
           fi
 
-      # ── 5. 검증: Playwright 없는 최소 게이트 = lint + build ──
-      #    (문법 오류, 존재하지 않는 import 정도를 잡는다. 의미 검증은 사람 리뷰의 몫)
-      - name: Verify (lint + build)
+      # ── 4. 가드레일: 경계 밖 변경은 "AI가 고치게" 하지 않고 "기계가 되돌린다" ──
+      #    경계를 침범한 AI에게 복구를 맡기면 경계가 협상 가능해진다 → 결정론적 되돌리기.
+      #    되돌린 뒤 아래 lint+build 재실행이 "그 오버리치가 불필요했나 / 흡수 불가였나"를 판정.
+      - name: Guardrail — deterministic revert of out-of-boundary changes
+        id: guardrail
         if: steps.change.outputs.changed == 'true'
         run: |
-          npm run lint
-          npm run build
+          bad=$(git diff --name-only | grep -Ev '^(src/api/|api-sync/)' || true)
+          new=$(git ls-files --others --exclude-standard | grep -Ev '^(src/api/|api-sync/)' || true)
+          # 한 줄씩 안전하게 처리(파일명 공백·다중 파일 대응). while-read + 개별 인용.
+          if [ -n "$bad" ]; then
+            echo "::warning::경계 밖 편집 되돌리기:"; echo "$bad"
+            printf '%s\n' "$bad" | while IFS= read -r f; do [ -n "$f" ] && git checkout -- "$f"; done
+          fi
+          if [ -n "$new" ]; then
+            echo "::warning::경계 밖 새 파일 삭제:"; echo "$new"
+            printf '%s\n' "$new" | while IFS= read -r f; do [ -n "$f" ] && git clean -f -- "$f"; done
+          fi
+          reverted=$(printf '%s\n%s\n' "$bad" "$new" | grep -v '^$' || true)
+          {
+            echo "reverted<<EOF"
+            echo "$reverted"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
-      # ── 6. 새 스펙을 "아는 계약"으로 승격하고 PR 본문 구성 ──
-      - name: Promote spec & build PR body
+      # ── 5. 검증(게이트): lint + build. 실패해도 여기서 죽지 않고 결과만 기록 ──
+      #    green=true → PR로. green=false → 사람 에스컬레이션(draft + needs-human).
+      - name: Verify (lint + build)
+        id: verify
         if: steps.change.outputs.changed == 'true'
+        run: |
+          if npm run lint && npm run build; then
+            echo "green=true" >> "$GITHUB_OUTPUT"
+            echo "✅ lint+build green"
+          else
+            echo "green=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::lint+build 실패 — 자가복구로 green 달성 못함 → 사람 에스컬레이션"
+          fi
+
+      # ── 6. 스펙 승격 + PR 본문/라벨/draft 결정 (관찰 가능성: 되돌림·복구·검증결과 기록) ──
+      - name: Promote spec, build PR body & decide labels
+        id: prep
+        if: steps.change.outputs.changed == 'true'
+        env:
+          GREEN: ${{ steps.verify.outputs.green }}
+          REVERTED: ${{ steps.guardrail.outputs.reverted }}
+          CLASSIFICATION: ${{ steps.classify.outputs.classification }}
         run: |
           cp "$NEW_SPEC" "$OLD_SPEC"
+          # 자가복구 여부: 기계가 되돌렸거나(deterministic), AI가 sync-notes에 마커를 남겼으면
+          recovered=false
+          [ -n "$(printf '%s' "$REVERTED" | tr -d '[:space:]')" ] && recovered=true
+          grep -q 'auto-recovered' api-sync/out/sync-notes.md 2>/dev/null && recovered=true
+
+          if [ "$GREEN" = "true" ]; then
+            echo "draft=false" >> "$GITHUB_OUTPUT"
+            echo "title=chore(api): sync with backend spec ($CLASSIFICATION)" >> "$GITHUB_OUTPUT"
+            if [ "$recovered" = "true" ]; then
+              echo "labels=api-sync,$CLASSIFICATION,auto-recovered" >> "$GITHUB_OUTPUT"
+            else
+              echo "labels=api-sync,$CLASSIFICATION" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "draft=true" >> "$GITHUB_OUTPUT"
+            echo "title=chore(api): sync FAILED — needs human ($CLASSIFICATION)" >> "$GITHUB_OUTPUT"
+            echo "labels=api-sync,$CLASSIFICATION,needs-human" >> "$GITHUB_OUTPUT"
+          fi
+
           {
-            echo "## API sync (\`${{ steps.classify.outputs.classification }}\`)"
+            echo "## API sync (\`$CLASSIFICATION\`)"
             echo
+            if [ "$GREEN" != "true" ]; then
+              echo "> ⚠️ **AI가 lint+build green 달성에 실패했습니다 — 사람 개입 필요 (draft).**"
+              echo "> 아래 sync-notes와 변경을 확인하고 직접 마무리하거나 이 PR을 닫아주세요."
+              echo
+            elif [ "$recovered" = "true" ]; then
+              echo "> ♻️ **자가복구된 PR입니다.** 자동 되돌리기/재수정이 있었으니 더 꼼꼼히 봐주세요."
+              echo
+            fi
             echo "### Spec changelog"
             echo '```'
             cat api-sync/out/changelog.txt
@@ -135,10 +202,21 @@ jobs:
             echo "### AI sync notes"
             cat api-sync/out/sync-notes.md 2>/dev/null || echo "_수정 불필요 (스펙만 갱신)_"
             echo
+            if [ -n "$(printf '%s' "$REVERTED" | tr -d '[:space:]')" ]; then
+              echo "### 🔒 가드레일이 자동 되돌린 경계 밖 변경"
+              echo '```'
+              printf '%s\n' "$REVERTED"
+              echo '```'
+              echo
+            fi
+            echo "### 검증 결과"
+            if [ "$GREEN" = "true" ]; then echo "- lint+build: ✅ green"; else echo "- lint+build: ❌ 실패 (needs-human)"; fi
+            echo
             echo "> 검증은 lint+build까지만 수행됨. 동작 확인은 리뷰어의 몫입니다."
           } > api-sync/out/pr-body.md
 
       # ── 7. develop 대상 PR 생성 (자동 머지 없음 — 머지는 사람이) ──
+      #    green이면 일반 PR, 실패면 draft + needs-human 으로 "조용한 죽음" 방지.
       - name: Create PR
         if: steps.change.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
@@ -146,12 +224,11 @@ jobs:
           # 기본 GITHUB_TOKEN 사용 - 추가 시크릿 불필요.
           base: develop                              # PR 대상 = 프론트 develop
           branch: api-sync/${{ github.run_id }}
+          draft: ${{ steps.prep.outputs.draft }}
           commit-message: 'chore(api): sync with backend spec'
-          title: 'chore(api): sync with backend spec (${{ steps.classify.outputs.classification }})'
+          title: ${{ steps.prep.outputs.title }}
           body-path: api-sync/out/pr-body.md
-          labels: |
-            api-sync
-            ${{ steps.classify.outputs.classification }}
+          labels: ${{ steps.prep.outputs.labels }}
           add-paths: |
             api-sync/spec/**
             src/api/**
