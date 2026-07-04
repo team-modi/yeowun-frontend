@@ -49,7 +49,7 @@ export default function LoginPage() {
       <h1>여운</h1>
       {status === "error" && <p role="alert">로그인에 실패했어요. 다시 시도해 주세요.</p>}
       <button type="button" className="btn-kakao" onClick={handleLogin}>
-        로그인
+        카카오로 로그인
       </button>
     </main>
   );

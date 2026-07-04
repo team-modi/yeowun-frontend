@@ -15,7 +15,7 @@ test.describe("카카오 로그인 스모크", () => {
     await expect(page.getByRole("button", { name: "카카오로 로그인" })).toBeVisible();
   });
 
-  test("콜백 성공 → '로그인 완료' 노출 + 올바른 body 전송", async ({ page }) => {
+  test("콜백 성공 → /yeowun 이동 + 올바른 body 전송", async ({ page }) => {
     let sentBody = null;
     await page.route(API, async (route) => {
       sentBody = route.request().postDataJSON();
@@ -28,7 +28,8 @@ test.describe("카카오 로그인 스모크", () => {
 
     await page.goto("/login?code=test-code");
 
-    await expect(page.getByText("로그인 완료 ✅")).toBeVisible();
+    // 로그인 성공 시 앱은 /yeowun(홈)으로 이동한다(LoginPage의 실제 동작).
+    await expect(page).toHaveURL(/\/yeowun$/);
     // FE가 스펙대로 { code, redirectUri }를 보냈는지 검증
     expect(sentBody).toMatchObject({ code: "test-code" });
     expect(sentBody.redirectUri).toContain("/login");
