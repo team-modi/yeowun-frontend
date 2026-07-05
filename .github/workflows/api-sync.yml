@@ -45,9 +45,11 @@ jobs:
       # repository_dispatch/schedule은 기본 브랜치를 체크아웃하므로,
       # 백엔드 develop과 짝을 맞추려면 프론트도 develop을 명시해야 한다.
       # (이걸 빼면 main 기준으로 수정하는 버그가 된다.)
+      # 단 workflow_dispatch(수동)면 dispatch한 브랜치를 체크아웃한다 —
+      # 워크플로 변경을 머지 전에 그 브랜치에서 라이브로 검증할 수 있게. 자동 트리거는 develop 고정.
       - uses: actions/checkout@v4
         with:
-          ref: develop
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.ref_name || 'develop' }}
 
       - uses: actions/setup-node@v4
         with:
@@ -91,7 +93,8 @@ jobs:
           fi
 
       # ── 3. AI 동기화(자가복구 포함): 로컬에서 쓰는 그 Claude Code의 헤드리스 모드 ──
-      #    --allowedTools 로 능력을 제한한다: 읽기 + 편집 + lint/build 실행만.
+      #    --allowedTools 로 능력을 제한한다: 읽기 + 편집/생성 + lint/build 실행만.
+      #    (Write 포함 — sync-notes.md·impact.md 같은 산출물을 새로 만들려면 필요. 경계 밖은 가드레일이 되돌림)
       #    AI는 자기 턴 안에서 lint/build를 직접 돌려, 실패하면 src/api 안에서 고쳐
       #    green이 될 때까지 반복한다(인세션 자가복구 루프). --max-turns 가 그 상한(유계).
       - name: AI sync (Claude Code headless, self-healing)
@@ -104,7 +107,7 @@ jobs:
           # --max-turns 50: 인세션 lint/build 재시도 여유(유계 상한). 초과 시 실패가 아니라
           # 아래 검증 게이트가 판정 → 사람 에스컬레이션으로 빠진다.
           claude -p "$(cat api-sync/prompts/sync.md)" \
-            --allowedTools "Read,Grep,Glob,Edit,Bash(npm run lint*),Bash(npm run build*)" \
+            --allowedTools "Read,Grep,Glob,Edit,Write,Bash(npm run lint*),Bash(npm run build*)" \
             --max-turns 50 \
             || echo "agent ended non-zero (검증 단계에서 판정)"
 
@@ -138,9 +141,15 @@ jobs:
             printf '%s\n' "$new" | while IFS= read -r f; do [ -n "$f" ] && git clean -f -- "$f"; done
           fi
           reverted=$(printf '%s\n%s\n' "$bad" "$new" | grep -v '^$' || true)
+          # overreach = 경계 밖 "기존 파일 편집"(bad)만. 임시 새 파일 생성·정리(new)는
+          # 자연스러운 작업이므로 자가복구 신호로 치지 않는다(사용자 원칙).
+          overreach=$(printf '%s\n' "$bad" | grep -v '^$' || true)
           {
             echo "reverted<<EOF"
             echo "$reverted"
+            echo "EOF"
+            echo "overreach<<EOF"
+            echo "$overreach"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
@@ -165,13 +174,19 @@ jobs:
         env:
           GREEN: ${{ steps.verify.outputs.green }}
           REVERTED: ${{ steps.guardrail.outputs.reverted }}
+          OVERREACH: ${{ steps.guardrail.outputs.overreach }}
           CLASSIFICATION: ${{ steps.classify.outputs.classification }}
+          # 누가(백엔드 커밋 작성자) — dispatch payload에서. 폴링/수동이면 비어 있음.
+          AUTHOR_NAME: ${{ github.event.client_payload.backend_author }}
         run: |
           cp "$NEW_SPEC" "$OLD_SPEC"
-          # 자가복구 여부: 기계가 되돌렸거나(deterministic), AI가 sync-notes에 마커를 남겼으면
+          # 자가복구 여부: AI가 경계 밖 "기존 파일을 편집"해 되돌려졌거나(overreach — 임시파일
+          # 정리는 제외), AI가 sync-notes 맨 위에 자가복구 마커를 남겼을 때만.
           recovered=false
-          [ -n "$(printf '%s' "$REVERTED" | tr -d '[:space:]')" ] && recovered=true
-          grep -q 'auto-recovered' api-sync/out/sync-notes.md 2>/dev/null && recovered=true
+          [ -n "$(printf '%s' "$OVERREACH" | tr -d '[:space:]')" ] && recovered=true
+          # 마커는 "맨 위(head)에 정확한 HTML 주석"일 때만 인정. AI가 본문에서 부정문으로
+          # 언급("auto-recovered 해당 없음")해도 오탐하지 않게 상단 3줄 + 정확 문자열로 한정.
+          head -n 3 api-sync/out/sync-notes.md 2>/dev/null | grep -qF '<!-- auto-recovered -->' && recovered=true
 
           if [ "$GREEN" = "true" ]; then
             echo "draft=false" >> "$GITHUB_OUTPUT"
@@ -187,37 +202,13 @@ jobs:
             echo "labels=api-sync,$CLASSIFICATION,needs-human" >> "$GITHUB_OUTPUT"
           fi
 
-          {
-            echo "## API sync (\`$CLASSIFICATION\`)"
-            echo
-            if [ "$GREEN" != "true" ]; then
-              echo "> ⚠️ **AI가 lint+build green 달성에 실패했습니다 — 사람 개입 필요 (draft).**"
-              echo "> 아래 sync-notes와 변경을 확인하고 직접 마무리하거나 이 PR을 닫아주세요."
-              echo
-            elif [ "$recovered" = "true" ]; then
-              echo "> ♻️ **자가복구된 PR입니다.** 자동 되돌리기/재수정이 있었으니 더 꼼꼼히 봐주세요."
-              echo
-            fi
-            echo "### Spec changelog"
-            echo '```'
-            cat api-sync/out/changelog.txt
-            echo '```'
-            echo
-            echo "### AI sync notes"
-            cat api-sync/out/sync-notes.md 2>/dev/null || echo "_수정 불필요 (스펙만 갱신)_"
-            echo
-            if [ -n "$(printf '%s' "$REVERTED" | tr -d '[:space:]')" ]; then
-              echo "### 🔒 가드레일이 자동 되돌린 경계 밖 변경"
-              echo '```'
-              printf '%s\n' "$REVERTED"
-              echo '```'
-              echo
-            fi
-            echo "### 검증 결과"
-            if [ "$GREEN" = "true" ]; then echo "- lint+build: ✅ green"; else echo "- lint+build: ❌ 실패 (needs-human)"; fi
-            echo
-            echo "> 검증은 lint+build까지만 수행됨. 동작 확인은 리뷰어의 몫입니다."
-          } > api-sync/out/pr-body.md
+          # AI가 실제로 수정한 src/api 파일 목록(한눈에 배너 "코드 반영" 판정용).
+          # NEW_SPEC를 OLD_SPEC로 승격한 뒤라, spec 파일은 제외하고 src/api만 센다.
+          SRC_API_CHANGED="$(git diff --name-only -- src/api || true)"
+
+          # FE 친화 PR 본문 생성: changelog.json 표 + AI impact.md 조인(불일치 시 폴백).
+          # 로직은 api-sync/build_pr_body.py 한 곳에서 관리(표 형식/한글매핑은 그 파일만 고치면 됨).
+          SRC_API_CHANGED="$SRC_API_CHANGED" RECOVERED="$recovered" python3 api-sync/build_pr_body.py > /dev/null
 
       # ── 7. develop 대상 PR 생성 (자동 머지 없음 — 머지는 사람이) ──
       #    green이면 일반 PR, 실패면 draft + needs-human 으로 "조용한 죽음" 방지.
