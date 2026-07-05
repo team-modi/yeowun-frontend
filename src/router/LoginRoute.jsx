@@ -6,7 +6,7 @@ import HomePage from "@pages/HomePage";
 import UserPage from "@pages/UserPage";
 import ExhibitionPage from "@pages/ExhibitionPage";
 import DetailExhibitionPage from "@pages/DetailExhibitionPage";
-import RecordPage from "@pages/Record";
+import RecordPage from "@pages/RecordPage";
 
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/login" replace /> },
