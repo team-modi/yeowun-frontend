@@ -26,7 +26,20 @@ try:
 except Exception:
     changes = []
 
-LEVEL_EMOJI = {3: "🔴", 2: "🟡", 1: "⚪"}   # ERR / WARN / INFO
+# 변경을 추가/삭제/변경 3범주로 분류(그 외는 '변경'). breaking 심각도는 FE 관심사 아님 → 표에서 뺌.
+ADD_IDS = {"endpoint-added", "request-property-added", "new-required-request-property",
+           "new-optional-request-property", "response-property-added",
+           "request-parameter-added", "response-success-status-added"}
+DEL_IDS = {"endpoint-deleted", "api-removed-without-deprecation", "request-property-removed",
+           "response-property-removed", "request-parameter-removed", "response-success-status-removed"}
+
+def category(c):
+    i = c.get("id", "")
+    if i in ADD_IDS:
+        return "added"
+    if i in DEL_IDS:
+        return "deleted"
+    return "changed"
 
 def toks(text):
     return re.findall(r"`([^`]+)`", text or "")
@@ -78,10 +91,11 @@ def load_impacts(n):
 
 impacts, impact_ok = load_impacts(len(changes))
 
-added = sum(1 for c in changes if c.get("id") == "endpoint-added")
-deleted = sum(1 for c in changes if c.get("id") == "endpoint-deleted")
-changed_eps = len({(c.get("operation", ""), c.get("path", ""))
-                   for c in changes if c.get("id") not in ("endpoint-added", "endpoint-deleted")})
+# 원 배열순 index를 유지한 채(=impact 조인 키) 3범주로 버킷팅.
+buckets = {"added": [], "changed": [], "deleted": []}
+for idx, c in enumerate(changes, 1):
+    buckets[category(c)].append((idx, c))
+n_add, n_chg, n_del = len(buckets["added"]), len(buckets["changed"]), len(buckets["deleted"])
 
 src_files = [f for f in SRC_API_CHANGED.splitlines() if f.strip()]
 if not GREEN:
@@ -91,14 +105,20 @@ elif src_files:
 else:
     status = "✅ 스펙만 갱신 · 프론트 코드 변경 없음"
 
-rows = []
-for idx, c in enumerate(changes, 1):
-    ep = f"`{c.get('operation','')} {c.get('path','')}`"
-    what = ko_label(c).replace("|", "\\|")
-    lvl = LEVEL_EMOJI.get(c.get("level", 2), "🟡")
-    imp = impacts[idx - 1].replace("|", "\\|")
-    tag = " 🤖" if impact_ok else ""
-    rows.append(f"| {ep} | {what} | {lvl} | {imp}{tag} |")
+def render_section(title, items):
+    if not items:
+        return []
+    lines = [f"### {title} ({len(items)})",
+             "| 메서드·경로 | 무엇이 바뀜 | 내 코드 영향 |",
+             "|---|---|---|"]
+    for idx, c in items:
+        ep = f"`{c.get('operation','')} {c.get('path','')}`"
+        what = ko_label(c).replace("|", "\\|")
+        imp = impacts[idx - 1].replace("|", "\\|")
+        tag = " 🤖" if impact_ok else ""
+        lines.append(f"| {ep} | {what} | {imp}{tag} |")
+    lines.append("")
+    return lines
 
 sync_notes = load("sync-notes.md").strip()
 raw_changelog = load("changelog.txt").strip()
@@ -107,19 +127,19 @@ o = []
 o.append(f"## 🔄 API 스펙 동기화 · `{CLASSIFICATION}`\n")
 o.append("### ⚡ 한눈에")
 o.append(f"> {status}  ")
-o.append(f"> ➕ 추가 **{added}** · ✏️ 변경 **{changed_eps}** · ➖ 삭제 **{deleted}**"
+o.append(f"> ➕ 추가 **{n_add}** · ✏️ 변경 **{n_chg}** · ➖ 삭제 **{n_del}**"
          f"  |  백엔드 작업자: {AUTHOR if AUTHOR else '_(폴링/수동 트리거)_'}")
 if RECOVERED and GREEN:
     o.append("> ♻️ 자가복구된 PR (자동 되돌리기/재수정 있었음 — 더 꼼꼼히).")
 o.append("")
 
-o.append("### 📋 변경된 엔드포인트")
-if rows:
-    o.append("| 메서드·경로 | 무엇이 바뀜 | breaking | 내 코드 영향 |")
-    o.append("|---|---|:--:|---|")
-    o += rows
-    o.append("")
-    o.append("> breaking: 🔴 깨짐(ERR) · 🟡 주의(WARN) · ⚪ 정보(INFO)  |  🤖 = AI 추정 (반드시 실제 코드로 재확인)")
+o.append("## 📋 변경 내역")
+sections = (render_section("➕ 추가된 것", buckets["added"])
+            + render_section("✏️ 변경된 것", buckets["changed"])
+            + render_section("➖ 삭제된 것", buckets["deleted"]))
+if sections:
+    o += sections
+    o.append("> 🤖 = AI 추정 '내 코드 영향' (반드시 실제 코드로 재확인)")
     if not impact_ok:
         o.append("> ⚠️ AI 영향 분석 정렬 실패 → '내 코드 영향'은 직접 확인 필요.")
 else:
