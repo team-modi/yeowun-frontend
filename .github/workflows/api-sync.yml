@@ -141,9 +141,15 @@ jobs:
             printf '%s\n' "$new" | while IFS= read -r f; do [ -n "$f" ] && git clean -f -- "$f"; done
           fi
           reverted=$(printf '%s\n%s\n' "$bad" "$new" | grep -v '^$' || true)
+          # overreach = 경계 밖 "기존 파일 편집"(bad)만. 임시 새 파일 생성·정리(new)는
+          # 자연스러운 작업이므로 자가복구 신호로 치지 않는다(사용자 원칙).
+          overreach=$(printf '%s\n' "$bad" | grep -v '^$' || true)
           {
             echo "reverted<<EOF"
             echo "$reverted"
+            echo "EOF"
+            echo "overreach<<EOF"
+            echo "$overreach"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
@@ -168,15 +174,19 @@ jobs:
         env:
           GREEN: ${{ steps.verify.outputs.green }}
           REVERTED: ${{ steps.guardrail.outputs.reverted }}
+          OVERREACH: ${{ steps.guardrail.outputs.overreach }}
           CLASSIFICATION: ${{ steps.classify.outputs.classification }}
           # 누가(백엔드 커밋 작성자) — dispatch payload에서. 폴링/수동이면 비어 있음.
           AUTHOR_NAME: ${{ github.event.client_payload.backend_author }}
         run: |
           cp "$NEW_SPEC" "$OLD_SPEC"
-          # 자가복구 여부: 기계가 되돌렸거나(deterministic), AI가 sync-notes에 마커를 남겼으면
+          # 자가복구 여부: AI가 경계 밖 "기존 파일을 편집"해 되돌려졌거나(overreach — 임시파일
+          # 정리는 제외), AI가 sync-notes 맨 위에 자가복구 마커를 남겼을 때만.
           recovered=false
-          [ -n "$(printf '%s' "$REVERTED" | tr -d '[:space:]')" ] && recovered=true
-          grep -q 'auto-recovered' api-sync/out/sync-notes.md 2>/dev/null && recovered=true
+          [ -n "$(printf '%s' "$OVERREACH" | tr -d '[:space:]')" ] && recovered=true
+          # 마커는 "맨 위(head)에 정확한 HTML 주석"일 때만 인정. AI가 본문에서 부정문으로
+          # 언급("auto-recovered 해당 없음")해도 오탐하지 않게 상단 3줄 + 정확 문자열로 한정.
+          head -n 3 api-sync/out/sync-notes.md 2>/dev/null | grep -qF '<!-- auto-recovered -->' && recovered=true
 
           if [ "$GREEN" = "true" ]; then
             echo "draft=false" >> "$GITHUB_OUTPUT"
