@@ -41,3 +41,9 @@ export const deleteBookmark = async (recordId) => {
   const data = await axiosInstance.delete(`/records/${recordId}/bookmark`);
   return data;
 };
+
+// 내가 다녀온 전시 목록
+export const getVisitedExhibitions = async (params) => {
+  const data = await axiosInstance.get("/records/exhibitions/visited/", { params });
+  return data;
+};

@@ -23,6 +23,15 @@ const HomePage = () => {
       >
         전시목록
       </button>
+      <button
+        type="button"
+        className="btn-kakao"
+        onClick={() => {
+          navigate("/record");
+        }}
+      >
+        그날의여운
+      </button>
     </div>
   );
 };
