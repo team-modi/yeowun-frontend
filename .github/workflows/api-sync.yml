@@ -166,6 +166,8 @@ jobs:
           GREEN: ${{ steps.verify.outputs.green }}
           REVERTED: ${{ steps.guardrail.outputs.reverted }}
           CLASSIFICATION: ${{ steps.classify.outputs.classification }}
+          # 누가(백엔드 커밋 작성자) — dispatch payload에서. 폴링/수동이면 비어 있음.
+          AUTHOR_NAME: ${{ github.event.client_payload.backend_author }}
         run: |
           cp "$NEW_SPEC" "$OLD_SPEC"
           # 자가복구 여부: 기계가 되돌렸거나(deterministic), AI가 sync-notes에 마커를 남겼으면
@@ -187,37 +189,13 @@ jobs:
             echo "labels=api-sync,$CLASSIFICATION,needs-human" >> "$GITHUB_OUTPUT"
           fi
 
-          {
-            echo "## API sync (\`$CLASSIFICATION\`)"
-            echo
-            if [ "$GREEN" != "true" ]; then
-              echo "> ⚠️ **AI가 lint+build green 달성에 실패했습니다 — 사람 개입 필요 (draft).**"
-              echo "> 아래 sync-notes와 변경을 확인하고 직접 마무리하거나 이 PR을 닫아주세요."
-              echo
-            elif [ "$recovered" = "true" ]; then
-              echo "> ♻️ **자가복구된 PR입니다.** 자동 되돌리기/재수정이 있었으니 더 꼼꼼히 봐주세요."
-              echo
-            fi
-            echo "### Spec changelog"
-            echo '```'
-            cat api-sync/out/changelog.txt
-            echo '```'
-            echo
-            echo "### AI sync notes"
-            cat api-sync/out/sync-notes.md 2>/dev/null || echo "_수정 불필요 (스펙만 갱신)_"
-            echo
-            if [ -n "$(printf '%s' "$REVERTED" | tr -d '[:space:]')" ]; then
-              echo "### 🔒 가드레일이 자동 되돌린 경계 밖 변경"
-              echo '```'
-              printf '%s\n' "$REVERTED"
-              echo '```'
-              echo
-            fi
-            echo "### 검증 결과"
-            if [ "$GREEN" = "true" ]; then echo "- lint+build: ✅ green"; else echo "- lint+build: ❌ 실패 (needs-human)"; fi
-            echo
-            echo "> 검증은 lint+build까지만 수행됨. 동작 확인은 리뷰어의 몫입니다."
-          } > api-sync/out/pr-body.md
+          # AI가 실제로 수정한 src/api 파일 목록(한눈에 배너 "코드 반영" 판정용).
+          # NEW_SPEC를 OLD_SPEC로 승격한 뒤라, spec 파일은 제외하고 src/api만 센다.
+          SRC_API_CHANGED="$(git diff --name-only -- src/api || true)"
+
+          # FE 친화 PR 본문 생성: changelog.json 표 + AI impact.md 조인(불일치 시 폴백).
+          # 로직은 api-sync/build_pr_body.py 한 곳에서 관리(표 형식/한글매핑은 그 파일만 고치면 됨).
+          SRC_API_CHANGED="$SRC_API_CHANGED" RECOVERED="$recovered" python3 api-sync/build_pr_body.py > /dev/null
 
       # ── 7. develop 대상 PR 생성 (자동 머지 없음 — 머지는 사람이) ──
       #    green이면 일반 PR, 실패면 draft + needs-human 으로 "조용한 죽음" 방지.
