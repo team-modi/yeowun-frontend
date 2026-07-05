@@ -19,10 +19,15 @@ test.describe("카카오 로그인 스모크", () => {
     let sentBody = null;
     await page.route(API, async (route) => {
       sentBody = route.request().postDataJSON();
+      // 앱은 ApiResponse 봉투(response.data.meta.result === "SUCCESS")를 보고 분기한다
+      // (LoginPage·UserPage 공통 계약). 맨몸 토큰을 주면 meta 접근서 throw → 드리프트.
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ accessToken: "test-access-token" }),
+        body: JSON.stringify({
+          meta: { result: "SUCCESS" },
+          data: { accessToken: "test-access-token" },
+        }),
       });
     });
 
