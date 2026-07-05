@@ -93,7 +93,8 @@ jobs:
           fi
 
       # ── 3. AI 동기화(자가복구 포함): 로컬에서 쓰는 그 Claude Code의 헤드리스 모드 ──
-      #    --allowedTools 로 능력을 제한한다: 읽기 + 편집 + lint/build 실행만.
+      #    --allowedTools 로 능력을 제한한다: 읽기 + 편집/생성 + lint/build 실행만.
+      #    (Write 포함 — sync-notes.md·impact.md 같은 산출물을 새로 만들려면 필요. 경계 밖은 가드레일이 되돌림)
       #    AI는 자기 턴 안에서 lint/build를 직접 돌려, 실패하면 src/api 안에서 고쳐
       #    green이 될 때까지 반복한다(인세션 자가복구 루프). --max-turns 가 그 상한(유계).
       - name: AI sync (Claude Code headless, self-healing)
@@ -106,7 +107,7 @@ jobs:
           # --max-turns 50: 인세션 lint/build 재시도 여유(유계 상한). 초과 시 실패가 아니라
           # 아래 검증 게이트가 판정 → 사람 에스컬레이션으로 빠진다.
           claude -p "$(cat api-sync/prompts/sync.md)" \
-            --allowedTools "Read,Grep,Glob,Edit,Bash(npm run lint*),Bash(npm run build*)" \
+            --allowedTools "Read,Grep,Glob,Edit,Write,Bash(npm run lint*),Bash(npm run build*)" \
             --max-turns 50 \
             || echo "agent ended non-zero (검증 단계에서 판정)"
 
