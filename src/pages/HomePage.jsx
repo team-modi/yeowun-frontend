@@ -14,6 +14,15 @@ const HomePage = () => {
       >
         프로필
       </button>
+      <button
+        type="button"
+        className="btn-kakao"
+        onClick={() => {
+          navigate("/exhibition");
+        }}
+      >
+        전시목록
+      </button>
     </div>
   );
 };
