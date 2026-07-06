@@ -12,6 +12,17 @@
                 },
                 "type": "object"
             },
+            "ApiResponseComposeResponse": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ComposeResponse"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Metadata"
+                    }
+                },
+                "type": "object"
+            },
             "ApiResponseMeResponse": {
                 "properties": {
                     "data": {
@@ -47,6 +58,17 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/ProfileResponse"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Metadata"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiResponseQuestionsResponse": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/QuestionsResponse"
                     },
                     "meta": {
                         "$ref": "#/components/schemas/Metadata"
@@ -95,6 +117,34 @@
                     "recordId": {
                         "format": "int64",
                         "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "ComposeRequest": {
+                "properties": {
+                    "answers": {
+                        "items": {
+                            "$ref": "#/components/schemas/QnaItem"
+                        },
+                        "minItems": 1,
+                        "type": "array"
+                    },
+                    "exhibitionId": {
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "answers",
+                    "exhibitionId"
+                ],
+                "type": "object"
+            },
+            "ComposeResponse": {
+                "properties": {
+                    "content": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -577,6 +627,47 @@
                     "userId": {
                         "format": "int64",
                         "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "QnaItem": {
+                "properties": {
+                    "answer": {
+                        "maxLength": 300,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "question": {
+                        "minLength": 1,
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "answer",
+                    "question"
+                ],
+                "type": "object"
+            },
+            "QuestionsRequest": {
+                "properties": {
+                    "exhibitionId": {
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "exhibitionId"
+                ],
+                "type": "object"
+            },
+            "QuestionsResponse": {
+                "properties": {
+                    "questions": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
                     }
                 },
                 "type": "object"
@@ -1661,6 +1752,80 @@
                 ]
             }
         },
+        "/api/v1/records/ai/compose": {
+            "post": {
+                "description": "Q&A \ub2f5\ubcc0\uc744 \ubc14\ud0d5\uc73c\ub85c \uac10\uc0c1\ubb38 \ubcf8\ubb38(\u2264300\uc790)\uc744 \uc0dd\uc131\ud55c\ub2e4(\ub3d9\uae30 \uc751\ub2f5).\n- '\ub2e4\uc2dc \ub2e4\ub4ec\uae30'\ub294 \uc774 API\ub97c \ub2e4\uc2dc \ud638\ucd9c\ud558\uba74 \ub41c\ub2e4.\n- \ubc18\ud658\ub41c \ubcf8\ubb38\uc744 \uc0ac\uc6a9\uc790\uac00 \uc218\uc815\u00b7\ud655\uc815\ud55c \ub4a4 \uae30\ub85d \uc0dd\uc131 API(POST /api/v1/records, writeMode=AI)\ub85c \uc800\uc7a5\ud55c\ub2e4.\n- \ub85c\uadf8\uc778 \uc804\uc6a9. AI \ubbf8\uc124\uc815 \uc2dc 503 AI_DISABLED. \uc5f0\uc18d \ud638\ucd9c\uc740 429 AI_RATE_LIMITED.",
+                "operationId": "compose",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ComposeRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseComposeResponse"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "\uac10\uc0c1\ubb38 \ub2e4\ub4ec\uae30",
+                "tags": [
+                    "Record AI"
+                ]
+            }
+        },
+        "/api/v1/records/ai/questions": {
+            "post": {
+                "description": "\uc804\uc2dc \ub9e5\ub77d(\uc81c\ubaa9\u00b7\uc7a5\uc18c\u00b7\uc124\uba85 \ub4f1)\uc744 \ubc18\uc601\ud574 \ub2f5\ud558\uae30 \uc26c\uc6b4 \uc9c8\ubb38 3\uac1c\ub97c \uc0dd\uc131\ud55c\ub2e4(\uad6c\uc870\ud654 \ucd9c\ub825\uc73c\ub85c \uac1c\uc218 \uac15\uc81c).\n- '\ub2e4\ub978 \uc9c8\ubb38 \ubcf4\uae30'\ub294 \uc774 API\ub97c \ub2e4\uc2dc \ud638\ucd9c\ud558\uba74 \ub41c\ub2e4.\n- \ub85c\uadf8\uc778 \uc804\uc6a9. AI \ubbf8\uc124\uc815 \uc2dc 503 AI_DISABLED. \uc5f0\uc18d \ud638\ucd9c\uc740 429 AI_RATE_LIMITED.",
+                "operationId": "questions",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuestionsRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseQuestionsResponse"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "\uac10\uc0c1 \uc9c8\ubb38 \uc0dd\uc131",
+                "tags": [
+                    "Record AI"
+                ]
+            }
+        },
         "/api/v1/records/exhibitions/visited": {
             "get": {
                 "description": "\ubcf8\uc778\uc774 \uae30\ub85d\uc744 \ub0a8\uae34 \uc804\uc2dc \ubaa9\ub85d\uc744 \uc870\ud68c\ud55c\ub2e4. \uae30\uc874 \uae30\ub85d \ubaa9\ub85d \uc870\ud68c\uc640 \ub3d9\uc77c\ud55c \ud30c\ub77c\ubbf8\ud130/\uc751\ub2f5\uc744 \uc0ac\uc6a9\ud55c\ub2e4.",
@@ -2057,6 +2222,10 @@
         {
             "description": "\ud504\ub85c\ud544 \uc870\ud68c \u00b7 \uc218\uc815",
             "name": "User"
+        },
+        {
+            "description": "\uc9c8\ubb38\uc73c\ub85c \uc791\uc131 \u2014 \uc804\uc2dc \ub9e5\ub77d \uc9c8\ubb38 \uc0dd\uc131 \u00b7 Q&A \uac10\uc0c1\ubb38 \ub2e4\ub4ec\uae30",
+            "name": "Record AI"
         },
         {
             "description": "\uc18c\uc15c \ub85c\uadf8\uc778 \u00b7 JWT \ubc1c\uae09/\uc7ac\ubc1c\uae09 \u00b7 \ub0b4 \uc815\ubcf4",

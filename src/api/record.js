@@ -47,3 +47,15 @@ export const getVisitedExhibitions = async (params) => {
   const data = await axiosInstance.get("/records/exhibitions/visited/", { params });
   return data;
 };
+
+// Q&A 답변 기반 감상문 본문 생성 (AI)
+export const composeRecord = async (exhibitionId, answers) => {
+  const data = await axiosInstance.post("/records/ai/compose", { exhibitionId, answers });
+  return data;
+};
+
+// 전시 정보 기반 감상 질문 3개 생성 (AI)
+export const getRecordQuestions = async (exhibitionId) => {
+  const data = await axiosInstance.post("/records/ai/questions", { exhibitionId });
+  return data;
+};
