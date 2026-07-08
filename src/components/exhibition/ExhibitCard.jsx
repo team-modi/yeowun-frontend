@@ -1,4 +1,10 @@
-const ExhibitCard = ({ thumbnail, dday, openDate, title, place, date, onClick, type }) => {
+// utils
+import { getDday, formatMonthDay } from "@utils/common";
+
+const ExhibitCard = ({ thumbnail, title, place, startDate, endDate, onClick, type }) => {
+  const dday = getDday(endDate);
+  const openDate = formatMonthDay(startDate);
+
   if (type === "vertical") {
     return (
       <div className="exhibit-card-v" onClick={onClick} role={onClick ? "button" : undefined}>
@@ -26,7 +32,7 @@ const ExhibitCard = ({ thumbnail, dday, openDate, title, place, date, onClick, t
           <p className="exhibit-card-title">{title}</p>
           <div className="exhibit-card-content2">
             <p className="exhibit-card-place">{place}</p>
-            <p className="exhibit-card-date">{date}</p>
+            <p className="exhibit-card-date">{startDate}</p>
           </div>
         </div>
       </div>
