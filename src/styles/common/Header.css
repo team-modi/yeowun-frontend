@@ -1,0 +1,57 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  background: var(--color-pill-bg);
+  z-index: 100;
+}
+
+.app-header--main {
+  justify-content: space-between;
+  padding: 0 var(--space-md);
+}
+
+.app-header--sub {
+  padding: 0 var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-header--sub .header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  /* 뒤로가기 버튼 너비만큼 보정해서 완전 중앙 정렬 */
+  margin-right: 36px;
+}
+
+.header-logo {
+  font-weight: 700;
+  font-size: 16px;
+  background: var(--color-surface);
+  padding: 6px 14px;
+  border-radius: var(--radius);
+}
+
+.header-icon-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 0;
+}
+
+.header-right-slot {
+  display: flex;
+  align-items: center;
+}
