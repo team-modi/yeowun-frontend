@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "@api/auth";
 import { getUserInfo, updateUserInfo } from "@api/user";
 
-const UserPage = () => {
+const ProfilePage = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
 
@@ -52,7 +52,7 @@ const UserPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="app-shell">
       <div>
         <p>{userInfo.userId}</p>
         <p>{userInfo.nickname}</p>
@@ -67,4 +67,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default ProfilePage;
