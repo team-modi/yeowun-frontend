@@ -32,7 +32,7 @@ const ExhibitionPage = () => {
   //   };
 
   return (
-    <div>
+    <div className="app-shell">
       <div>
         {exhibitionList.map((item) => {
           return (

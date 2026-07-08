@@ -22,7 +22,7 @@ const DetailExhibitionPage = () => {
 
   if (!data) return <div>로딩중...</div>;
 
-  return <div>{data.title}</div>;
+  return <div className="app-shell">{data.title}</div>;
 };
 
 export default DetailExhibitionPage;

@@ -4,8 +4,10 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "@router/LoginRoute";
 
 // styles
-import "@styles/index.css";
 import "@styles/base.css";
+import "@styles/home.css";
+import "@styles/exhibition.css";
+import "@styles/login.css";
 
 export default function App() {
   return <RouterProvider router={router} />;
