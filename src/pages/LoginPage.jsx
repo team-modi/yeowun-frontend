@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { login } from "@api/auth";
 
 // components
-import Header from "@components/layout/Header";
+import Header from "@components/common/Header";
 
 const KAKAO_AUTH_URL =
   "https://kauth.kakao.com/oauth/authorize" +

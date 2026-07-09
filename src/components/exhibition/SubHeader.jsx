@@ -4,16 +4,7 @@ const SubHeader = ({ title, type }) => {
   const navigate = useNavigate();
 
   const handleMove = () => {
-    if (type === "soon") {
-      // 곧 끝나기 전에 봐야 할 전시
-      navigate("/login");
-    } else if (type === "new") {
-      // 이번 달 새로 열리는 전시
-      navigate("");
-    } else if (type === "free") {
-      // 무료로 볼 수 있는 전시
-      navigate("");
-    }
+    navigate(`/home_detail_exhibition?type=${type}`);
   };
 
   return (
