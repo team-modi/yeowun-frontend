@@ -13,6 +13,11 @@
   height: 103px;
   border-radius: 15px;
   background-color: var(--color-surface-2);
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  flex-shrink: 0;
 }
 
 .exhibit-card-content-box {
@@ -79,8 +84,11 @@
   height: 208px;
   border-radius: 16px;
   background-color: var(--color-surface-2);
-  background-size: cover;
+
+  background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
+  flex-shrink: 0;
 }
 
 .exhibit-card-v-content-box {

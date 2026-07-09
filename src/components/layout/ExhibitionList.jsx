@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
 // components
-import Header from "@components/common/Header";
-import Footer from "@components/common/Footer";
 import SubHeader from "@components/exhibition/SubHeader";
 import ExhibitCard from "@components/exhibition/ExhibitCard";
 import BannerCarousel from "@components/home/BannerCarousel";
@@ -10,7 +8,7 @@ import BannerCarousel from "@components/home/BannerCarousel";
 // api
 import { getExhibitionList, getExhibitionBanners } from "@api/exhibition";
 
-const HomePage = () => {
+const ExhibitionList = () => {
   const [endingSoonData, setEndingSoonData] = useState([]);
   const [freeData, setFreeData] = useState([]);
   const [openingThisData, setOpeningThisData] = useState([]);
@@ -57,7 +55,6 @@ const HomePage = () => {
 
   return (
     <div className="app-shell">
-      <Header type="main" />
       <div className="app-content">
         <BannerCarousel banners={bannerData} />
         <div className="home-body">
@@ -107,9 +104,8 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
 
-export default HomePage;
+export default ExhibitionList;
