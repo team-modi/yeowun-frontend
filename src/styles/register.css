@@ -1,0 +1,116 @@
+.register-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.register-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.register-desc {
+  margin: -8px 0 4px;
+  font-size: 14px;
+  color: #888;
+}
+
+/* 포스터 첨부 버튼 */
+.register-poster {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  max-height: 360px;
+  border: 1.5px dashed #cfcfcf;
+  border-radius: 12px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+}
+
+.register-poster:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.register-poster__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.register-poster__ph {
+  font-size: 15px;
+  color: #999;
+}
+
+/* 필드 */
+.register-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.register-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.register-req {
+  color: #e5484d;
+  margin-left: 2px;
+}
+
+.register-field input,
+.register-field select {
+  height: 44px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 15px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.register-field input:focus,
+.register-field select:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.register-row {
+  display: flex;
+  gap: 12px;
+}
+
+.register-error {
+  margin: 0;
+  font-size: 14px;
+  color: #e5484d;
+}
+
+.register-submit {
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.register-submit:disabled {
+  background: #bbb;
+  cursor: default;
+}
