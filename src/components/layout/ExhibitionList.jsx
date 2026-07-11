@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // components
 import ExhibitCard from "@components/exhibition/ExhibitCard";
 import ExhibitListHeader from "@components/common/ExhibitListHeader";
+import FilterSheet from "@components/common/FilterSheet";
 
 // styles
 import "@styles/common/ExhibitionList.css";
@@ -10,14 +11,23 @@ import "@styles/common/ExhibitionList.css";
 // api
 import { getExhibitionList } from "@api/exhibition";
 
+// util
+import { REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/exhibitionFilterCodes";
+
 const ExhibitionList = ({ type, data }) => {
   const [exhibitionData, setExhibitionData] = useState([]);
   const [sort, setSort] = useState("latest");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [region, setRegion] = useState(undefined);
+  const [category, setCategory] = useState(undefined);
 
   const exhibitionList = async () => {
     try {
       const response = await getExhibitionList({
         sort,
+        size: 20,
+        region,
+        category,
         ...data,
       });
       setExhibitionData(response.data.data.content);
@@ -30,7 +40,12 @@ const ExhibitionList = ({ type, data }) => {
     (async () => {
       await exhibitionList();
     })();
-  }, [sort, JSON.stringify(data)]);
+  }, [sort, region, category, JSON.stringify(data)]);
+
+  const handleApplyFilter = ({ regions, genres }) => {
+    setRegion(toCodeParam(regions, REGION_CODE_MAP));
+    setCategory(toCodeParam(genres, GENRE_CODE_MAP));
+  };
 
   return (
     <div>
@@ -38,9 +53,13 @@ const ExhibitionList = ({ type, data }) => {
         total={exhibitionData.length}
         sort={sort}
         onSortChange={setSort}
-        onFilterClick={() => {
-          // 필터 모달/바텀시트 열기
-        }}
+        onFilterClick={() => setIsFilterOpen(true)}
+      />
+      <FilterSheet
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        totalCount={exhibitionData.length}
+        onApply={handleApplyFilter}
       />
       <div className="exhibitionList-body">
         {type === "row" ? (

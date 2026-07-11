@@ -8,14 +8,29 @@ import ProfilePage from "@pages/ProfilePage";
 import ExhibitionPage from "@pages/ExhibitionPage";
 import DetailExhibitionPage from "@pages/DetailExhibitionPage";
 import RecordPage from "@pages/RecordPage";
+import RequireAuth from "@router/RootRedirect";
 
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/yeowun" replace /> },
   { path: "/yeowun", element: <HomePage /> },
   { path: "/home_detail_exhibition", element: <HomeDetailExhibitionPage /> },
   { path: "/login", element: <LoginPage /> },
-  { path: "/profile", element: <ProfilePage /> },
+  {
+    path: "/profile",
+    element: (
+      <RequireAuth>
+        <ProfilePage />
+      </RequireAuth>
+    ),
+  },
   { path: "/exhibition", element: <ExhibitionPage /> },
   { path: "/exhibition/:exhibitionId", element: <DetailExhibitionPage /> },
-  { path: "/record", element: <RecordPage /> },
+  {
+    path: "/record",
+    element: (
+      <RequireAuth>
+        <RecordPage />
+      </RequireAuth>
+    ),
+  },
 ]);

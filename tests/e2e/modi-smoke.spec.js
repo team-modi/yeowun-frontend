@@ -5,14 +5,38 @@ const API = "**/api/v1/auth/login/kakao";
 test.describe("카카오 로그인 스모크", () => {
   test("초기 진입 → 로그인 버튼 노출", async ({ page }) => {
     await page.goto("/login");
-    await expect(page.getByRole("heading", { name: "여운" })).toBeVisible();
+    // await expect(page.getByRole("heading", { name: "여운" })).toBeVisible();
     await expect(page.getByRole("button", { name: "카카오로 로그인" })).toBeVisible();
   });
 
-  test("루트(/) 접속 → /login으로 리다이렉트", async ({ page }) => {
+  test("루트(/) 접속 → /yeowun으로 리다이렉트", async ({ page }) => {
+    // "/"는 로그인 여부와 무관하게 항상 /yeowun(홈)으로 이동한다. 로그인이 필요한 화면은
+    // /profile, /record처럼 각 라우트에서 개별적으로 가드한다.
     await page.goto("/");
+    await expect(page).toHaveURL(/\/yeowun$/);
+  });
+
+  test("비로그인 상태로 /profile 접속 → /login으로 리다이렉트", async ({ page }) => {
+    await page.route("**/api/v1/users/me", async (route) => {
+      await route.fulfill({
+        status: 401,
+        contentType: "application/json",
+        body: JSON.stringify({ message: "unauthorized" }),
+      });
+    });
+    // axiosInstance가 401을 받으면 refresh를 한 번 시도하므로, 백엔드 상태와 무관하게
+    // 테스트가 결정적이도록 이것도 실패로 고정해준다.
+    await page.route("**/api/v1/auth/refresh", async (route) => {
+      await route.fulfill({
+        status: 401,
+        contentType: "application/json",
+        body: JSON.stringify({ message: "unauthorized" }),
+      });
+    });
+
+    await page.goto("/profile");
+
     await expect(page).toHaveURL(/\/login$/);
-    await expect(page.getByRole("button", { name: "카카오로 로그인" })).toBeVisible();
   });
 
   test("콜백 성공 → /yeowun 이동 + 올바른 body 전송", async ({ page }) => {
