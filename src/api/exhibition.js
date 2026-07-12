@@ -18,7 +18,8 @@ export const getDetailExhibition = async (exhibitionId) => {
   return data;
 };
 
-// 개인 전시 등록
+// 개인 전시 등록(직접 추가) — body: CustomCreateRequest
+// (OpenAPI 경로는 뒤 슬래시 없는 `/exhibitions/custom`. 슬래시가 붙으면 백엔드에서 404 가 난다)
 export const addPersonalExhibition = async (params) => {
   const data = await axiosInstance.post("/exhibitions/custom", params);
   return data;
