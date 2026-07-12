@@ -1,0 +1,192 @@
+.record-detail-summary {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  margin-bottom: 32px;
+}
+
+.record-detail-summary-thumb {
+  width: 72px;
+  height: 96px;
+  border-radius: 10px;
+  background-color: var(--color-brand-subtle);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-disabled);
+  flex-shrink: 0;
+}
+
+.record-detail-summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+
+.record-detail-summary-title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.record-detail-summary-artist,
+.record-detail-summary-venue {
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+
+.record-detail-section {
+  margin-bottom: 32px;
+}
+
+.record-detail-section-title {
+  margin: 0 0 8px;
+  color: var(--color-text-primary);
+}
+
+.record-detail-section-desc {
+  margin: 0 0 12px;
+  color: var(--color-text-tertiary);
+}
+
+.record-detail-date-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-primary);
+}
+
+.record-detail-date-select .is-placeholder {
+  color: var(--color-text-disabled);
+}
+
+.record-detail-emotion-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.record-detail-emotion-chip {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.record-detail-emotion-add,
+.record-detail-emotion-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-secondary);
+}
+
+.record-detail-emotion-add {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.record-detail-media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.record-detail-media-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-tertiary);
+}
+
+.record-detail-media-add:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.record-detail-media-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--color-brand-subtle);
+}
+
+.record-detail-media-thumb-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.record-detail-media-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-inverse);
+  background-color: var(--color-overlay-image);
+}
+
+.record-detail-media-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background-color: var(--color-overlay-dim);
+  color: var(--color-text-inverse);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.record-detail-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
+}
+
+.record-detail-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.record-detail-submit:disabled {
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}

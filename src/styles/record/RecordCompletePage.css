@@ -1,0 +1,62 @@
+.record-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 60px;
+}
+
+.record-complete-thumb {
+  width: 180px;
+  height: 180px;
+  border-radius: 16px;
+  background-color: var(--color-brand-subtle);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.record-complete-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.record-complete-title {
+  margin: 0 0 8px;
+  color: var(--color-text-primary);
+}
+
+.record-complete-subtitle {
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+
+.record-complete-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
+}
+
+.record-complete-primary {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-text-secondary);
+  color: var(--color-text-inverse);
+}
+
+.record-complete-secondary {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-primary);
+}

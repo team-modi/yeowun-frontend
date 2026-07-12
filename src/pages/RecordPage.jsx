@@ -9,14 +9,24 @@ import DateRangeSheet from "@components/record/DateRangeSheet";
 import ExhibitionTypeSheet from "@components/record/ExhibitionTypeSheet";
 import GenreSheet from "@components/record/GenreSheet";
 
+// api
+import { addPersonalExhibition } from "@api/exhibition";
+
+// store
+import { useRecordDraftStore } from "@store/useRecordDraftStore";
+
 function formatDateDot(dateString) {
   return dateString ? dateString.replaceAll("-", ".") : "";
 }
 
 const RecordPage = ({ pageTitle = "전시 추가", initialValues = null, onSubmit }) => {
   const navigate = useNavigate();
+  const setExhibitionDraft = useRecordDraftStore((state) => state.setExhibitionDraft);
+  const setExhibitionId = useRecordDraftStore((state) => state.setExhibitionId);
 
   const [posterFile, setPosterFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [posterPreviewUrl, setPosterPreviewUrl] = useState(null);
   const [title, setTitle] = useState(initialValues?.title ?? "");
   const [venue, setVenue] = useState(initialValues?.venue ?? null);
   const [period, setPeriod] = useState(initialValues?.period ?? null);
@@ -47,9 +57,46 @@ const RecordPage = ({ pageTitle = "전시 추가", initialValues = null, onSubmi
     Boolean(exhibitionType) &&
     Boolean(genre);
 
-  const handleSubmit = () => {
-    if (!isReady) return;
-    onSubmit?.({ posterFile, title, venue, period, exhibitionType, genre });
+  const handleSubmit = async () => {
+    if (!isReady || isSubmitting) return;
+
+    // RecordDetailInputPage/RecordExhibitionSelectPage와 공통으로 쓰는 정규화된 요약 형태
+    const draft = {
+      title,
+      artistLine: exhibitionType.artistName ? `${exhibitionType.label} · ${exhibitionType.artistName}` : exhibitionType.label,
+      venueLine: venue?.name ?? "",
+      posterUrl: posterPreviewUrl,
+      startDate: period.startDate,
+      endDate: period.endDate ?? period.startDate,
+    };
+
+    setIsSubmitting(true);
+    try {
+      // 개인(직접 추가) 전시 등록 — 여기서 발급받은 exhibitionId를 이후 기록 작성(POST /records) 단계에서 사용함.
+      // TODO: addPersonalExhibition의 정확한 필드명(venueId vs venue, type vs exhibitionType 등)은 백엔드와 확인 필요 — 우선 알고 있는 필드명으로 채움
+      const formData = new FormData();
+      formData.append("title", title);
+      const venueId = venue?.venueId ?? venue?.id;
+      if (venueId != null) formData.append("venueId", venueId);
+      formData.append("startDate", period.startDate);
+      formData.append("endDate", period.endDate ?? period.startDate);
+      formData.append("type", exhibitionType.type);
+      if (exhibitionType.artistName) formData.append("artistName", exhibitionType.artistName);
+      formData.append("genre", genre.value);
+      if (posterFile) formData.append("poster", posterFile);
+
+      const response = await addPersonalExhibition(formData);
+      const exhibitionId = response.data.data?.exhibitionId ?? null;
+
+      setExhibitionDraft(draft);
+      setExhibitionId(exhibitionId);
+      onSubmit?.(draft);
+      navigate("/record/detail");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -59,7 +106,13 @@ const RecordPage = ({ pageTitle = "전시 추가", initialValues = null, onSubmi
         <div className="app-content-pad record-form">
           <h1 className="record-form-guide text-title-3">전시 정보를 입력해 주세요</h1>
 
-          <PosterUploader value={initialValues?.posterUrl ?? null} onChange={(file) => setPosterFile(file)} />
+          <PosterUploader
+            value={initialValues?.posterUrl ?? null}
+            onChange={(file, url) => {
+              setPosterFile(file);
+              setPosterPreviewUrl(url);
+            }}
+          />
 
           <div className="record-form-field">
             <label className="record-form-label text-heading-2" htmlFor="record-title">
@@ -109,7 +162,7 @@ const RecordPage = ({ pageTitle = "전시 추가", initialValues = null, onSubmi
         <button
           type="button"
           className="record-form-submit text-body-1-medium"
-          disabled={!isReady}
+          disabled={!isReady || isSubmitting}
           onClick={handleSubmit}
         >
           다음

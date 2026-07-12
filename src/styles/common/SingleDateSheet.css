@@ -1,0 +1,80 @@
+.single-date-sheet-title {
+  margin: 0 0 20px;
+  color: var(--color-text-primary);
+}
+
+.single-date-sheet-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.single-date-sheet-nav-btn {
+  font-size: 20px;
+  color: var(--color-text-secondary);
+  padding: 4px 8px;
+}
+
+.single-date-sheet-calendar {
+  --rdp-accent-color: var(--color-brand-primary);
+  --rdp-today-color: var(--color-brand-primary);
+  width: 100%;
+  margin: 0;
+  font-family: var(--font-family-base);
+}
+
+.single-date-sheet-calendar table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.single-date-sheet-calendar .rdp-weekdays,
+.single-date-sheet-calendar .rdp-week {
+  width: 100%;
+}
+
+.single-date-sheet-calendar .rdp-weekday {
+  width: calc(100% / 7);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-weight: var(--fw-regular);
+}
+
+.single-date-sheet-calendar .rdp-day {
+  width: calc(100% / 7);
+  height: 44px;
+  padding: 0;
+  text-align: center;
+}
+
+.single-date-sheet-calendar .rdp-day_button {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto;
+  border-radius: 999px;
+  color: var(--color-text-primary);
+}
+
+.single-date-sheet-calendar .single-date-day--selected {
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  border-radius: 999px;
+}
+
+.single-date-sheet-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  margin-top: 20px;
+}
+
+.single-date-sheet-submit:disabled {
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}

@@ -1,0 +1,86 @@
+.record-compose-title {
+  margin: 40px 0 8px;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.record-compose-subtitle {
+  margin: 0 0 24px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.record-compose-box {
+  position: relative;
+  border: 1px solid var(--color-border-default);
+  border-radius: 16px;
+  background-color: var(--color-surface-default);
+  padding: 16px;
+}
+
+.record-compose-textarea {
+  width: 100%;
+  min-height: 180px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+.record-compose-count {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.record-compose-refine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 16px auto 0;
+  padding: 10px 16px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 999px;
+  color: var(--color-text-secondary);
+}
+
+.record-compose-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
+}
+
+.record-compose-prev {
+  flex: 1;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-primary);
+}
+
+.record-compose-submit {
+  flex: 2;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.record-compose-submit:disabled {
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}

@@ -1,0 +1,68 @@
+.record-mode-title {
+  margin: 40px 0 32px;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.mode-option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  text-align: left;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.mode-option-card.is-selected {
+  border: 2px solid var(--color-brand-primary);
+}
+
+.mode-option-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--color-brand-subtle);
+  flex-shrink: 0;
+}
+
+.mode-option-card-title {
+  margin: 0 0 6px;
+  color: var(--color-text-primary);
+}
+
+.mode-option-card-description {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+.record-mode-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
+}
+
+.record-mode-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.record-mode-submit:disabled {
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}

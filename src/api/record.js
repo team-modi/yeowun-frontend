@@ -13,8 +13,8 @@ export const getDetailRecord = async (recordId) => {
 };
 
 // 기록 작성
-export const addRecord = async () => {
-  const data = await axiosInstance.post("/records");
+export const addRecord = async (params) => {
+  const data = await axiosInstance.post("/records", params);
   return data;
 };
 

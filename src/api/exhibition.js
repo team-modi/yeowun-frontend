@@ -20,7 +20,7 @@ export const getDetailExhibition = async (exhibitionId) => {
 
 // 개인 전시 등록
 export const addPersonalExhibition = async (params) => {
-  const data = await axiosInstance.post("/exhibitions/custom/", params);
+  const data = await axiosInstance.post("/exhibitions/custom", params);
   return data;
 };
 
