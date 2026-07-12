@@ -35,3 +35,12 @@ export function toCodeParam(selected, codeMap) {
   const codes = selected.flatMap((value) => codeMap[value] ?? []);
   return codes.length > 0 ? codes.join(",") : undefined;
 }
+
+export const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+
+export const TYPE_OPTIONS = [
+  { value: "solo", label: "개인전" },
+  { value: "group", label: "단체전(2인 이상)" },
+  { value: "curated", label: "기획전" },
+  { value: "artfair", label: "아트페어" },
+];

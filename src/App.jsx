@@ -8,6 +8,7 @@ import "@styles/base.css";
 import "@styles/home.css";
 import "@styles/exhibition.css";
 import "@styles/login.css";
+import "@styles/record.css";
 
 export default function App() {
   return <RouterProvider router={router} />;

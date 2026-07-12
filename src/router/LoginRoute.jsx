@@ -8,6 +8,8 @@ import ProfilePage from "@pages/ProfilePage";
 import ExhibitionPage from "@pages/ExhibitionPage";
 import DetailExhibitionPage from "@pages/DetailExhibitionPage";
 import RecordPage from "@pages/RecordPage";
+
+// router
 import RequireAuth from "@router/RootRedirect";
 
 export const router = createBrowserRouter([

@@ -12,7 +12,7 @@ import "@styles/common/ExhibitionList.css";
 import { getExhibitionList } from "@api/exhibition";
 
 // util
-import { REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/exhibitionFilterCodes";
+import { REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/filterCodes";
 
 const ExhibitionList = ({ type, data }) => {
   const [exhibitionData, setExhibitionData] = useState([]);

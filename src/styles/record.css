@@ -1,0 +1,254 @@
+.record-form-guide {
+  margin: 0 0 20px;
+  color: var(--color-text-primary);
+}
+
+.record-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.record-form-label {
+  color: var(--color-text-primary);
+}
+
+.record-form-input,
+.record-form-select {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+}
+
+.record-form-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.record-form-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.record-form-select .is-placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.record-form-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
+}
+
+.record-form-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.record-form-submit:disabled {
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* ========PosterUploader========== */
+.poster-uploader {
+  width: 137px;
+  height: 137px;
+  border-radius: 12px;
+  background-color: var(--color-brand-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.poster-uploader-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-tertiary);
+}
+
+.poster-uploader-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster-uploader-input {
+  display: none;
+}
+
+/* =============ExhibitionTypeSheet============= */
+.exhibition-type-sheet-title {
+  margin: 0 0 20px;
+  color: var(--color-text-primary);
+}
+
+.exhibition-type-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.exhibition-type-item {
+  text-align: left;
+  padding: 16px;
+  border-radius: 14px;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-primary);
+}
+
+.exhibition-type-item.is-selected {
+  background-color: var(--color-brand-subtle);
+  border: 1px solid var(--color-brand-primary);
+}
+
+.exhibition-type-artist {
+  margin-bottom: 20px;
+}
+
+.exhibition-type-selected-tag {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.exhibition-type-artist-input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+}
+
+.exhibition-type-artist-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.exhibition-type-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.exhibition-type-submit:disabled {
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* ============GenreSheet============= */
+.genre-sheet-title {
+  margin: 0 0 20px;
+  color: var(--color-text-primary);
+}
+
+.genre-sheet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.genre-chip {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-secondary);
+}
+
+.genre-chip.is-selected {
+  background-color: var(--color-brand-primary);
+  border-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.genre-sheet-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.genre-sheet-submit:disabled {
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* ===========VenueSearchPanel=========== */
+.venue-search-panel {
+  position: fixed;
+  inset: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: var(--color-bg-default);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-search-panel-body {
+  padding-top: var(--header-height);
+}
+
+.venue-search-input-box {
+  padding: 16px 20px;
+}
+
+.venue-search-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  outline: none;
+  box-sizing: border-box;
+  color: var(--color-text-primary);
+}
+
+.venue-search-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.venue-search-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.venue-search-item {
+  width: 100%;
+  text-align: left;
+  padding: 16px 20px;
+  color: var(--color-text-primary);
+}

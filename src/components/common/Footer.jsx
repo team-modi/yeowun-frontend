@@ -6,7 +6,7 @@ import "@styles/common/Footer.css";
 const TABS = [
   { key: "home", label: "홈", path: "/yeowun", icon: HomeIcon },
   { key: "exhibit", label: "전시정보", path: "/exhibition", icon: ListIcon },
-  { key: "center", label: "", path: "/scan", icon: CenterIcon, isCenter: true },
+  { key: "record", label: "", path: "/record", icon: CenterIcon, isCenter: true },
   { key: "archive", label: "아카이브", path: "/archive", icon: ArchiveIcon },
   { key: "profile", label: "프로필", path: "/profile", icon: ProfileIcon },
 ];

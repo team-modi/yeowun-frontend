@@ -1,4 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+
+// components
+import BottomSheet from "@components/common/BottomSheet";
 
 // styles
 import "@styles/common/FilterSheet.css";
@@ -7,15 +10,7 @@ import "@styles/common/FilterSheet.css";
 import { getExhibitionList } from "@api/exhibition";
 
 // util
-import {
-  REGION_OPTIONS,
-  GENRE_OPTIONS,
-  REGION_CODE_MAP,
-  GENRE_CODE_MAP,
-  toCodeParam,
-} from "@utils/exhibitionFilterCodes";
-
-const CLOSE_DRAG_THRESHOLD = 120;
+import { REGION_OPTIONS, GENRE_OPTIONS, REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/filterCodes";
 
 function toggleChip(selected, value) {
   if (value === "all") return ["all"];
@@ -28,19 +23,6 @@ function toggleChip(selected, value) {
 export default function FilterSheet({ isOpen, onClose, totalCount = 0, onApply }) {
   const [selectedRegions, setSelectedRegions] = useState(["all"]);
   const [selectedGenres, setSelectedGenres] = useState(["all"]);
-
-  const [dragY, setDragY] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartYRef = useRef(0);
-
-  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
-  if (isOpen !== prevIsOpen) {
-    setPrevIsOpen(isOpen);
-    if (isOpen) {
-      setDragY(0);
-      setIsDragging(false);
-    }
-  }
 
   const [previewCount, setPreviewCount] = useState(totalCount);
 
@@ -69,8 +51,6 @@ export default function FilterSheet({ isOpen, onClose, totalCount = 0, onApply }
     };
   }, [isOpen, JSON.stringify(selectedRegions), JSON.stringify(selectedGenres)]);
 
-  if (!isOpen) return null;
-
   const handleReset = () => {
     setSelectedRegions(["all"]);
     setSelectedGenres(["all"]);
@@ -81,71 +61,33 @@ export default function FilterSheet({ isOpen, onClose, totalCount = 0, onApply }
     onClose?.();
   };
 
-  const handleDragStart = (event) => {
-    dragStartYRef.current = event.clientY;
-    setIsDragging(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handleDragMove = (event) => {
-    if (!isDragging) return;
-    const delta = event.clientY - dragStartYRef.current;
-    setDragY(Math.max(0, delta));
-  };
-
-  const handleDragEnd = () => {
-    if (!isDragging) return;
-    setIsDragging(false);
-
-    if (dragY > CLOSE_DRAG_THRESHOLD) {
-      onClose?.();
-    }
-    setDragY(0);
-  };
-
   return (
-    <div className="filter-sheet-backdrop" onClick={onClose}>
-      <div
-        className={`filter-sheet ${isDragging ? "is-dragging" : ""}`}
-        style={{ transform: `translateY(${dragY}px)` }}
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div
-          className="filter-sheet-handle-area"
-          onPointerDown={handleDragStart}
-          onPointerMove={handleDragMove}
-          onPointerUp={handleDragEnd}
-          onPointerCancel={handleDragEnd}
-        >
-          <div className="filter-sheet-handle" />
-        </div>
+    <BottomSheet isOpen={isOpen} onClose={onClose}>
+      <h2 className="filter-sheet-title text-title-3">필터</h2>
 
-        <h2 className="filter-sheet-title text-title-3">필터</h2>
+      <ChipGroup
+        label="지역"
+        options={REGION_OPTIONS}
+        selected={selectedRegions}
+        onToggle={(value) => setSelectedRegions((prev) => toggleChip(prev, value))}
+      />
 
-        <ChipGroup
-          label="지역"
-          options={REGION_OPTIONS}
-          selected={selectedRegions}
-          onToggle={(value) => setSelectedRegions((prev) => toggleChip(prev, value))}
-        />
+      <ChipGroup
+        label="장르"
+        options={GENRE_OPTIONS}
+        selected={selectedGenres}
+        onToggle={(value) => setSelectedGenres((prev) => toggleChip(prev, value))}
+      />
 
-        <ChipGroup
-          label="장르"
-          options={GENRE_OPTIONS}
-          selected={selectedGenres}
-          onToggle={(value) => setSelectedGenres((prev) => toggleChip(prev, value))}
-        />
-
-        <div className="filter-sheet-footer">
-          <button type="button" className="filter-sheet-reset text-body-1-medium" onClick={handleReset}>
-            초기화
-          </button>
-          <button type="button" className="filter-sheet-apply text-body-1-medium" onClick={handleApply}>
-            {previewCount}개 전시 보기
-          </button>
-        </div>
+      <div className="filter-sheet-footer">
+        <button type="button" className="filter-sheet-reset text-body-1-medium" onClick={handleReset}>
+          초기화
+        </button>
+        <button type="button" className="filter-sheet-apply text-body-1-medium" onClick={handleApply}>
+          {previewCount}개 전시 보기
+        </button>
       </div>
-    </div>
+    </BottomSheet>
   );
 }
 
