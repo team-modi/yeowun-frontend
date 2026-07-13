@@ -30,6 +30,12 @@ function buildCodeMap(options) {
 export const REGION_CODE_MAP = buildCodeMap(REGION_OPTIONS);
 export const GENRE_CODE_MAP = buildCodeMap(GENRE_OPTIONS);
 
+export const GENRE_LABEL_BY_CODE = Object.fromEntries(
+  GENRE_OPTIONS.filter((option) => option.value !== "all").flatMap((option) =>
+    option.codes.map((code) => [code, option.label]),
+  ),
+);
+
 export function toCodeParam(selected, codeMap) {
   if (!selected || selected.includes("all")) return undefined;
   const codes = selected.flatMap((value) => codeMap[value] ?? []);
