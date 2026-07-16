@@ -46,13 +46,11 @@ export default function RemindPage() {
     };
   }, []);
 
-  const sceneImages = candidate?.sceneImageUrls ?? [];
-  const hasScene = sceneImages.length > 0;
-  const sceneSteps = sceneImages.map((_, index) => `scene-${index}`);
-  const steps = hasScene ? ["intro", ...sceneSteps, "recall", "answer"] : ["intro", "recall", "answer"];
+  const sceneImageUrl = candidate?.sceneImageUrl ?? null;
+  const hasScene = !!sceneImageUrl;
+  const steps = hasScene ? ["intro", "scene", "recall", "answer"] : ["intro", "recall", "answer"];
   const totalSteps = steps.length;
   const currentStepKey = steps[step];
-  const sceneStepIndex = currentStepKey?.startsWith("scene-") ? Number(currentStepKey.split("-")[1]) : -1;
 
   const handleExit = () => navigate("/yeowun");
 
@@ -179,11 +177,11 @@ export default function RemindPage() {
             </button>
           )}
 
-          {sceneStepIndex >= 0 && (
+          {currentStepKey === "scene" && (
             <button type="button" className="remind-tap-card" onClick={handleAdvance}>
               <p className="remind-lead text-title-3">전시 속, 그 장면</p>
               <div className="remind-scene-media">
-                <img src={sceneImages[sceneStepIndex]} alt="" className="remind-scene-media-img" />
+                <img src={sceneImageUrl} alt="" className="remind-scene-media-img" />
               </div>
             </button>
           )}
