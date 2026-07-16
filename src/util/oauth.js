@@ -17,9 +17,10 @@
 const KAKAO_CLIENT_ID =
   import.meta.env.VITE_KAKAO_CLIENT_ID || "bba3e1d954ec548062bc3c13fd9f72bc";
 
-// 네이버 OAuth 클라이언트 ID — authorize URL 에 노출되는 공개성 값. 백엔드 app.oauth.naver.client-id 와 동일해야 한다.
-// 네이버 개발자센터에서 앱 등록 후 발급받아 env(VITE_NAVER_CLIENT_ID)로 주입한다(발급 전이면 버튼 비활성).
-const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID || "";
+// 네이버 OAuth 클라이언트 ID — authorize URL 에 그대로 노출되는 공개성 값이라 기본값을 코드에 둔다(카카오와 동일).
+// 백엔드 app.oauth.naver.client-id 와 동일해야 한다. 운영 앱 교체 시 env(VITE_NAVER_CLIENT_ID)로 오버라이드.
+const NAVER_CLIENT_ID =
+  import.meta.env.VITE_NAVER_CLIENT_ID || "ZRdsYHmN3ncMkx2F6353";
 
 const PROVIDER_KEY = "yeowun.oauth.provider";
 const STATE_KEY = "yeowun.oauth.state";
