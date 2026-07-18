@@ -11,6 +11,7 @@ import "@styles/login.css";
 import "@styles/register.css";
 import "@styles/record.css";
 import "@styles/archivePage.css";
+import "@styles/notificationPage.css";
 
 export default function App() {
   return <RouterProvider router={router} />;

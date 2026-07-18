@@ -36,6 +36,14 @@ const Header = ({ type, title, onBack }) => {
   return (
     <header className="app-header app-header--main">
       <div className="header-logo">Logo</div>
+      <button
+        type="button"
+        className="header-icon-btn"
+        onClick={() => navigate("/notifications")}
+        aria-label="알림"
+      >
+        <BellIcon />
+      </button>
     </header>
   );
 };
@@ -44,6 +52,20 @@ function ChevronLeftIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
       <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function BellIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M6 10a6 6 0 0112 0c0 3.4 1 5 1.8 6H4.2C5 15 6 13.4 6 10z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M10 19a2 2 0 004 0" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }

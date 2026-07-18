@@ -9,6 +9,7 @@ import ExhibitionPage from "@pages/ExhibitionPage";
 import DetailExhibitionPage from "@pages/DetailExhibitionPage";
 import DetailRecordPage from "@pages/DetailRecordPage";
 import ArchivePage from "@pages/ArchivePage";
+import NotificationPage from "@pages/NotificationPage";
 import RecordPage from "@pages/RecordPage";
 import RecordExhibitionSelectPage from "@pages/record/RecordExhibitionSelectPage";
 import RecordDetailInputPage from "@pages/record/RecordDetailInputPage";
@@ -115,6 +116,14 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <ArchivePage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/notifications",
+    element: (
+      <RequireAuth>
+        <NotificationPage />
       </RequireAuth>
     ),
   },

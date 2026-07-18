@@ -1,0 +1,101 @@
+/* NotificationPage.jsx */
+.notification-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-border-default);
+  padding: 0 20px;
+}
+
+.notification-tab {
+  flex: 1;
+  padding: 14px 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.notification-tab.is-active {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-text-primary);
+}
+
+.notification-body {
+  padding-top: 20px;
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background-color: var(--color-bg-default);
+  text-align: left;
+}
+
+.notification-card.is-unread {
+  background-color: var(--color-accent-subtle);
+}
+
+.notification-card-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: var(--color-surface-2);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  flex-shrink: 0;
+}
+
+.notification-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.notification-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.notification-card-title {
+  color: var(--color-text-primary);
+}
+
+.notification-card-time {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+}
+
+.notification-card-message {
+  margin: 0;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.notification-empty,
+.notification-loading,
+.notification-loading-more {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.notification-sentinel {
+  height: 1px;
+}
