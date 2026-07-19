@@ -1,3 +1,4 @@
+// 홈 페이지
 import { useEffect, useState } from "react";
 
 // components

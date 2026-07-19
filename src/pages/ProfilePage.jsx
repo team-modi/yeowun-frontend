@@ -1,3 +1,4 @@
+// 프로필 페이지
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -65,11 +66,7 @@ const ProfilePage = () => {
               style={userInfo.profileImageUrl ? { backgroundImage: `url(${userInfo.profileImageUrl})` } : undefined}
             />
             <p className="profile-nickname text-title-3">{userInfo.nickname}</p>
-            <button
-              type="button"
-              className="profile-edit-btn text-label-2"
-              onClick={() => navigate("/profile/edit")}
-            >
+            <button type="button" className="profile-edit-btn text-label-2" onClick={() => navigate("/profile/edit")}>
               프로필 수정
             </button>
           </div>

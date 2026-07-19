@@ -1,3 +1,4 @@
+// 전시 관람 기록 페이지
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 

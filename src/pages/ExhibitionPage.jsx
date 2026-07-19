@@ -1,3 +1,4 @@
+// 전시탐색 페이지
 import { useState } from "react";
 
 // components

@@ -143,12 +143,7 @@ const DetailExhibitionPage = () => {
           onClick={handleToggleBookmark}
           aria-label={isBookmarked ? "관심 전시 해제" : "관심 전시 등록"}
         >
-          <img
-            src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon}
-            alt=""
-            width={20}
-            height={20}
-          />
+          <img src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon} alt="" width={20} height={20} />
         </button>
       </div>
 
@@ -179,7 +174,6 @@ const DetailExhibitionPage = () => {
               <div className="detail-exhibition-info-row">
                 <span className="detail-exhibition-info-label text-body-2-regular">장소</span>
                 <div className="detail-exhibition-place">
-                  {/* 장소명(+화살표)만 누르면 위치확인 시트 오픈 — 주소는 이 버튼 밖으로 빼서 사용자가 그대로 드래그해서 복사할 수 있게 함 */}
                   <button
                     type="button"
                     className="detail-exhibition-place-name-btn"

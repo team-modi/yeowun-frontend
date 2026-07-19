@@ -1,3 +1,4 @@
+// 리마인드 페이지
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
