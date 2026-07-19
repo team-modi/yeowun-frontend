@@ -42,6 +42,43 @@ export function toCodeParam(selected, codeMap) {
   return codes.length > 0 ? codes.join(",") : undefined;
 }
 
+export const AGE_GROUP_OPTIONS = [
+  { value: "TEENS", label: "10대" },
+  { value: "TWENTIES", label: "20대" },
+  { value: "THIRTIES", label: "30대" },
+  { value: "FORTIES", label: "40대" },
+  { value: "FIFTIES_PLUS", label: "50대 이상" },
+  { value: "UNSPECIFIED", label: "선택 안 함" },
+];
+
+export const AGE_GROUP_LABEL_BY_CODE = Object.fromEntries(
+  AGE_GROUP_OPTIONS.map((option) => [option.value, option.label]),
+);
+
+export const RESIDENCE_REGION_OPTIONS = [
+  { value: "SEOUL", label: "서울" },
+  { value: "BUSAN", label: "부산" },
+  { value: "DAEGU", label: "대구" },
+  { value: "INCHEON", label: "인천" },
+  { value: "GWANGJU", label: "광주" },
+  { value: "DAEJEON", label: "대전" },
+  { value: "ULSAN", label: "울산" },
+  { value: "SEJONG", label: "세종" },
+  { value: "GYEONGGI", label: "경기" },
+  { value: "GANGWON", label: "강원" },
+  { value: "CHUNGBUK", label: "충북" },
+  { value: "CHUNGNAM", label: "충남" },
+  { value: "JEONBUK", label: "전북" },
+  { value: "JEONNAM", label: "전남" },
+  { value: "GYEONGBUK", label: "경북" },
+  { value: "GYEONGNAM", label: "경남" },
+  { value: "JEJU", label: "제주" },
+];
+
+export const RESIDENCE_REGION_LABEL_BY_CODE = Object.fromEntries(
+  RESIDENCE_REGION_OPTIONS.map((option) => [option.value, option.label]),
+);
+
 export const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 export const TYPE_OPTIONS = [

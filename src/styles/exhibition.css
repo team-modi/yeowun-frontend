@@ -74,6 +74,11 @@
   font-weight: var(--fw-regular);
 }
 
+.exhibit-card-artist {
+  margin: -2px 0 0;
+  color: var(--color-text-tertiary);
+}
+
 .exhibit-card-date {
   margin: 0;
   font-size: 12px;

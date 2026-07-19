@@ -14,6 +14,8 @@ const ExhibitCard = ({
   recordId,
   viewedAt,
   emotionCodes,
+  artistSummary,
+  dateRange,
 }) => {
   const navigate = useNavigate();
   const dday = getDday(endDate);
@@ -68,9 +70,10 @@ const ExhibitCard = ({
         {dday && <span className="exhibit-card-dday">{dday}</span>}
         <div className="exhibit-card-content1">
           <p className="exhibit-card-title">{title}</p>
+          {artistSummary && <p className="exhibit-card-artist text-caption-1">{artistSummary}</p>}
           <div className="exhibit-card-content2">
             <p className="exhibit-card-place">{place}</p>
-            <p className="exhibit-card-date">{startDate}</p>
+            <p className="exhibit-card-date">{dateRange ?? startDate}</p>
           </div>
         </div>
       </div>

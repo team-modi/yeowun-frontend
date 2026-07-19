@@ -33,6 +33,24 @@ const Header = ({ type, title, onBack }) => {
     );
   }
 
+  if (type === "profile") {
+    return (
+      <header className="app-header app-header--archive">
+        <h1 className="header-title-left text-heading-1">{title}</h1>
+        <div className="header-right-slot">
+          <button
+            type="button"
+            className="header-icon-btn"
+            onClick={() => navigate("/profile/settings")}
+            aria-label="설정"
+          >
+            <GearIcon />
+          </button>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header className="app-header app-header--main">
       <div className="header-logo">Logo</div>
@@ -52,6 +70,20 @@ function ChevronLeftIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
       <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function GearIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M19.4 13.5a1.7 1.7 0 000-3l1-1.7-1.7-1.7-1.7 1a1.7 1.7 0 01-2.6-1L14 5h-2.4l-.4 2a1.7 1.7 0 01-2.6 1l-1.7-1L5.2 8.7l1 1.7a1.7 1.7 0 010 3l-1 1.7 1.7 1.7 1.7-1a1.7 1.7 0 012.6 1l.4 2H14l.4-2a1.7 1.7 0 012.6-1l1.7 1 1.7-1.7-1-1.7z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

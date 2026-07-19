@@ -5,6 +5,10 @@ import LoginPage from "@pages/LoginPage";
 import HomePage from "@pages/HomePage";
 import HomeDetailExhibitionPage from "@pages/HomeDetailExhibitionPage";
 import ProfilePage from "@pages/ProfilePage";
+import ProfileEditPage from "@pages/profile/ProfileEditPage";
+import SettingsPage from "@pages/profile/SettingsPage";
+import VisitedExhibitionsPage from "@pages/profile/VisitedExhibitionsPage";
+import BookmarkedExhibitionsPage from "@pages/profile/BookmarkedExhibitionsPage";
 import ExhibitionPage from "@pages/ExhibitionPage";
 import DetailExhibitionPage from "@pages/DetailExhibitionPage";
 import DetailRecordPage from "@pages/DetailRecordPage";
@@ -34,6 +38,38 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <ProfilePage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/profile/edit",
+    element: (
+      <RequireAuth>
+        <ProfileEditPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/profile/settings",
+    element: (
+      <RequireAuth>
+        <SettingsPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/profile/visited-exhibitions",
+    element: (
+      <RequireAuth>
+        <VisitedExhibitionsPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/profile/bookmarked-exhibitions",
+    element: (
+      <RequireAuth>
+        <BookmarkedExhibitionsPage />
       </RequireAuth>
     ),
   },

@@ -1,0 +1,108 @@
+/* SettingsPage.jsx */
+.settings-body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-section-title {
+  margin: 0 0 8px;
+  color: var(--color-text-tertiary);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 0;
+  color: var(--color-text-primary);
+}
+
+.settings-row--link {
+  color: var(--color-text-secondary);
+}
+
+.settings-row--link:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.settings-plain-btn {
+  width: 100%;
+  text-align: left;
+  padding: 12px 0;
+  color: var(--color-text-primary);
+}
+
+.settings-plain-btn--danger {
+  color: var(--color-status-error);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background-color: var(--color-border-strong);
+  transition: background-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.toggle-switch.is-on {
+  background-color: var(--color-accent-primary);
+}
+
+.toggle-switch:disabled {
+  opacity: 0.5;
+}
+
+.toggle-switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  transition: transform 0.15s ease;
+}
+
+.toggle-switch.is-on .toggle-switch-knob {
+  transform: translateX(18px);
+}
+
+.settings-withdraw-title {
+  margin: 0 0 8px;
+  color: var(--color-text-primary);
+}
+
+.settings-withdraw-desc {
+  margin: 0 0 20px;
+  color: var(--color-text-tertiary);
+}
+
+.settings-withdraw-confirm {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 12px;
+  background-color: var(--color-status-error);
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.settings-withdraw-cancel {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 12px;
+  background-color: var(--color-surface-2);
+  color: var(--color-text-primary);
+  text-align: center;
+}

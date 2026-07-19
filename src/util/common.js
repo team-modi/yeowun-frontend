@@ -38,6 +38,15 @@ export function formatDateDot(dateKey) {
   return `${year}. ${month}. ${day}`;
 }
 
+// 시작일~종료일 "YYYY.MM.DD ~ YYYY.MM.DD"
+export function formatDateRange(startDate, endDate) {
+  const start = formatDateDot(startDate);
+  const end = formatDateDot(endDate);
+  if (!start) return end;
+  if (!end) return start;
+  return `${start} ~ ${end}`;
+}
+
 export function formatElapsed(dateInput) {
   if (!dateInput) return "";
   const then = new Date(dateInput);

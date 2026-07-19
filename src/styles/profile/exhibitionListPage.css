@@ -1,0 +1,34 @@
+/* VisitedExhibitionsPage.jsx / BookmarkedExhibitionsPage.jsx */
+.exhibit-list-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exhibit-list-sort-row {
+  display: flex;
+  align-items: center;
+}
+
+.exhibit-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exhibit-list-empty {
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.exhibit-list-sentinel {
+  height: 1px;
+}
+
+.exhibit-list-loading,
+.exhibit-list-loading-more {
+  padding: 20px 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}

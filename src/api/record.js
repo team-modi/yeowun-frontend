@@ -45,7 +45,7 @@ export const deleteBookmark = async (recordId) => {
 
 // 내가 다녀온 전시 목록
 export const getVisitedExhibitions = async (params) => {
-  const data = await axiosInstance.get("/records/exhibitions/visited/", { params });
+  const data = await axiosInstance.get("/records/exhibitions/visited", { params });
   return data;
 };
 
