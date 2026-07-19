@@ -13,6 +13,11 @@ import { useRecordDraftStore } from "@store/useRecordDraftStore";
 // styles
 import "@styles/record/RecordDetailInputPage.css";
 
+// icons
+import calendarIcon from "@images/icons/Info/Calendar.svg";
+import plusIcon from "@images/icons/Action/Add.svg";
+import imageAddIcon from "@images/icons/Action/Image Add.svg";
+
 const MAX_MEDIA = 5;
 
 function formatDateDot(dateKey) {
@@ -83,7 +88,7 @@ export default function RecordDetailInputPage() {
               <span className={`text-body-1-regular ${viewedAt ? "" : "is-placeholder"}`}>
                 {viewedAt ? formatDateDot(viewedAt) : "관람 날짜를 선택해 주세요"}
               </span>
-              <CalendarIcon />
+              <img src={calendarIcon} alt="" width={20} height={20} />
             </button>
           </section>
 
@@ -105,7 +110,7 @@ export default function RecordDetailInputPage() {
                   onClick={() => setIsEmotionSheetOpen(true)}
                   aria-label="감정 키워드 수정"
                 >
-                  <PlusIcon />
+                  <img src={plusIcon} alt="" width={16} height={16} />
                 </button>
               </div>
             ) : (
@@ -115,7 +120,7 @@ export default function RecordDetailInputPage() {
                 onClick={() => setIsEmotionSheetOpen(true)}
                 aria-label="감정 키워드 추가"
               >
-                <PlusIcon />
+                <img src={plusIcon} alt="" width={16} height={16} />
               </button>
             )}
           </section>
@@ -132,7 +137,7 @@ export default function RecordDetailInputPage() {
                 onClick={() => setIsMediaSheetOpen(true)}
                 disabled={media.length >= MAX_MEDIA}
               >
-                <ImageIcon />
+                <img src={imageAddIcon} alt="" width={24} height={24} />
                 <span className="text-label-2">
                   {media.length}/{MAX_MEDIA}
                 </span>
@@ -208,40 +213,6 @@ export default function RecordDetailInputPage() {
         onAdd={handleAddMedia}
       />
     </div>
-  );
-}
-
-function CalendarIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ImageIcon() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="9" cy="10" r="1.6" fill="currentColor" />
-      <path
-        d="M21 15l-5-5-4 4-2-2-4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M17 3v5M14.5 5.5H19.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
   );
 }
 

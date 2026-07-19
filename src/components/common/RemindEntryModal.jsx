@@ -13,6 +13,9 @@ import { isRemindCompletedToday } from "@utils/common";
 // styles
 import "@styles/exhibition/RemindEntry.css";
 
+// icons
+import closeIcon from "@images/icons/Action/Close.svg";
+
 export default function RemindEntryModal() {
   const navigate = useNavigate();
   const [candidate, setCandidate] = useState(null);
@@ -57,7 +60,7 @@ export default function RemindEntryModal() {
           style={candidate.posterUrl ? { backgroundImage: `url(${candidate.posterUrl})` } : undefined}
         >
           <button type="button" className="remind-entry-modal-close" onClick={() => setIsOpen(false)} aria-label="닫기">
-            <CloseIcon />
+            <img src={closeIcon} alt="" width={18} height={18} />
           </button>
         </div>
         <div className="remind-entry-modal-body">
@@ -77,10 +80,3 @@ export default function RemindEntryModal() {
   );
 }
 
-function CloseIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}

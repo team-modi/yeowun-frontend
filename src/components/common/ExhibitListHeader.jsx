@@ -1,6 +1,9 @@
 // components
 import SortDropdown from "@components/layout/SortDropdown";
 
+// icons
+import filterIcon from "@images/icons/Action/Filter.svg";
+
 export default function ExhibitListHeader({ total, sort, onSortChange, onFilterClick }) {
   return (
     <div className="exhibit-list-header">
@@ -9,17 +12,10 @@ export default function ExhibitListHeader({ total, sort, onSortChange, onFilterC
       <div className="exhibit-list-header-actions">
         <SortDropdown value={sort} onChange={onSortChange} />
         <button type="button" className="exhibit-list-header-filter" onClick={onFilterClick} aria-label="필터">
-          <FilterIcon />
+          <img src={filterIcon} alt="" width={20} height={20} />
         </button>
       </div>
     </div>
   );
 }
 
-function FilterIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}

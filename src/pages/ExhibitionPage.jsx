@@ -2,6 +2,7 @@ import { useState } from "react";
 
 // components
 import Header from "@components/common/Header";
+import Footer from "@components/common/Footer";
 import ExhibitionList from "@components/layout/ExhibitionList";
 import SearchBox from "@components/layout/SearchBox";
 import RemindEntryBanner from "@components/common/RemindEntryBanner";
@@ -28,6 +29,7 @@ const ExhibitionPage = () => {
           <ExhibitionList data={{ keyword: searchKeyword }} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

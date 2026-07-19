@@ -9,6 +9,10 @@ import { uploadMedia } from "@api/media";
 // styles
 import "@styles/record/MediaAttachSheet.css";
 
+// icons
+import imageIcon from "@images/icons/Action/Image.svg";
+import videoIcon from "@images/icons/Action/Video.svg";
+
 const MAX_MEDIA = 5;
 
 // 사진/영상 선택 → 파일마다 R2 프리사인 업로드(uploadMedia) → 완료된 { type, url, sizeBytes }를 부모로 전달.
@@ -61,7 +65,7 @@ export default function MediaAttachSheet({ isOpen, onClose, remaining, onAdd }) 
         disabled={isUploading || remaining <= 0}
         onClick={() => photoInputRef.current?.click()}
       >
-        <PhotoIcon /> {isUploading ? "업로드 중…" : "사진선택"}
+        <img src={imageIcon} alt="" width={20} height={20} /> {isUploading ? "업로드 중…" : "사진선택"}
       </button>
       <button
         type="button"
@@ -69,7 +73,7 @@ export default function MediaAttachSheet({ isOpen, onClose, remaining, onAdd }) 
         disabled={isUploading || remaining <= 0}
         onClick={() => videoInputRef.current?.click()}
       >
-        <VideoIcon /> {isUploading ? "업로드 중…" : "영상선택"}
+        <img src={videoIcon} alt="" width={20} height={20} /> {isUploading ? "업로드 중…" : "영상선택"}
       </button>
 
       <input
@@ -96,27 +100,3 @@ export default function MediaAttachSheet({ isOpen, onClose, remaining, onAdd }) 
   );
 }
 
-function PhotoIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="9" cy="10" r="1.6" fill="currentColor" />
-      <path
-        d="M21 15l-5-5-4 4-2-2-4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function VideoIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="6" width="13" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M16 10l5-3v10l-5-3" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}

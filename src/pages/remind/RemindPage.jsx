@@ -16,6 +16,11 @@ import { formatDateDot, markRemindCompletedToday } from "@utils/common";
 // styles
 import "@styles/remind/RemindPage.css";
 
+// icons
+import calendarIcon from "@images/icons/Info/Calendar.svg";
+import pinIcon from "@images/icons/Info/Location.svg";
+import plusIcon from "@images/icons/Action/Add.svg";
+
 const REFLECTION_MAX_LENGTH = 300;
 
 export default function RemindPage() {
@@ -164,12 +169,12 @@ export default function RemindPage() {
               {candidate.artist && <p className="remind-exhibition-artist text-body-2-regular">{candidate.artist}</p>}
               <div className="remind-meta-row text-body-2-regular">
                 <span className="remind-meta-item">
-                  <CalendarIcon />
+                  <img src={calendarIcon} alt="" width={16} height={16} />
                   {formatDateDot(candidate.viewedAt)}
                 </span>
                 {candidate.place && (
                   <span className="remind-meta-item">
-                    <PinIcon />
+                    <img src={pinIcon} alt="" width={16} height={16} />
                     {candidate.place}
                   </span>
                 )}
@@ -228,7 +233,7 @@ export default function RemindPage() {
                       onClick={() => setIsEmotionSheetOpen(true)}
                       aria-label="감정 키워드 수정"
                     >
-                      <PlusIcon />
+                      <img src={plusIcon} alt="" width={16} height={16} />
                     </button>
                   </div>
                 ) : (
@@ -238,7 +243,7 @@ export default function RemindPage() {
                     onClick={() => setIsEmotionSheetOpen(true)}
                     aria-label="감정 키워드 추가"
                   >
-                    <PlusIcon />
+                    <img src={plusIcon} alt="" width={16} height={16} />
                   </button>
                 )}
               </section>
@@ -291,36 +296,5 @@ export default function RemindPage() {
         onApply={setEmotionCodes}
       />
     </div>
-  );
-}
-
-function CalendarIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <circle cx="12" cy="9.5" r="2.2" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
   );
 }

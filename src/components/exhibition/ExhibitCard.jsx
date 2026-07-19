@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 // utils
 import { getDday, formatMonthDay, formatMonthDayDot } from "@utils/common";
 
+const MAX_VISIBLE_EMOTIONS = 2;
+
 const ExhibitCard = ({
   thumbnail,
   title,
@@ -25,6 +27,8 @@ const ExhibitCard = ({
 
   if (type === "vertical") {
     const codes = emotionCodes ?? [];
+    const visibleCodes = codes.slice(0, MAX_VISIBLE_EMOTIONS);
+    const hiddenCount = codes.length - visibleCodes.length;
 
     return (
       <button type="button" className="exhibit-card-v" onClick={handleClick}>
@@ -41,11 +45,16 @@ const ExhibitCard = ({
               <p className="exhibit-card-title exhibit-card-title--clamp">{title}</p>
               {codes.length > 0 && (
                 <div className="exhibit-card-emotion-chips">
-                  {codes.map((keyword) => (
+                  {visibleCodes.map((keyword) => (
                     <span key={keyword} className="exhibit-card-emotion-chip text-label-3">
                       {keyword}
                     </span>
                   ))}
+                  {hiddenCount > 0 && (
+                    <span className="exhibit-card-emotion-chip exhibit-card-emotion-chip--more text-label-3">
+                      +{hiddenCount}
+                    </span>
+                  )}
                 </div>
               )}
             </>

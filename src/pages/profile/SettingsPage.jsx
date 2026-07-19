@@ -16,6 +16,9 @@ import { REDIRECT_AFTER_LOGIN_KEY } from "@router/RootRedirect";
 // styles
 import "@styles/profile/settingsPage.css";
 
+// icons
+import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
+
 export default function SettingsPage() {
   const navigate = useNavigate();
   const [settings, setSettings] = useState({ remindEnabled: true, noticeEnabled: true });
@@ -105,11 +108,11 @@ export default function SettingsPage() {
             {/* 문의하기/이용약관 연결 URL이 아직 API 명세에 없어 임시로 비활성 처리해둠 */}
             <button type="button" className="settings-row settings-row--link text-body-1-regular" disabled>
               문의하기
-              <ChevronRightIcon />
+              <img src={chevronRightIcon} alt="" width={16} height={16} />
             </button>
             <button type="button" className="settings-row settings-row--link text-body-1-regular" disabled>
               이용약관
-              <ChevronRightIcon />
+              <img src={chevronRightIcon} alt="" width={16} height={16} />
             </button>
           </section>
 
@@ -164,10 +167,3 @@ function ToggleSwitch({ checked, disabled, onChange }) {
   );
 }
 
-function ChevronRightIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}

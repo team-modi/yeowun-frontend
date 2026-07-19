@@ -13,6 +13,9 @@ import { useRecordDraftStore } from "@store/useRecordDraftStore";
 // styles
 import "@styles/record/RecordComposePage.css";
 
+// icons
+import refreshIcon from "@images/icons/Action/Refresh.svg";
+
 const MAX_LENGTH = 300;
 
 export default function RecordComposePage() {
@@ -102,7 +105,7 @@ export default function RecordComposePage() {
             disabled={isRefining}
             onClick={handleRefine}
           >
-            <RefreshIcon /> {isRefining ? "다듬는 중…" : "다시 다듬기"}
+            <img src={refreshIcon} alt="" width={16} height={16} /> {isRefining ? "다듬는 중…" : "다시 다듬기"}
           </button>
         </div>
       </div>
@@ -121,19 +124,5 @@ export default function RecordComposePage() {
         </button>
       </div>
     </div>
-  );
-}
-
-function RefreshIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M20 11A8 8 0 1 0 18.5 16M20 11V5M20 11H14"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

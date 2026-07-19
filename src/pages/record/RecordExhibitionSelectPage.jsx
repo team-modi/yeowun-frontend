@@ -19,6 +19,9 @@ import { REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/filterCodes
 // styles
 import "@styles/record/RecordExhibitionSelectPage.css";
 
+// icons
+import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
+
 export default function RecordExhibitionSelectPage() {
   const navigate = useNavigate();
   const setExhibitionDraft = useRecordDraftStore((state) => state.setExhibitionDraft);
@@ -140,7 +143,7 @@ export default function RecordExhibitionSelectPage() {
           onClick={() => navigate("/record/new")}
         >
           전시 직접 추가하기
-          <ChevronRightIcon />
+          <img src={chevronRightIcon} alt="" width={16} height={16} />
         </button>
       </div>
 
@@ -155,13 +158,5 @@ export default function RecordExhibitionSelectPage() {
         </button>
       </div>
     </div>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }

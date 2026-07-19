@@ -14,6 +14,9 @@ import { useRecordDraftStore } from "@store/useRecordDraftStore";
 // styles
 import "@styles/record/RecordQuestionsPage.css";
 
+// icons
+import refreshIcon from "@images/icons/Action/Refresh.svg";
+
 const MAX_LENGTH = 300;
 const TOTAL_STEPS = 3;
 
@@ -132,7 +135,7 @@ export default function RecordQuestionsPage() {
                 className="record-questions-shuffle text-body-2-regular"
                 onClick={handleShuffleQuestion}
               >
-                <RefreshIcon /> 다른 질문 보기
+                <img src={refreshIcon} alt="" width={16} height={16} /> 다른 질문 보기
               </button>
             </>
           )}
@@ -156,16 +159,3 @@ export default function RecordQuestionsPage() {
   );
 }
 
-function RefreshIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M20 11A8 8 0 1 0 18.5 16M20 11V5M20 11H14"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}

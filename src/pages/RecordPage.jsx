@@ -16,6 +16,9 @@ import { uploadMedia } from "@api/media";
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
 
+// icons
+import chevronDownIcon from "@images/icons/Action/Chevron Down.svg";
+
 function formatDateDot(dateString) {
   return dateString ? dateString.replaceAll("-", ".") : "";
 }
@@ -213,17 +216,9 @@ function SelectField({ label, value, placeholder, onClick }) {
       <span className="record-form-label text-heading-2">{label}</span>
       <button type="button" className="record-form-select" onClick={onClick}>
         <span className={`text-body-1-regular ${value ? "" : "is-placeholder"}`}>{value || placeholder}</span>
-        <ChevronDownIcon />
+        <img src={chevronDownIcon} alt="" width={20} height={20} />
       </button>
     </div>
-  );
-}
-
-function ChevronDownIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }
 

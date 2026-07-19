@@ -20,6 +20,9 @@ import {
 // styles
 import "@styles/profile/profileEditPage.css";
 
+// icons
+import chevronDownIcon from "@images/icons/Action/Chevron Down.svg";
+
 export default function ProfileEditPage() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -173,7 +176,7 @@ export default function ProfileEditPage() {
                   onClick={() => setIsAgeSheetOpen(true)}
                 >
                   {AGE_GROUP_LABEL_BY_CODE[form.ageGroup] ?? "선택"}
-                  <ChevronDownIcon />
+                  <img src={chevronDownIcon} alt="" width={16} height={16} />
                 </button>
               </div>
 
@@ -185,7 +188,7 @@ export default function ProfileEditPage() {
                   onClick={() => setIsRegionSheetOpen(true)}
                 >
                   {form.residenceRegion ? RESIDENCE_REGION_LABEL_BY_CODE[form.residenceRegion] : "지역을 선택해주세요"}
-                  <ChevronDownIcon />
+                  <img src={chevronDownIcon} alt="" width={16} height={16} />
                 </button>
                 <input
                   type="text"
@@ -252,10 +255,3 @@ export default function ProfileEditPage() {
   );
 }
 
-function ChevronDownIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}

@@ -1,5 +1,8 @@
 import "@styles/common/SearchBox.css";
 
+// icons
+import searchIcon from "@images/icons/Action/Search.svg";
+
 export default function SearchBox({ value, onChange, onSubmit, placeholder }) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -16,7 +19,7 @@ export default function SearchBox({ value, onChange, onSubmit, placeholder }) {
   return (
     <div className="search-box-body">
       <form className="search-box" onSubmit={handleSubmit}>
-        <SearchIcon />
+        <img src={searchIcon} alt="" width={20} height={20} className="search-box-icon" />
         <input
           type="search"
           inputMode="search"
@@ -32,11 +35,3 @@ export default function SearchBox({ value, onChange, onSubmit, placeholder }) {
   );
 }
 
-function SearchIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="search-box-icon">
-      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
-      <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}

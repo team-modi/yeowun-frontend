@@ -6,6 +6,9 @@ import BottomSheet from "@components/common/BottomSheet";
 // styles
 import "@styles/record/EmotionKeywordSheet.css";
 
+// icons
+import addIcon from "@images/icons/Action/Add.svg";
+
 const EMOTION_OPTIONS = [
   "슬픈",
   "강렬한",
@@ -90,7 +93,7 @@ export default function EmotionKeywordSheet({ isOpen, onClose, value = [], onApp
             onClick={handleAddCustom}
             aria-label="키워드 추가"
           >
-            <PlusIcon />
+            <img src={addIcon} alt="" width={16} height={16} />
           </button>
         </div>
 
@@ -115,10 +118,3 @@ export default function EmotionKeywordSheet({ isOpen, onClose, value = [], onApp
   );
 }
 
-function PlusIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}

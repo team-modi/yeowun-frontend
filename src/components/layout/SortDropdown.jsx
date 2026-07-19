@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 
+// icons
+import chevronDownIcon from "@images/icons/Action/Chevron Down.svg";
+import chevronUpIcon from "@images/icons/Action/Chevron Up.svg";
+
 const DEFAULT_SORT_OPTIONS = [
   { value: "latest", label: "최신순" },
   { value: "ending", label: "종료순" },
@@ -32,7 +36,7 @@ export default function SortDropdown({ value, onChange, options = DEFAULT_SORT_O
     <div className="sort-dropdown" ref={wrapperRef}>
       <button type="button" className="sort-dropdown-trigger text-label-2" onClick={() => setIsOpen((prev) => !prev)}>
         {selected.label}
-        <ChevronDownIcon isOpen={isOpen} />
+        <img src={isOpen ? chevronUpIcon : chevronDownIcon} alt="" width={14} height={14} />
       </button>
 
       {isOpen && (
@@ -54,19 +58,3 @@ export default function SortDropdown({ value, onChange, options = DEFAULT_SORT_O
   );
 }
 
-function ChevronDownIcon({ isOpen }) {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      style={{
-        transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-        transition: "transform 0.15s ease",
-      }}
-    >
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}

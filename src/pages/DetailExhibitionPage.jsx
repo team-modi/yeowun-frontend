@@ -16,6 +16,12 @@ import { GENRE_LABEL_BY_CODE } from "@utils/filterCodes";
 // styles
 import "@styles/detailExhibition.css";
 
+// icons
+import chevronLeftIcon from "@images/icons/Action/Chevron Left.svg";
+import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
+import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
+import bookmarkSelectedIcon from "@images/icons/Action/Bookmark_Selected.svg";
+
 function formatDateDot(dateString) {
   return dateString ? dateString.replaceAll("-", ".") : "";
 }
@@ -129,7 +135,7 @@ const DetailExhibitionPage = () => {
     <div className="app-shell">
       <div className="detail-exhibition-topbar">
         <button type="button" className="detail-exhibition-icon-btn" onClick={() => navigate(-1)} aria-label="뒤로가기">
-          <ChevronLeftIcon />
+          <img src={chevronLeftIcon} alt="" width={20} height={20} />
         </button>
         <button
           type="button"
@@ -137,7 +143,12 @@ const DetailExhibitionPage = () => {
           onClick={handleToggleBookmark}
           aria-label={isBookmarked ? "관심 전시 해제" : "관심 전시 등록"}
         >
-          <BookmarkIcon filled={isBookmarked} />
+          <img
+            src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon}
+            alt=""
+            width={20}
+            height={20}
+          />
         </button>
       </div>
 
@@ -175,7 +186,7 @@ const DetailExhibitionPage = () => {
                     onClick={() => setIsLocationSheetOpen(true)}
                   >
                     <span className="detail-exhibition-place-name text-body-1-regular">{data.place}</span>
-                    <ChevronRightIcon />
+                    <img src={chevronRightIcon} alt="" width={16} height={16} />
                   </button>
                   {data.address && (
                     <p className="detail-exhibition-place-address text-body-2-regular">
@@ -245,40 +256,11 @@ const DetailExhibitionPage = () => {
   );
 };
 
-function ChevronLeftIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-      <path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function CopyIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
       <rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
       <path d="M5 15V5a2 2 0 012-2h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function BookmarkIcon({ filled }) {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"}>
-      <path
-        d="M6 3.5h12a1 1 0 011 1V21l-7-4-7 4V4.5a1 1 0 011-1z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
     </svg>
   );
 }

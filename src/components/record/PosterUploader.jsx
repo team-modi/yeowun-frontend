@@ -1,5 +1,8 @@
 import { useRef, useState } from "react";
 
+// icons
+import imageAddIcon from "@images/icons/Action/Image Add.svg";
+
 export default function PosterUploader({ value = null, onChange }) {
   const inputRef = useRef(null);
   const [previewUrl, setPreviewUrl] = useState(value);
@@ -23,7 +26,7 @@ export default function PosterUploader({ value = null, onChange }) {
         <img src={previewUrl} alt="전시 포스터 미리보기" className="poster-uploader-preview" />
       ) : (
         <div className="poster-uploader-placeholder">
-          <ImageIcon />
+          <img src={imageAddIcon} alt="" width={28} height={28} />
           <span className="poster-uploader-label text-label-2">전시 포스터 추가</span>
         </div>
       )}
@@ -38,19 +41,3 @@ export default function PosterUploader({ value = null, onChange }) {
   );
 }
 
-function ImageIcon() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="9" cy="10" r="1.6" fill="currentColor" />
-      <path
-        d="M21 15l-5-5-4 4-2-2-4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M17 3v5M14.5 5.5H19.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}

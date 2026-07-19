@@ -12,6 +12,9 @@ import { isRemindCompletedToday } from "@utils/common";
 // styles
 import "@styles/exhibition/RemindEntry.css";
 
+// icons
+import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
+
 export default function RemindEntryBanner() {
   const navigate = useNavigate();
   const [candidate, setCandidate] = useState(null);
@@ -51,15 +54,7 @@ export default function RemindEntryBanner() {
           {candidate.elapsedLabel} 기록한 전시가 있어요!
         </p>
       </div>
-      <ChevronRightIcon />
+      <img src={chevronRightIcon} alt="" width={18} height={18} />
     </button>
-  );
-}
-
-function ChevronRightIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }

@@ -146,6 +146,11 @@
   color: var(--color-text-secondary);
 }
 
+.exhibit-card-emotion-chip--more {
+  background-color: var(--color-surface-2);
+  color: var(--color-text-tertiary);
+}
+
 .exhibit-card-v-content {
   display: flex;
   flex-direction: column;
