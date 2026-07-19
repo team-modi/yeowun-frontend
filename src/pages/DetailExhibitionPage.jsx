@@ -238,6 +238,8 @@ const DetailExhibitionPage = () => {
         onClose={() => setIsLocationSheetOpen(false)}
         venueLine={data.place}
         address={data.address}
+        gpsX={data.gpsX}
+        gpsY={data.gpsY}
       />
     </div>
   );
