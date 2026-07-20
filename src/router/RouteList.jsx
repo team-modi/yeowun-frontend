@@ -2,10 +2,12 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 // pages
 import LoginPage from "@pages/LoginPage";
+import WelcomePage from "@pages/WelcomePage";
 import HomePage from "@pages/HomePage";
 import HomeDetailExhibitionPage from "@pages/home/HomeDetailExhibitionPage";
 import ProfilePage from "@pages/ProfilePage";
 import ProfileEditPage from "@pages/profile/ProfileEditPage";
+import RegionSelectPage from "@pages/profile/RegionSelectPage";
 import SettingsPage from "@pages/profile/SettingsPage";
 import VisitedExhibitionsPage from "@pages/profile/VisitedExhibitionsPage";
 import BookmarkedExhibitionsPage from "@pages/profile/BookmarkedExhibitionsPage";
@@ -34,6 +36,14 @@ export const router = createBrowserRouter([
   { path: "/home_detail_exhibition", element: <HomeDetailExhibitionPage /> },
   { path: "/login", element: <LoginPage /> },
   {
+    path: "/welcome",
+    element: (
+      <RequireAuth>
+        <WelcomePage />
+      </RequireAuth>
+    ),
+  },
+  {
     path: "/profile",
     element: (
       <RequireAuth>
@@ -46,6 +56,14 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <ProfileEditPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/profile/edit/region",
+    element: (
+      <RequireAuth>
+        <RegionSelectPage />
       </RequireAuth>
     ),
   },

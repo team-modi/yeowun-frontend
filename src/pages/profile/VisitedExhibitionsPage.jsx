@@ -9,7 +9,7 @@ import ExhibitCard from "@components/exhibition/ExhibitCard";
 import { getVisitedExhibitions } from "@api/record";
 
 // utils
-import { formatDateRange } from "@utils/common";
+import { formatShortDateRange } from "@utils/common";
 
 // styles
 import "@styles/profile/exhibitionListPage.css";
@@ -17,7 +17,7 @@ import "@styles/profile/exhibitionListPage.css";
 const PAGE_SIZE = 20;
 const SORT_OPTIONS = [
   { value: "latest", label: "최신순" },
-  { value: "oldest", label: "오래된순" },
+  { value: "oldest", label: "오래된 순" },
 ];
 const SORT_PARAM = { latest: "viewedAt,desc", oldest: "viewedAt,asc" };
 
@@ -96,6 +96,7 @@ export default function VisitedExhibitionsPage() {
       <div className="app-content">
         <div className="app-content-pad exhibit-list-body">
           <div className="exhibit-list-sort-row">
+            <span className="exhibit-list-count text-body-2-regular">전시 {records.length}</span>
             <SortDropdown value={sort} onChange={setSort} options={SORT_OPTIONS} />
           </div>
           {isLoading ? (
@@ -108,13 +109,16 @@ export default function VisitedExhibitionsPage() {
                 {records.map((record) => (
                   <ExhibitCard
                     key={record.recordId}
+                    type="list"
                     exhibitionId={record.exhibitionId}
                     thumbnail={record.exhibitionPosterUrl}
                     title={record.exhibitionTitle}
+                    artistSummary={record.exhibitionArtist ?? record.artistSummary}
                     place={record.exhibitionPlace}
+                    region={record.exhibitionRegion}
                     startDate={record.exhibitionStartDate}
                     endDate={record.exhibitionEndDate}
-                    dateRange={formatDateRange(record.exhibitionStartDate, record.exhibitionEndDate)}
+                    dateRange={formatShortDateRange(record.exhibitionStartDate, record.exhibitionEndDate)}
                   />
                 ))}
               </div>

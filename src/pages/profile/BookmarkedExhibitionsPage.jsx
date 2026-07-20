@@ -9,15 +9,15 @@ import ExhibitCard from "@components/exhibition/ExhibitCard";
 import { getUserBookmarks } from "@api/user";
 
 // utils
-import { formatDateRange } from "@utils/common";
+import { formatShortDateRange } from "@utils/common";
 
 // styles
 import "@styles/profile/exhibitionListPage.css";
 
 const PAGE_SIZE = 20;
 const SORT_OPTIONS = [
-  { value: "latest", label: "담은 순" },
-  { value: "ending", label: "종료임박순" },
+  { value: "latest", label: "담은순" },
+  { value: "ending", label: "종료 임박순" },
 ];
 
 export default function BookmarkedExhibitionsPage() {
@@ -95,6 +95,7 @@ export default function BookmarkedExhibitionsPage() {
       <div className="app-content">
         <div className="app-content-pad exhibit-list-body">
           <div className="exhibit-list-sort-row">
+            <span className="exhibit-list-count text-body-2-regular">전시 {items.length}</span>
             <SortDropdown value={sort} onChange={setSort} options={SORT_OPTIONS} />
           </div>
           {isLoading ? (
@@ -107,14 +108,17 @@ export default function BookmarkedExhibitionsPage() {
                 {items.map((exhibition) => (
                   <ExhibitCard
                     key={exhibition.exhibitionId}
+                    type="list"
                     exhibitionId={exhibition.exhibitionId}
                     thumbnail={exhibition.posterUrl}
                     title={exhibition.title}
+                    artistSummary={exhibition.artistSummary}
                     place={exhibition.place}
+                    region={exhibition.region}
                     startDate={exhibition.startDate}
                     endDate={exhibition.endDate}
-                    dateRange={formatDateRange(exhibition.startDate, exhibition.endDate)}
-                    artistSummary={exhibition.artistSummary}
+                    dateRange={formatShortDateRange(exhibition.startDate, exhibition.endDate)}
+                    bookmarked
                   />
                 ))}
               </div>

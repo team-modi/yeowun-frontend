@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // components
 import Header from "@components/common/Header";
@@ -10,12 +10,7 @@ import { getUserInfo, updateUserInfo } from "@api/user";
 import { uploadMedia } from "@api/media";
 
 // utils
-import {
-  AGE_GROUP_OPTIONS,
-  AGE_GROUP_LABEL_BY_CODE,
-  RESIDENCE_REGION_OPTIONS,
-  RESIDENCE_REGION_LABEL_BY_CODE,
-} from "@utils/filterCodes";
+import { AGE_GROUP_OPTIONS, AGE_GROUP_LABEL_BY_CODE, RESIDENCE_REGION_LABEL_BY_CODE } from "@utils/filterCodes";
 
 // styles
 import "@styles/profile/profileEditPage.css";
@@ -23,25 +18,35 @@ import "@styles/profile/profileEditPage.css";
 // icons
 import chevronDownIcon from "@images/icons/Action/Chevron Down.svg";
 
+// 시트에는 실제 연령대만 노출한다. "선택 안 함"은 초기값일 뿐 고를 수 있는 값이 아니다.
+const AGE_SHEET_OPTIONS = AGE_GROUP_OPTIONS.filter((option) => option.value !== "UNSPECIFIED");
+
 export default function ProfileEditPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const fileInputRef = useRef(null);
 
-  const [form, setForm] = useState({
-    nickname: "",
-    profileImageUrl: "",
-    ageGroup: "UNSPECIFIED",
-    residenceRegion: null,
-    residenceDistrict: "",
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  // 지역 선택 화면에서 돌아온 경우 편집 중이던 폼을 그대로 이어받는다.
+  const restoredForm = location.state?.form ?? null;
+
+  const [form, setForm] = useState(
+    restoredForm ?? {
+      nickname: "",
+      profileImageUrl: "",
+      ageGroup: "UNSPECIFIED",
+      residenceRegion: null,
+      residenceDistrict: "",
+    },
+  );
+  const [isLoading, setIsLoading] = useState(!restoredForm);
   const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
   const [isAgeSheetOpen, setIsAgeSheetOpen] = useState(false);
-  const [isRegionSheetOpen, setIsRegionSheetOpen] = useState(false);
+  const [pendingAgeGroup, setPendingAgeGroup] = useState(form.ageGroup);
 
   useEffect(() => {
+    if (restoredForm) return;
     let ignore = false;
 
     (async () => {
@@ -67,7 +72,7 @@ export default function ProfileEditPage() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [restoredForm]);
 
   const handlePickImage = () => fileInputRef.current?.click();
 
@@ -89,15 +94,20 @@ export default function ProfileEditPage() {
     }
   };
 
+  const handleOpenAgeSheet = () => {
+    setPendingAgeGroup(form.ageGroup);
+    setIsAgeSheetOpen(true);
+  };
+
+  const handleConfirmAge = () => {
+    setForm((prev) => ({ ...prev, ageGroup: pendingAgeGroup }));
+    setIsAgeSheetOpen(false);
+  };
+
   const handleSave = async () => {
     const nickname = form.nickname.trim();
     if (!nickname) {
-      setError("닉네임을 입력해주세요.");
-      return;
-    }
-    // 지역 없이 상세주소만 있으면 백엔드 validateResidence()가 거부한다.
-    if (form.residenceDistrict.trim() && !form.residenceRegion) {
-      setError("상세 지역을 입력하려면 지역을 먼저 선택해주세요.");
+      setError("이름을 입력해주세요.");
       return;
     }
 
@@ -111,7 +121,7 @@ export default function ProfileEditPage() {
         residenceRegion: form.residenceRegion,
         residenceDistrict: form.residenceDistrict.trim() || null,
       });
-      navigate("/profile");
+      navigate("/profile", { replace: true });
     } catch (err) {
       console.log(err);
       setError("저장에 실패했어요. 다시 시도해주세요.");
@@ -120,9 +130,13 @@ export default function ProfileEditPage() {
     }
   };
 
+  const regionLabel = form.residenceRegion
+    ? `${RESIDENCE_REGION_LABEL_BY_CODE[form.residenceRegion]} ${form.residenceDistrict}`.trim()
+    : "";
+
   return (
     <div className="app-shell">
-      <Header type="sub" title="프로필 수정" />
+      <Header type="sub" title="내 정보 수정" />
       <div className="app-content">
         <div className="app-content-pad profile-edit-body">
           {isLoading ? (
@@ -136,9 +150,9 @@ export default function ProfileEditPage() {
                   style={form.profileImageUrl ? { backgroundImage: `url(${form.profileImageUrl})` } : undefined}
                   onClick={handlePickImage}
                   disabled={isUploading}
-                >
-                  {!form.profileImageUrl && <span className="text-caption-1">사진 추가</span>}
-                </button>
+                  aria-label="프로필 사진 변경"
+                />
+                <p className="profile-edit-nickname text-title-3">{form.nickname}</p>
                 <button
                   type="button"
                   className="profile-edit-avatar-edit-btn text-label-3"
@@ -157,25 +171,23 @@ export default function ProfileEditPage() {
               </div>
 
               <div className="profile-edit-field">
-                <label className="profile-edit-label text-label-2">닉네임</label>
+                <label className="profile-edit-label text-label-2">이름</label>
                 <input
                   type="text"
                   className="profile-edit-input text-body-1-regular"
                   value={form.nickname}
                   maxLength={20}
-                  placeholder="닉네임을 입력해주세요"
+                  placeholder="이름을 입력해주세요"
                   onChange={(event) => setForm((prev) => ({ ...prev, nickname: event.target.value }))}
                 />
               </div>
 
               <div className="profile-edit-field">
                 <label className="profile-edit-label text-label-2">연령대</label>
-                <button
-                  type="button"
-                  className="profile-edit-select text-body-1-regular"
-                  onClick={() => setIsAgeSheetOpen(true)}
-                >
-                  {AGE_GROUP_LABEL_BY_CODE[form.ageGroup] ?? "선택"}
+                <button type="button" className="profile-edit-select text-body-1-regular" onClick={handleOpenAgeSheet}>
+                  <span className={form.ageGroup === "UNSPECIFIED" ? "profile-edit-select-placeholder" : ""}>
+                    {form.ageGroup === "UNSPECIFIED" ? "연령대를 선택해주세요" : AGE_GROUP_LABEL_BY_CODE[form.ageGroup]}
+                  </span>
                   <img src={chevronDownIcon} alt="" width={16} height={16} />
                 </button>
               </div>
@@ -185,73 +197,52 @@ export default function ProfileEditPage() {
                 <button
                   type="button"
                   className="profile-edit-select text-body-1-regular"
-                  onClick={() => setIsRegionSheetOpen(true)}
+                  onClick={() => navigate("/profile/edit/region", { state: { form } })}
                 >
-                  {form.residenceRegion ? RESIDENCE_REGION_LABEL_BY_CODE[form.residenceRegion] : "지역을 선택해주세요"}
+                  <span className={regionLabel ? "" : "profile-edit-select-placeholder"}>
+                    {regionLabel || "지역을 선택해주세요"}
+                  </span>
                   <img src={chevronDownIcon} alt="" width={16} height={16} />
                 </button>
-                <input
-                  type="text"
-                  className="profile-edit-input text-body-1-regular"
-                  value={form.residenceDistrict}
-                  placeholder="상세 지역 (예: 강남구)"
-                  onChange={(event) => setForm((prev) => ({ ...prev, residenceDistrict: event.target.value }))}
-                />
               </div>
 
               {error && <p className="profile-edit-error text-caption-1">{error}</p>}
-
-              <button
-                type="button"
-                className="profile-edit-submit text-body-1-medium"
-                disabled={isSaving}
-                onClick={handleSave}
-              >
-                {isSaving ? "저장 중..." : "저장하기"}
-              </button>
             </>
           )}
         </div>
       </div>
 
-      <BottomSheet isOpen={isAgeSheetOpen} onClose={() => setIsAgeSheetOpen(false)}>
-        <h2 className="profile-edit-sheet-title text-title-3">연령대 선택</h2>
-        <div className="profile-edit-option-list">
-          {AGE_GROUP_OPTIONS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              className={`profile-edit-option text-body-1-regular ${form.ageGroup === option.value ? "is-selected" : ""}`}
-              onClick={() => {
-                setForm((prev) => ({ ...prev, ageGroup: option.value }));
-                setIsAgeSheetOpen(false);
-              }}
-            >
-              {option.label}
-            </button>
-          ))}
+      {!isLoading && (
+        <div className="profile-edit-footer">
+          <button
+            type="button"
+            className="profile-edit-submit text-body-1-medium"
+            disabled={isSaving}
+            onClick={handleSave}
+          >
+            {isSaving ? "저장 중..." : "수정하기"}
+          </button>
         </div>
-      </BottomSheet>
+      )}
 
-      <BottomSheet isOpen={isRegionSheetOpen} onClose={() => setIsRegionSheetOpen(false)}>
-        <h2 className="profile-edit-sheet-title text-title-3">지역 선택</h2>
-        <div className="profile-edit-option-list profile-edit-option-list--grid">
-          {RESIDENCE_REGION_OPTIONS.map((option) => (
+      <BottomSheet isOpen={isAgeSheetOpen} onClose={() => setIsAgeSheetOpen(false)}>
+        <h2 className="profile-edit-sheet-title text-title-3">연령대를 선택해 주세요</h2>
+        <div className="profile-edit-age-chips">
+          {AGE_SHEET_OPTIONS.map((option) => (
             <button
               key={option.value}
               type="button"
-              className={`profile-edit-option text-body-1-regular ${form.residenceRegion === option.value ? "is-selected" : ""}`}
-              onClick={() => {
-                setForm((prev) => ({ ...prev, residenceRegion: option.value }));
-                setIsRegionSheetOpen(false);
-              }}
+              className={`profile-edit-age-chip text-label-2${pendingAgeGroup === option.value ? " is-selected" : ""}`}
+              onClick={() => setPendingAgeGroup(option.value)}
             >
               {option.label}
             </button>
           ))}
         </div>
+        <button type="button" className="profile-edit-sheet-confirm text-body-1-medium" onClick={handleConfirmAge}>
+          완료
+        </button>
       </BottomSheet>
     </div>
   );
 }
-

@@ -9,6 +9,7 @@ const ExhibitCard = ({
   thumbnail,
   title,
   place,
+  region,
   startDate,
   endDate,
   exhibitionId,
@@ -18,6 +19,7 @@ const ExhibitCard = ({
   emotionCodes,
   artistSummary,
   dateRange,
+  bookmarked,
 }) => {
   const navigate = useNavigate();
   const dday = getDday(endDate);
@@ -68,6 +70,25 @@ const ExhibitCard = ({
             </>
           )}
         </div>
+      </button>
+    );
+  }
+
+  // 프로필 > 기록한 전시 / 관심 전시 목록의 행. D-day 없이 작가·장소·기간만 보여준다.
+  if (type === "list") {
+    return (
+      <button type="button" className="exhibit-row" onClick={handleClick}>
+        <div className="exhibit-row-thumb" style={thumbnail ? { backgroundImage: `url(${thumbnail})` } : undefined} />
+        <div className="exhibit-row-body">
+          <p className="exhibit-row-title text-body-1-medium">{title}</p>
+          {artistSummary && <p className="exhibit-row-artist text-body-2-regular">{artistSummary}</p>}
+          <div className="exhibit-row-meta">
+            <p className="exhibit-row-place text-caption-1">{[place, region].filter(Boolean).join(" · ")}</p>
+            <p className="exhibit-row-date text-caption-1">{dateRange}</p>
+          </div>
+        </div>
+        {/* 아이콘 원본이 검정 고정이라, 마스크로 액센트 색을 입힌다. */}
+        {bookmarked && <span className="exhibit-row-bookmark" role="img" aria-label="저장한 전시" />}
       </button>
     );
   }

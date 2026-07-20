@@ -47,7 +47,7 @@ export const AGE_GROUP_OPTIONS = [
   { value: "TWENTIES", label: "20대" },
   { value: "THIRTIES", label: "30대" },
   { value: "FORTIES", label: "40대" },
-  { value: "FIFTIES_PLUS", label: "50대 이상" },
+  { value: "FIFTIES_PLUS", label: "50세 이상" },
   { value: "UNSPECIFIED", label: "선택 안 함" },
 ];
 

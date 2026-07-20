@@ -38,6 +38,23 @@ export function formatDateDot(dateKey) {
   return `${year}. ${month}. ${day}`;
 }
 
+// "YYYY-MM-DD" -> "YY.MM.DD" (목록 행처럼 폭이 좁은 자리용)
+export function formatShortDateDot(dateKey) {
+  if (!dateKey) return "";
+  const [year, month, day] = dateKey.split("-");
+  if (!year || !month || !day) return dateKey;
+  return `${year.slice(2)}.${month}.${day}`;
+}
+
+// 시작일~종료일 "YY.MM.DD ~ YY.MM.DD"
+export function formatShortDateRange(startDate, endDate) {
+  const start = formatShortDateDot(startDate);
+  const end = formatShortDateDot(endDate);
+  if (!start) return end;
+  if (!end) return start;
+  return `${start} ~ ${end}`;
+}
+
 // 시작일~종료일 "YYYY.MM.DD ~ YYYY.MM.DD"
 export function formatDateRange(startDate, endDate) {
   const start = formatDateDot(startDate);

@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  /* 하단 고정 버튼에 마지막 필드가 가리지 않도록 */
+  padding-bottom: 96px;
 }
 
 .profile-edit-loading {
@@ -33,8 +35,16 @@
   color: var(--color-text-tertiary);
 }
 
+.profile-edit-nickname {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
 .profile-edit-avatar-edit-btn {
-  color: var(--color-text-brand);
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-tertiary);
 }
 
 .profile-edit-file-input {
@@ -72,22 +82,67 @@
   color: var(--color-text-primary);
 }
 
+.profile-edit-select-placeholder {
+  color: var(--color-text-disabled);
+}
+
 .profile-edit-error {
   color: var(--color-status-error);
+}
+
+.profile-edit-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
 }
 
 .profile-edit-submit {
   width: 100%;
   padding: 16px 0;
-  border-radius: 12px;
+  border-radius: 14px;
   background-color: var(--color-brand-primary);
   color: var(--color-text-inverse);
   text-align: center;
-  margin-top: 8px;
 }
 
 .profile-edit-submit:disabled {
   opacity: 0.6;
+}
+
+/* 연령대 시트 — 가로로 늘어놓는 칩 */
+/* 시안 기준 5개가 한 줄에 들어간다. 더 좁은 화면에서만 줄바꿈되도록 여백을 최소로 잡았다. */
+.profile-edit-age-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.profile-edit-age-chip {
+  padding: 13px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-secondary);
+}
+
+.profile-edit-age-chip.is-selected {
+  border-color: var(--color-accent-primary);
+  background-color: var(--color-accent-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--fw-semibold);
+}
+
+.profile-edit-sheet-confirm {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
 }
 
 .profile-edit-sheet-title {

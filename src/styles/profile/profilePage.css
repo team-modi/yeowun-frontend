@@ -8,20 +8,20 @@
 .profile-body {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
 }
 
 .profile-main-row {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 12px 0 4px;
 }
 
 .profile-avatar {
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   background-color: var(--color-surface-2);
   background-repeat: no-repeat;
@@ -30,17 +30,52 @@
 }
 
 .profile-nickname {
+  margin: 0;
   color: var(--color-text-primary);
 }
 
 .profile-edit-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
+  padding: 5px 12px;
   border-radius: 999px;
   border: 1px solid var(--color-border-default);
-  color: var(--color-text-secondary);
+  color: var(--color-text-tertiary);
+}
+
+/* 저장한 전시 / 기록한 전시 — 세로 구분선으로 나뉜 단일 카드 (테두리 없이 옅은 면으로 채운다) */
+.profile-stat-card {
+  display: flex;
+  align-items: stretch;
+  border-radius: 12px;
+  background-color: var(--color-bg-default);
+}
+
+.profile-stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 18px 8px;
+}
+
+.profile-stat-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.profile-stat-divider {
+  width: 1px;
+  margin: 18px 0;
+  background-color: var(--color-border-default);
+}
+
+.profile-stat-label {
+  color: var(--color-text-primary);
+}
+
+.profile-stat-count {
+  color: var(--color-accent-primary);
 }
 
 .profile-section {
@@ -54,36 +89,30 @@
   color: var(--color-text-primary);
 }
 
-.profile-section-header {
+.profile-keyword-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 6px;
+  padding: 0;
+  text-align: left;
 }
 
-.profile-stat-row {
-  display: flex;
-  gap: 12px;
+.profile-keyword-header:disabled {
+  cursor: default;
 }
 
-.profile-stat-card {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 20px 16px;
-  border-radius: 16px;
-  background-color: var(--color-surface);
-  text-align: center;
+.profile-keyword-count {
+  color: var(--color-accent-primary);
 }
 
-.profile-stat-count {
-  color: var(--color-text-primary);
+/* 펼침 상태에서는 오른쪽 화살표를 아래로 돌려 토글임을 알린다. */
+.profile-keyword-chevron {
+  margin-left: auto;
+  transition: transform 0.15s ease;
 }
 
-.profile-stat-label {
-  color: var(--color-text-tertiary);
+.profile-keyword-chevron.is-open {
+  transform: rotate(90deg);
 }
 
 .profile-keyword-empty {
@@ -94,18 +123,35 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 16px;
-  border: 1px solid var(--color-border-default);
-  border-radius: 16px;
 }
 
 .profile-keyword-chip {
-  padding: 7px 14px;
-  border-radius: 999px;
-  background-color: var(--color-brand-subtle);
-  color: var(--color-text-secondary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-text-brand);
 }
 
-.profile-keyword-more {
-  color: var(--color-text-tertiary);
+/* 키워드 블록과 메뉴 사이를 화면 폭 전체를 쓰는 옅은 띠로 끊는다. */
+.profile-menu {
+  display: flex;
+  flex-direction: column;
+  margin: 4px -20px 0;
+  padding: 0 20px;
+  border-top: 8px solid var(--color-bg-default);
+}
+
+.profile-menu-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border-default);
+  color: var(--color-text-primary);
+}
+
+.profile-menu-row:disabled {
+  color: var(--color-text-disabled);
+  cursor: default;
 }

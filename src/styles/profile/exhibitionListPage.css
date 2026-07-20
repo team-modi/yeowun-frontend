@@ -8,12 +8,80 @@
 .exhibit-list-sort-row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.exhibit-list-count {
+  color: var(--color-text-secondary);
 }
 
 .exhibit-list-items {
   display: flex;
   flex-direction: column;
+}
+
+/* 목록 행 — 포스터 썸네일 + 제목/작가/장소·기간 */
+.exhibit-row {
+  display: flex;
+  align-items: flex-start;
   gap: 12px;
+  width: 100%;
+  padding: 16px 0;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.exhibit-row-thumb {
+  flex-shrink: 0;
+  width: 72px;
+  height: 96px;
+  border-radius: 8px;
+  background-color: var(--color-surface-2);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.exhibit-row-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.exhibit-row-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.exhibit-row-artist {
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+
+.exhibit-row-meta {
+  margin-top: 6px;
+}
+
+.exhibit-row-place,
+.exhibit-row-date {
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+
+/* Bookmark_Selected.svg 는 fill 이 검정으로 박혀 있어, 마스크로 액센트 색을 입힌다. */
+.exhibit-row-bookmark {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  background-color: var(--color-text-icon);
+  -webkit-mask: url("../../images/icons/Action/Bookmark_Selected.svg") center / contain no-repeat;
+  mask: url("../../images/icons/Action/Bookmark_Selected.svg") center / contain no-repeat;
 }
 
 .exhibit-list-empty {

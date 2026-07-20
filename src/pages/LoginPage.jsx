@@ -48,6 +48,15 @@ export default function LoginPage() {
           // RequireAuth가 로그인으로 보내기 전 sessionStorage에 적어둔 원래 경로가 있으면 거기로, 없으면 /yeowun으로 이동
           const redirectTo = sessionStorage.getItem(REDIRECT_AFTER_LOGIN_KEY);
           sessionStorage.removeItem(REDIRECT_AFTER_LOGIN_KEY);
+
+          // 프로필이 아직 없는 신규 가입자는 환영 화면을 먼저 거친다.
+          // 이름은 로그인 응답에만 있으므로 라우터 state로 넘긴다.
+          const user = response.data.data?.user;
+          if (user && !user.profileCompleted) {
+            navigate("/welcome", { replace: true, state: { name: user.name ?? user.nickname } });
+            return;
+          }
+
           navigate(redirectTo || "/yeowun", { replace: true });
         } else {
           setStatus("error");

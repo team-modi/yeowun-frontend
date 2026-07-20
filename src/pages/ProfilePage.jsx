@@ -10,11 +10,11 @@ import Footer from "@components/common/Footer";
 import { getUserInfo } from "@api/user";
 
 // icons
-import writeIcon from "@images/icons/Action/Write.svg";
-import ticketIcon from "@images/icons/Info/Ticket.svg";
+import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
+import archiveIcon from "@images/icons/Navigation/Archive_Default.svg";
 import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 
-const KEYWORD_PREVIEW_COUNT = 9;
+const KEYWORD_PREVIEW_COUNT = 5;
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -68,61 +68,80 @@ const ProfilePage = () => {
               style={userInfo.profileImageUrl ? { backgroundImage: `url(${userInfo.profileImageUrl})` } : undefined}
             />
             <p className="profile-nickname text-title-3">{userInfo.nickname}</p>
-            <button type="button" className="profile-edit-btn text-label-2" onClick={() => navigate("/profile/edit")}>
-              <img src={writeIcon} alt="" width={14} height={14} />
-              프로필 수정
+            <button type="button" className="profile-edit-btn text-label-3" onClick={() => navigate("/profile/edit")}>
+              내 정보 수정
+            </button>
+          </div>
+
+          <div className="profile-stat-card">
+            <button
+              type="button"
+              className="profile-stat-item"
+              onClick={() => navigate("/profile/bookmarked-exhibitions")}
+            >
+              <img src={bookmarkDefaultIcon} alt="" width={24} height={24} />
+              <span className="profile-stat-text">
+                <span className="profile-stat-label text-body-2-medium">저장한 전시</span>
+                <span className="profile-stat-count text-body-2-medium">{userInfo.stats?.bookmarkCount ?? 0}</span>
+              </span>
+            </button>
+            <span className="profile-stat-divider" />
+            <button type="button" className="profile-stat-item" onClick={() => navigate("/profile/visited-exhibitions")}>
+              <img src={archiveIcon} alt="" width={24} height={24} />
+              <span className="profile-stat-text">
+                <span className="profile-stat-label text-body-2-medium">기록한 전시</span>
+                <span className="profile-stat-count text-body-2-medium">{userInfo.stats?.exhibitionCount ?? 0}</span>
+              </span>
             </button>
           </div>
 
           <section className="profile-section">
-            <h2 className="profile-section-title text-heading-2">내 전시 보관함</h2>
-            <div className="profile-stat-row">
-              <button
-                type="button"
-                className="profile-stat-card"
-                onClick={() => navigate("/profile/visited-exhibitions")}
-              >
-                <img src={ticketIcon} alt="" width={28} height={28} />
-                <span className="profile-stat-label text-body-2-regular">기록한 전시</span>
-                <span className="profile-stat-count text-title-2">{userInfo.stats?.exhibitionCount ?? 0}</span>
-              </button>
-              <button
-                type="button"
-                className="profile-stat-card"
-                onClick={() => navigate("/profile/bookmarked-exhibitions")}
-              >
-                <img src={bookmarkDefaultIcon} alt="" width={28} height={28} />
-                <span className="profile-stat-label text-body-2-regular">관심 전시</span>
-                <span className="profile-stat-count text-title-2">{userInfo.stats?.bookmarkCount ?? 0}</span>
-              </button>
-            </div>
-          </section>
-
-          <section className="profile-section">
-            <div className="profile-section-header">
-              <h2 className="profile-section-title text-heading-2">나의 감정 키워드</h2>
+            <button
+              type="button"
+              className="profile-keyword-header"
+              onClick={() => setShowAllKeywords((prev) => !prev)}
+              disabled={keywords.length <= KEYWORD_PREVIEW_COUNT}
+            >
+              <span className="profile-section-title text-heading-2">나의 감정 키워드</span>
+              <span className="profile-keyword-count text-heading-2">{keywords.length}</span>
               {keywords.length > KEYWORD_PREVIEW_COUNT && (
-                <button
-                  type="button"
-                  className="profile-keyword-more text-label-2"
-                  onClick={() => setShowAllKeywords((prev) => !prev)}
-                >
-                  {showAllKeywords ? "접기" : "더보기"}
-                </button>
+                <img
+                  src={chevronRightIcon}
+                  alt=""
+                  width={18}
+                  height={18}
+                  className={`profile-keyword-chevron${showAllKeywords ? " is-open" : ""}`}
+                />
               )}
-            </div>
+            </button>
             {keywords.length === 0 ? (
               <p className="profile-keyword-empty text-body-2-regular">아직 쌓인 감정 키워드가 없어요</p>
             ) : (
               <div className="profile-keyword-chips">
                 {visibleKeywords.map((keyword) => (
-                  <span key={keyword} className="profile-keyword-chip text-label-3">
-                    #{keyword}
+                  <span key={keyword} className="profile-keyword-chip text-label-2">
+                    {keyword}
                   </span>
                 ))}
               </div>
             )}
           </section>
+
+          <nav className="profile-menu">
+            <button type="button" className="profile-menu-row" onClick={() => navigate("/profile/settings")}>
+              <span className="text-body-1-regular">알림</span>
+              <img src={chevronRightIcon} alt="" width={18} height={18} />
+            </button>
+            {/* 이용약관 연결 URL이 아직 API 명세에 없어 비활성 처리해둔다. */}
+            <button type="button" className="profile-menu-row" disabled>
+              <span className="text-body-1-regular">서비스 이용약관</span>
+              <img src={chevronRightIcon} alt="" width={18} height={18} />
+            </button>
+            <button type="button" className="profile-menu-row" onClick={() => navigate("/profile/settings")}>
+              <span className="text-body-1-regular">계정</span>
+              <img src={chevronRightIcon} alt="" width={18} height={18} />
+            </button>
+          </nav>
         </div>
       </div>
       <Footer />
