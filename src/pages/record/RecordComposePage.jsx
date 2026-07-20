@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // components
 import Header from "@components/common/Header";
 
 // api
-import { addRecord, composeRecord } from "@api/record";
+import { addRecord, composeRecord, saveRecordDraft, deleteRecordDraft } from "@api/record";
 
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
@@ -32,6 +32,21 @@ export default function RecordComposePage() {
 
   const [isRefining, setIsRefining] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!exhibitionId || !content.trim()) return;
+
+    const timer = setTimeout(() => {
+      saveRecordDraft({
+        exhibitionId,
+        questions,
+        answers: questions.map((question, index) => ({ question, answer: answers[index] ?? "" })),
+        content,
+      }).catch((error) => console.log(error));
+    }, 600);
+
+    return () => clearTimeout(timer);
+  }, [exhibitionId, questions, answers, content]);
 
   const handleRefine = async () => {
     setIsRefining(true);
@@ -63,6 +78,7 @@ export default function RecordComposePage() {
         media,
       });
       setRecordId(response.data.data?.recordId ?? null);
+      deleteRecordDraft(exhibitionId).catch((error) => console.log(error));
       navigate("/record/complete");
     } catch (error) {
       console.log(error);

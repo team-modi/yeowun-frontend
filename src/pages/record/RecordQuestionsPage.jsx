@@ -6,7 +6,7 @@ import Header from "@components/common/Header";
 import StepDots from "@components/record/StepDots";
 
 // api
-import { getRecordQuestions, composeRecord } from "@api/record";
+import { getRecordQuestions, composeRecord, getRecordDraft, saveRecordDraft } from "@api/record";
 
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
@@ -33,12 +33,23 @@ export default function RecordQuestionsPage() {
   const [isComposing, setIsComposing] = useState(false);
 
   useEffect(() => {
-    if (questions.length > 0) return;
-
     let ignore = false;
 
     (async () => {
       try {
+        const draftResponse = await getRecordDraft(exhibitionId);
+        const draft = draftResponse.data.data;
+
+        if (!ignore && draft?.exists && draft.questions?.length > 0) {
+          setQuestions(draft.questions);
+          const answerByQuestion = new Map((draft.answers ?? []).map((item) => [item.question, item.answer]));
+          draft.questions.forEach((question, index) => {
+            setAnswer(index, answerByQuestion.get(question) ?? "");
+          });
+          if (draft.content) setContent(draft.content);
+          return;
+        }
+
         const response = await getRecordQuestions(exhibitionId);
         if (!ignore) setQuestions(response.data.data.questions ?? response.data.data ?? []);
       } catch (error) {
@@ -49,7 +60,21 @@ export default function RecordQuestionsPage() {
     return () => {
       ignore = true;
     };
-  }, [exhibitionId, questions.length, setQuestions]);
+  }, [exhibitionId, questions.length, setQuestions, setAnswer, setContent]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!exhibitionId || questions.length === 0) return;
+
+    const timer = setTimeout(() => {
+      saveRecordDraft({
+        exhibitionId,
+        questions,
+        answers: questions.map((question, index) => ({ question, answer: answers[index] ?? "" })),
+      }).catch((error) => console.log(error));
+    }, 600);
+
+    return () => clearTimeout(timer);
+  }, [exhibitionId, questions, answers]);
 
   const handleShuffleQuestion = async () => {
     try {
@@ -88,6 +113,12 @@ export default function RecordQuestionsPage() {
       );
       const composedText = response.data.data.content ?? response.data.data.text ?? "";
       setContent(composedText);
+      saveRecordDraft({
+        exhibitionId,
+        questions,
+        answers: questions.map((question, index) => ({ question, answer: answers[index] ?? "" })),
+        content: composedText,
+      }).catch((error) => console.log(error));
       navigate("/record/compose");
     } catch (error) {
       console.log(error);
@@ -158,4 +189,3 @@ export default function RecordQuestionsPage() {
     </div>
   );
 }
-
