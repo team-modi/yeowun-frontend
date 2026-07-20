@@ -8,6 +8,7 @@ import SubHeader from "@components/exhibition/SubHeader";
 import ExhibitCard from "@components/exhibition/ExhibitCard";
 import BannerCarousel from "@components/home/BannerCarousel";
 import RemindEntryModal from "@components/common/RemindEntryModal";
+import BusinessInfo from "@components/common/BusinessInfo";
 
 // api
 import { getExhibitionList, getExhibitionBanners } from "@api/exhibition";
@@ -111,6 +112,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+        <BusinessInfo />
       </div>
       <Footer />
       <RemindEntryModal />
