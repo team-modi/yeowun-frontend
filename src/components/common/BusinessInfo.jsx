@@ -17,26 +17,25 @@ const BUSINESS_ITEMS = [
 const BusinessInfo = () => {
   return (
     <footer className="business-info" aria-label="사업자 정보">
+      {/* 가로 나열 + 줄바꿈 — 좁은 화면에서만 접히도록 해 높이를 최소화 */}
       <dl className="business-info-list">
         {BUSINESS_ITEMS.map(({ label, value }) => (
-          <div key={label} className="business-info-row">
+          <div key={label} className="business-info-item">
             <dt>{label}</dt>
             <dd>{value}</dd>
           </div>
         ))}
       </dl>
 
-      <p className="business-info-contact">
-        문의: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-      </p>
-
-      <p className="business-info-links">
+      <p className="business-info-bottom">
+        <span>
+          문의 <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </span>
         <a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener noreferrer">
           개인정보 처리방침
         </a>
+        <span className="business-info-copyright">© 2026 여운</span>
       </p>
-
-      <p className="business-info-copyright">© 2026 여운. All rights reserved.</p>
     </footer>
   );
 };

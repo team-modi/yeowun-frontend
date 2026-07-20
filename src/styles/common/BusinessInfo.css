@@ -1,5 +1,5 @@
 .business-info {
-  padding: 16px 20px 20px;
+  padding: 14px 20px 16px;
   border-top: 1px solid var(--color-border-default);
   background: var(--color-bg-default);
   color: var(--color-text-disabled);
@@ -10,31 +10,34 @@
 .business-info-list {
   margin: 0;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-wrap: wrap;
+  column-gap: 14px;
+  row-gap: 2px;
 }
 
-.business-info-row {
-  display: flex;
-  gap: 8px;
+/* 구분선 대신 여백으로만 항목을 나눈다 — 줄바꿈 시 구분선이 줄 끝에 매달리는 문제가 없다 */
+.business-info-item {
+  display: inline;
+  white-space: nowrap;
 }
 
-.business-info-row dt {
-  flex-shrink: 0;
-  min-width: 70px;
-}
-
-.business-info-row dd {
+.business-info-item dt,
+.business-info-item dd {
+  display: inline;
   margin: 0;
-  word-break: keep-all;
 }
 
-.business-info-contact {
+.business-info-item dt::after {
+  content: " ";
+}
+
+.business-info-bottom {
   margin: 8px 0 0;
-}
-
-.business-info-links {
-  margin: 6px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 14px;
+  row-gap: 2px;
 }
 
 .business-info a {
@@ -43,5 +46,5 @@
 }
 
 .business-info-copyright {
-  margin: 8px 0 0;
+  margin-left: auto;
 }
