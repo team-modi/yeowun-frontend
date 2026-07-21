@@ -21,6 +21,10 @@ import chevronLeftIcon from "@images/icons/Action/Chevron Left.svg";
 import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
 import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 import bookmarkSelectedIcon from "@images/icons/Action/Bookmark_Selected.svg";
+import calendarIcon from "@images/icons/Info/Calendar.svg";
+import locationIcon from "@images/icons/Info/Location.svg";
+import clockIcon from "@images/icons/Info/Clock.svg";
+import ticketIcon from "@images/icons/Info/Ticket.svg";
 
 function formatDateDot(dateString) {
   return dateString ? dateString.replaceAll("-", ".") : "";
@@ -30,7 +34,21 @@ function OperatingHours({ operatingHours }) {
   if (!operatingHours) return null;
 
   if (typeof operatingHours === "string") {
-    return <p className="detail-exhibition-info-value text-body-1-regular">{operatingHours}</p>;
+    const lines = operatingHours.split("\n").filter(Boolean);
+    return (
+      <div className="detail-exhibition-hours-list">
+        {lines.map((line, index) => (
+          <p
+            key={index}
+            className={`detail-exhibition-info-value text-body-1-regular${
+              line.includes("휴무") ? " detail-exhibition-hours-closed" : ""
+            }`}
+          >
+            {line}
+          </p>
+        ))}
+      </div>
+    );
   }
 
   if (Array.isArray(operatingHours)) {
@@ -165,14 +183,14 @@ const DetailExhibitionPage = () => {
           <div className="detail-exhibition-info">
             {periodLabel && (
               <div className="detail-exhibition-info-row">
-                <span className="detail-exhibition-info-label text-body-2-regular">전시 기간</span>
+                <img src={calendarIcon} alt="" width={20} height={20} className="detail-exhibition-info-icon" />
                 <p className="detail-exhibition-info-value text-body-1-regular">{periodLabel}</p>
               </div>
             )}
 
             {data.place && (
               <div className="detail-exhibition-info-row">
-                <span className="detail-exhibition-info-label text-body-2-regular">장소</span>
+                <img src={locationIcon} alt="" width={20} height={20} className="detail-exhibition-info-icon" />
                 <div className="detail-exhibition-place">
                   <button
                     type="button"
@@ -208,27 +226,41 @@ const DetailExhibitionPage = () => {
 
             {data.operatingHours && (
               <div className="detail-exhibition-info-row">
-                <span className="detail-exhibition-info-label text-body-2-regular">운영 시간</span>
+                <img src={clockIcon} alt="" width={20} height={20} className="detail-exhibition-info-icon" />
                 <OperatingHours operatingHours={data.operatingHours} />
               </div>
             )}
 
             {(data.admissionFee ?? data.price) && (
               <div className="detail-exhibition-info-row">
-                <span className="detail-exhibition-info-label text-body-2-regular">관람료</span>
+                <img src={ticketIcon} alt="" width={20} height={20} className="detail-exhibition-info-icon" />
                 <p className="detail-exhibition-info-value text-body-1-regular">{data.admissionFee ?? data.price}</p>
               </div>
             )}
-
-            {(data.description ?? data.introduction) && (
-              <div className="detail-exhibition-info-row">
-                <span className="detail-exhibition-info-label text-body-2-regular">전시 소개</span>
-                <p className="detail-exhibition-description text-body-1-regular">
-                  {data.description ?? data.introduction}
-                </p>
-              </div>
-            )}
           </div>
+
+          {data.detailUrl && (
+            <div className="detail-exhibition-official-section">
+              <a
+                href={data.detailUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="detail-exhibition-official-link"
+              >
+                공식 전시 페이지
+                <ExternalLinkIcon />
+              </a>
+            </div>
+          )}
+
+          {(data.description ?? data.introduction) && (
+            <div className="detail-exhibition-intro">
+              <h2 className="detail-exhibition-intro-title text-title-3">전시 소개</h2>
+              <p className="detail-exhibition-description text-body-1-regular">
+                {data.description ?? data.introduction}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -255,6 +287,20 @@ function CopyIcon() {
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
       <rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
       <path d="M5 15V5a2 2 0 012-2h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M7 17L17 7M17 7H9M17 7V15"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

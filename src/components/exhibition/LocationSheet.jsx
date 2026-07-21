@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 // components
 import BottomSheet from "@components/common/BottomSheet";
 
@@ -12,39 +14,63 @@ function buildOsmEmbedSrc(lat, lon) {
   return `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
 }
 
-function buildKakaoMapUrl(placeName, lat, lon) {
-  return `https://map.kakao.com/link/map/${encodeURIComponent(placeName || "")},${lat},${lon}`;
-}
-
 export default function LocationSheet({ isOpen, onClose, venueLine, address, gpsX, gpsY }) {
   const lat = gpsY;
   const lon = gpsX;
   const hasCoords = typeof lat === "number" && typeof lon === "number";
 
+  const [isAddressCopied, setIsAddressCopied] = useState(false);
+
+  const handleCopyAddress = async () => {
+    if (!address) return;
+    try {
+      await navigator.clipboard.writeText(address);
+      setIsAddressCopied(true);
+      setTimeout(() => setIsAddressCopied(false), 1000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
       <h2 className="venue-location-title text-body-1-medium">{venueLine}</h2>
-      {address && <p className="venue-location-address text-body-2-regular">{address}</p>}
+      {address && (
+        <div className="venue-location-address-wrap">
+          <button
+            type="button"
+            className="venue-location-address text-body-2-regular"
+            onClick={handleCopyAddress}
+          >
+            <span>{address}</span>
+            <CopyIcon />
+          </button>
+          {isAddressCopied && (
+            <span className="venue-location-copy-tooltip text-caption-1" role="status">
+              복사됨
+            </span>
+          )}
+        </div>
+      )}
 
       {hasCoords ? (
-        <>
-          <div className="venue-location-map">
-            <iframe className="venue-location-map-frame" title="지도" src={buildOsmEmbedSrc(lat, lon)} loading="lazy" />
-          </div>
-          <a
-            className="venue-location-kakao-btn text-body-1-medium"
-            href={buildKakaoMapUrl(venueLine, lat, lon)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            카카오맵에서 열기
-          </a>
-        </>
+        <div className="venue-location-map">
+          <iframe className="venue-location-map-frame" title="지도" src={buildOsmEmbedSrc(lat, lon)} loading="lazy" />
+        </div>
       ) : (
         <div className="venue-location-map venue-location-map--empty">
           <span className="text-caption-1">위치 정보가 없어요</span>
         </div>
       )}
     </BottomSheet>
+  );
+}
+
+function CopyIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+      <rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M5 15V5a2 2 0 012-2h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
   );
 }

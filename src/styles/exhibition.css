@@ -225,14 +225,50 @@
   color: var(--color-text-primary);
 }
 
+.venue-location-address-wrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
 .venue-location-address {
-  margin: 0 0 16px;
-  color: var(--color-text-tertiary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  border-radius: 8px;
+  background: #eef1f6;
+  color: #3d4250;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.venue-location-copy-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background-color: var(--color-overlay-dim);
+  color: var(--color-text-inverse);
+  pointer-events: none;
+}
+
+.venue-location-copy-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--color-overlay-dim);
 }
 
 .venue-location-map {
   width: 100%;
-  aspect-ratio: 1;
+  height: 440px;
   border-radius: 12px;
   background-color: var(--color-brand-subtle);
   color: var(--color-text-disabled);
@@ -240,7 +276,6 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-bottom: 12px;
 }
 
 .venue-location-map-frame {
@@ -250,15 +285,5 @@
 }
 
 .venue-location-map--empty {
-  aspect-ratio: 2 / 1;
-}
-
-.venue-location-kakao-btn {
-  display: block;
-  width: 100%;
-  padding: 15px 0;
-  border-radius: 12px;
-  background-color: var(--color-brand-primary);
-  color: var(--color-text-inverse);
-  text-align: center;
+  height: 200px;
 }

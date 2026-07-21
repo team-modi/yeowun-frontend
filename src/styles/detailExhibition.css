@@ -20,7 +20,6 @@
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  background-color: var(--color-surface-default);
   color: var(--color-text-primary);
 }
 
@@ -71,13 +70,13 @@
 
 .detail-exhibition-info-row {
   display: flex;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 12px;
 }
 
-.detail-exhibition-info-label {
-  width: 72px;
+.detail-exhibition-info-icon {
   flex-shrink: 0;
-  color: var(--color-text-tertiary);
+  margin-top: 2px;
 }
 
 .detail-exhibition-info-value {
@@ -89,6 +88,10 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.detail-exhibition-hours-closed {
+  color: var(--color-status-error);
 }
 
 .detail-exhibition-hours-days {
@@ -156,6 +159,38 @@
   transform: translateX(-50%);
   border: 5px solid transparent;
   border-top-color: var(--color-overlay-dim);
+}
+
+.detail-exhibition-official-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border-default);
+}
+
+.detail-exhibition-official-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-border-default);
+  border-radius: 4px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  width: 109px;
+  height: 24px;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.detail-exhibition-intro {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border-default);
+}
+
+.detail-exhibition-intro-title {
+  margin: 0 0 12px;
+  color: var(--color-text-primary);
 }
 
 .detail-exhibition-description {
