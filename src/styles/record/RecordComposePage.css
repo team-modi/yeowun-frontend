@@ -38,6 +38,35 @@
   color: var(--color-text-tertiary);
 }
 
+/* 스트리밍 중 — 생성 위치에 깜빡이는 커서를 붙여 "쓰는 중"임을 알린다. */
+.record-compose-box.is-streaming {
+  border-color: var(--color-border-selected);
+}
+
+.record-compose-box.is-streaming .record-compose-textarea::after {
+  content: "";
+}
+
+.record-compose-box.is-streaming .record-compose-textarea {
+  caret-color: transparent;
+}
+
+.record-compose-box.is-streaming::before {
+  content: "▍";
+  position: absolute;
+  color: var(--color-accent-primary);
+  animation: record-compose-caret 1s steps(1) infinite;
+  /* textarea 흐름 밖이라 위치가 정확치 않아, 우상단 카운터 옆에 은은한 진행 표시로 대체 */
+  right: 16px;
+  top: 14px;
+}
+
+@keyframes record-compose-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
 .record-compose-refine {
   display: flex;
   align-items: center;

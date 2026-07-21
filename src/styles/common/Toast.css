@@ -1,0 +1,28 @@
+/* 화면 하단 중앙에 떠오르는 토스트. 앱 셸(390px) 폭 안에 정렬한다. */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(88px + env(safe-area-inset-bottom));
+  z-index: 300;
+  transform: translate(-50%, 12px);
+  max-width: calc(var(--app-width) - 40px);
+  width: max-content;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background-color: rgba(20, 22, 28, 0.92);
+  color: #ffffff;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast-message {
+  color: #ffffff;
+  white-space: pre-line;
+}

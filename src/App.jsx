@@ -3,6 +3,9 @@ import { RouterProvider } from "react-router-dom";
 // router
 import { router } from "@router/RouteList";
 
+// components
+import Toast from "@components/common/Toast";
+
 // styles
 import "@styles/base.css";
 import "@styles/home.css";
@@ -18,5 +21,10 @@ import "@styles/profile/settingsPage.css";
 import "@styles/profile/exhibitionListPage.css";
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toast />
+    </>
+  );
 }
