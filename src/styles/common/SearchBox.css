@@ -4,9 +4,8 @@
   gap: 8px;
   width: 100%;
   padding: 12px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--color-border-default);
-  background-color: var(--color-surface-default);
+  border-radius: 10px;
+  background-color: #f4f4f6;
   box-sizing: border-box;
 }
 

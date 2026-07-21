@@ -29,8 +29,8 @@
 }
 
 .filter-chip.is-selected {
-  background-color: var(--color-brand-primary);
-  border-color: var(--color-brand-primary);
+  background-color: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
   color: var(--color-text-inverse);
 }
 
@@ -42,6 +42,10 @@
 
 .filter-sheet-reset {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   padding: 16px 0;
   border-radius: 14px;
   border: none;

@@ -20,6 +20,7 @@ const ExhibitionList = ({ type, data }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [region, setRegion] = useState(undefined);
   const [category, setCategory] = useState(undefined);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -33,9 +34,13 @@ const ExhibitionList = ({ type, data }) => {
           category,
           ...data,
         });
-        if (!ignore) setExhibitionData(response.data.data.content);
+        if (!ignore) {
+          setExhibitionData(response.data.data.content);
+          setHasLoaded(true);
+        }
       } catch (error) {
         console.log(error);
+        if (!ignore) setHasLoaded(true);
       }
     })();
 
@@ -43,6 +48,8 @@ const ExhibitionList = ({ type, data }) => {
       ignore = true;
     };
   }, [sort, region, category, JSON.stringify(data)]);
+
+  const isEmpty = hasLoaded && exhibitionData.length === 0;
 
   const handleApplyFilter = ({ regions, genres }) => {
     setRegion(toCodeParam(regions, REGION_CODE_MAP));
@@ -64,7 +71,13 @@ const ExhibitionList = ({ type, data }) => {
         onApply={handleApplyFilter}
       />
       <div className="exhibitionList-body">
-        {type === "row" ? (
+        {isEmpty ? (
+          <div className="exhibit-list-empty">
+            <div className="exhibit-list-empty-thumb" />
+            <p className="exhibit-list-empty-title text-heading-2">검색 결과가 없어요</p>
+            <p className="exhibit-list-empty-desc text-body-2-regular">다른 키워드로 검색해 보세요</p>
+          </div>
+        ) : type === "row" ? (
           <div className="home-section-row">
             {exhibitionData.map((exhibit) => (
               <ExhibitCard

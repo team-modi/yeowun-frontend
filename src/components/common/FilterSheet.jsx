@@ -12,6 +12,9 @@ import { getExhibitionList } from "@api/exhibition";
 // util
 import { REGION_OPTIONS, GENRE_OPTIONS, REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/filterCodes";
 
+// icons
+import refreshIcon from "@images/icons/Action/Refresh.svg";
+
 function toggleChip(selected, value) {
   if (value === "all") return ["all"];
   const withoutAll = selected.filter((item) => item !== "all");
@@ -81,6 +84,7 @@ export default function FilterSheet({ isOpen, onClose, totalCount = 0, onApply }
 
       <div className="filter-sheet-footer">
         <button type="button" className="filter-sheet-reset text-body-1-medium" onClick={handleReset}>
+          <img src={refreshIcon} alt="" width={16} height={16} />
           초기화
         </button>
         <button type="button" className="filter-sheet-apply text-body-1-medium" onClick={handleApply}>

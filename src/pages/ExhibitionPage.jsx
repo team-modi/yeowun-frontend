@@ -24,7 +24,7 @@ const ExhibitionPage = () => {
             value={keyword}
             onChange={setKeyword}
             onSubmit={handleSearch}
-            placeholder="전시명을 검색해보세요"
+            placeholder="전시명, 작가명, 장소를 검색해보세요"
           />
           <RemindEntryBanner />
           <ExhibitionList data={{ keyword: searchKeyword }} />
