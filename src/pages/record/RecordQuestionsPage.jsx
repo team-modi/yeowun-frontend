@@ -10,6 +10,10 @@ import { getRecordQuestions, composeRecord, getRecordDraft, saveRecordDraft } fr
 
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
+import { showToast } from "@store/useToastStore";
+
+// util
+import { aiErrorMessage } from "@utils/aiError";
 
 // styles
 import "@styles/record/RecordQuestionsPage.css";
@@ -31,11 +35,14 @@ export default function RecordQuestionsPage() {
 
   const [step, setStep] = useState(0);
   const [isComposing, setIsComposing] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(false);
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
 
   useEffect(() => {
     let ignore = false;
 
     (async () => {
+      setIsLoadingQuestions(true);
       try {
         const draftResponse = await getRecordDraft(exhibitionId);
         const draft = draftResponse.data.data;
@@ -54,13 +61,16 @@ export default function RecordQuestionsPage() {
         if (!ignore) setQuestions(response.data.data.questions ?? response.data.data ?? []);
       } catch (error) {
         console.log(error);
+        if (!ignore) showToast(aiErrorMessage(error));
+      } finally {
+        if (!ignore) setIsLoadingQuestions(false);
       }
     })();
 
     return () => {
       ignore = true;
     };
-  }, [exhibitionId, questions.length, setQuestions, setAnswer, setContent]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [exhibitionId, questions.length, setQuestions, setAnswer, setContent]);
 
   useEffect(() => {
     if (!exhibitionId || questions.length === 0) return;
@@ -77,6 +87,8 @@ export default function RecordQuestionsPage() {
   }, [exhibitionId, questions, answers]);
 
   const handleShuffleQuestion = async () => {
+    if (isShuffling) return; // 연타 방지 — 매 호출이 rate-limit 걸리는 유료 AI 요청
+    setIsShuffling(true);
     try {
       const response = await getRecordQuestions(exhibitionId);
       const nextQuestions = response.data.data.questions ?? response.data.data ?? [];
@@ -88,6 +100,9 @@ export default function RecordQuestionsPage() {
       setQuestions(updated);
     } catch (error) {
       console.log(error);
+      showToast(aiErrorMessage(error));
+    } finally {
+      setIsShuffling(false);
     }
   };
 
@@ -122,6 +137,7 @@ export default function RecordQuestionsPage() {
       navigate("/record/compose");
     } catch (error) {
       console.log(error);
+      showToast(aiErrorMessage(error));
     } finally {
       setIsComposing(false);
     }
@@ -139,7 +155,9 @@ export default function RecordQuestionsPage() {
           <StepDots total={TOTAL_STEPS} current={step} />
 
           {!currentQuestion ? (
-            <p className="record-questions-loading text-body-1-regular">질문을 준비하고 있어요…</p>
+            <p className="record-questions-loading text-body-1-regular">
+              {isLoadingQuestions ? "질문을 준비하고 있어요…" : "질문을 불러오지 못했어요. 다시 시도해 주세요."}
+            </p>
           ) : (
             <>
               <h1 className="record-questions-title text-title-3">
@@ -165,8 +183,10 @@ export default function RecordQuestionsPage() {
                 type="button"
                 className="record-questions-shuffle text-body-2-regular"
                 onClick={handleShuffleQuestion}
+                disabled={isShuffling}
               >
-                다른 질문 보기 <img src={refreshIcon} alt="" width={16} height={16} />
+                {isShuffling ? "질문을 바꾸는 중…" : "다른 질문 보기"}{" "}
+                <img src={refreshIcon} alt="" width={16} height={16} />
               </button>
             </>
           )}

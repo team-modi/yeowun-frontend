@@ -9,6 +9,10 @@ import { addRecord, composeRecord, saveRecordDraft, deleteRecordDraft } from "@a
 
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
+import { showToast } from "@store/useToastStore";
+
+// util
+import { aiErrorMessage } from "@utils/aiError";
 
 // styles
 import "@styles/record/RecordComposePage.css";
@@ -59,6 +63,7 @@ export default function RecordComposePage() {
       setContent(composedText);
     } catch (error) {
       console.log(error);
+      showToast(aiErrorMessage(error));
     } finally {
       setIsRefining(false);
     }
@@ -82,6 +87,7 @@ export default function RecordComposePage() {
       navigate("/record/complete");
     } catch (error) {
       console.log(error);
+      showToast("기록 저장에 실패했어요. 다시 시도해 주세요.");
     } finally {
       setIsSubmitting(false);
     }
