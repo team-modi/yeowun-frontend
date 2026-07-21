@@ -2051,6 +2051,15 @@
                 },
                 "type": "object"
             },
+            "SseEmitter": {
+                "properties": {
+                    "timeout": {
+                        "format": "int64",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
             "Stats": {
                 "properties": {
                     "bookmarkCount": {
@@ -3807,6 +3816,43 @@
                     }
                 ],
                 "summary": "\uac10\uc0c1\ubb38 \ub2e4\ub4ec\uae30",
+                "tags": [
+                    "Record AI"
+                ]
+            }
+        },
+        "/api/v1/records/ai/compose/stream": {
+            "post": {
+                "description": "\uac10\uc0c1\ubb38 \ub2e4\ub4ec\uae30\uc640 \ub3d9\uc77c\ud558\ub418, \ubcf8\ubb38\uc744 \ud1a0\ud070 \ub2e8\uc704\ub85c \uc2a4\ud2b8\ub9ac\ubc0d\ud55c\ub2e4(text/event-stream). \uccb4\uac10 \uc9c0\uc5f0 \uac10\uc18c\uc6a9.\n- \uc774\ubca4\ud2b8: `delta`(\uc0dd\uc131 \uc870\uac01) \uc5ec\ub7ec \ubc88 \u2192 `done`(\uc644\ub8cc) \ub610\ub294 `error`(\uc0ac\uc6a9\uc790 \uba54\uc2dc\uc9c0). \ud074\ub77c\uc774\uc5b8\ud2b8\ub294 delta\ub97c \uc774\uc5b4 \ubd99\uc778\ub2e4.\n- \uc644\ub8cc \uc2dc \uc804\uccb4 \ubcf8\ubb38\uc744 draft\ub85c \uc800\uc7a5\ud558\ubbc0\ub85c \uc7ac\uc9c4\uc785/\uc0c8\ub85c\uace0\uce68 \ubcf5\uc6d0\uc5d0 \uadf8\ub300\ub85c \uc4f0\uc778\ub2e4.\n- \ub85c\uadf8\uc778 \uc804\uc6a9. \uc2a4\ud2b8\ub9bc\uc740 \uc774\ubbf8 200\uc73c\ub85c \uc2dc\uc791\ub418\ubbc0\ub85c rate-limit/AI \uc2e4\ud328\ub294 `error` \uc774\ubca4\ud2b8\ub85c \uc804\ub2ec\ub41c\ub2e4(HTTP \uc0c1\ud0dc \uc544\ub2d8).",
+                "operationId": "composeStream",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ComposeRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SseEmitter"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "\uac10\uc0c1\ubb38 \ub2e4\ub4ec\uae30(\uc2a4\ud2b8\ub9ac\ubc0d)",
                 "tags": [
                     "Record AI"
                 ]
