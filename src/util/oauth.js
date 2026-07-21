@@ -13,8 +13,11 @@
  */
 
 // 카카오 REST API 키 — authorize URL 에 그대로 노출되는 공개성 값이라 기본값을 코드에 둔다.
-// 테스트앱 "여운-TEST"(앱ID 1500036). 운영 앱으로 교체 시 env(VITE_KAKAO_CLIENT_ID)로 오버라이드.
-const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID || "bba3e1d954ec548062bc3c13fd9f72bc";
+// 운영 비즈앱 "여운". 백엔드 app.oauth.kakao.client-id 기본값과 반드시 같아야 한다 —
+// 프론트가 A 앱으로 받은 code 를 백엔드가 B 앱으로 교환하면 카카오가 거부한다.
+// ⚠️ 구 테스트앱 "여운-TEST"(bba3e1d9…)는 카카오 콘솔에서 삭제됐다. 되돌리면 토큰 교환이
+//    KOE101(Not exist client_id)로 깨진다.
+const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID || "bd5949f0127dd8ae068263f6ec1b5edc";
 
 // 네이버 OAuth 클라이언트 ID — authorize URL 에 그대로 노출되는 공개성 값이라 기본값을 코드에 둔다(카카오와 동일).
 // 백엔드 app.oauth.naver.client-id 와 동일해야 한다. 운영 앱 교체 시 env(VITE_NAVER_CLIENT_ID)로 오버라이드.

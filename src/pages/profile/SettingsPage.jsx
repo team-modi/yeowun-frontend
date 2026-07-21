@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 import BottomSheet from "@components/common/BottomSheet";
+import BusinessInfo from "@components/common/BusinessInfo";
 
 // api
 import { logout } from "@api/auth";
@@ -129,6 +130,7 @@ export default function SettingsPage() {
             </button>
           </section>
         </div>
+        <BusinessInfo />
       </div>
       <Footer />
 
