@@ -24,7 +24,9 @@ import RecordWritePage from "@pages/record/RecordWritePage";
 import RecordQuestionsPage from "@pages/record/RecordQuestionsPage";
 import RecordComposePage from "@pages/record/RecordComposePage";
 import RecordCompletePage from "@pages/record/RecordCompletePage";
-import RemindPage from "@pages/remind/RemindPage";
+import RemindDetailPage from "@pages/remind/RemindDetailPage";
+import RemindWritePage from "@pages/remind/RemindWritePage";
+import RemindSummaryPage from "@pages/remind/RemindSummaryPage";
 import RemindCompletePage from "@pages/remind/RemindCompletePage";
 
 // router
@@ -185,7 +187,15 @@ export const router = createBrowserRouter([
     path: "/remind",
     element: (
       <RequireAuth>
-        <RemindPage />
+        <RemindDetailPage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/remind/write",
+    element: (
+      <RequireAuth>
+        <RemindWritePage />
       </RequireAuth>
     ),
   },
@@ -194,6 +204,14 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <RemindCompletePage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/remind/summary/:remindId",
+    element: (
+      <RequireAuth>
+        <RemindSummaryPage />
       </RequireAuth>
     ),
   },

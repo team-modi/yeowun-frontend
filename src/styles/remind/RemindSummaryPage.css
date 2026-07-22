@@ -1,0 +1,83 @@
+.remind-summary-loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.remind-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.remind-summary-exhibition {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.remind-summary-poster {
+  flex-shrink: 0;
+  width: 64px;
+  height: 84px;
+  border-radius: 8px;
+  background-color: var(--color-surface-2);
+  background-size: cover;
+  background-position: center;
+}
+
+.remind-summary-title {
+  margin: 0 0 4px;
+  color: var(--color-text-primary);
+}
+
+.remind-summary-meta {
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+
+/* AI 감정 변화 요약 — 액센트 톤 박스 */
+.remind-summary-ai {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: var(--color-accent-subtle);
+}
+
+.remind-summary-ai-title {
+  margin: 0 0 6px;
+  color: var(--color-text-brand);
+}
+
+.remind-summary-ai-text {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.remind-summary-section-title {
+  margin: 0 0 10px;
+  color: var(--color-text-primary);
+}
+
+.remind-summary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.remind-summary-chip {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-text-brand);
+}
+
+.remind-summary-text {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}

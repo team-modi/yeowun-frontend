@@ -1,0 +1,122 @@
+.remind-write {
+  /* 하단 고정 버튼 높이만큼 여백 */
+  padding-bottom: 96px;
+}
+
+.remind-write-title {
+  margin: 8px 0 8px;
+  color: var(--color-text-primary);
+}
+
+.remind-write-subtitle {
+  margin: 0 0 28px;
+  color: var(--color-text-tertiary);
+}
+
+.remind-write-section {
+  margin-bottom: 28px;
+}
+
+.remind-write-section-title {
+  margin: 0 0 12px;
+  color: var(--color-text-primary);
+}
+
+/* 비어 있을 때: 감정 키워드 추가 입력 박스 */
+.remind-write-emotion-add {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-disabled);
+}
+
+/* 선택된 감정 칩 + 편집 버튼 */
+.remind-write-emotions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.remind-write-emotion-chip {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background-color: var(--color-accent-primary);
+  color: var(--color-text-inverse);
+}
+
+.remind-write-emotion-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-tertiary);
+}
+
+.remind-write-box {
+  position: relative;
+  border: 1px solid var(--color-border-default);
+  border-radius: 12px;
+  background-color: var(--color-surface-default);
+  padding: 14px 16px;
+}
+
+.remind-write-textarea {
+  width: 100%;
+  min-height: 140px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: 1.6;
+}
+
+.remind-write-textarea::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.remind-write-count {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.remind-write-error {
+  color: var(--color-status-error);
+}
+
+.remind-write-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
+}
+
+.remind-write-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.remind-write-submit:disabled {
+  background-color: var(--color-border-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}

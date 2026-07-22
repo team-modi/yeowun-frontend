@@ -64,15 +64,16 @@ export default function RemindEntryModal() {
           </button>
         </div>
         <div className="remind-entry-modal-body">
-          <span className="remind-entry-modal-badge text-caption-1">오늘의 여운</span>
+          <span className="remind-entry-modal-badge text-label-3">{candidate.elapsedLabel} 기록</span>
           <h2 className="remind-entry-modal-title text-title-3">{candidate.exhibitionTitle}</h2>
-          {candidate.artist && <p className="remind-entry-modal-artist text-body-2-regular">{candidate.artist}</p>}
           <p className="remind-entry-modal-subtitle text-body-2-regular">
-            {nickname && `${nickname}님이 `}
-            {candidate.elapsedLabel} 남긴 전시 기록을 다시 만나보세요
+            {nickname && `${nickname}님, `}
+            그날 남긴 기록을
+            <br />
+            다시 떠올려보세요
           </p>
           <button type="button" className="remind-entry-modal-btn text-body-1-medium" onClick={handleGoRemind}>
-            그날의 기록 보기
+            리마인드 보기
           </button>
         </div>
       </div>

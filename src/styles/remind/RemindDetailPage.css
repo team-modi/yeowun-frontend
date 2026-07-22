@@ -1,0 +1,138 @@
+.remind-detail-loading,
+.remind-detail-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.remind-detail-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.remind-detail-empty-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-primary);
+}
+
+.remind-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 하단 고정 버튼에 카드가 가리지 않도록 */
+  padding-bottom: 96px;
+}
+
+.remind-detail-lead {
+  margin: 8px 0 20px;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.remind-detail-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 20px;
+  border-radius: 20px;
+  background-color: var(--color-surface-default);
+  box-shadow: 0 4px 24px rgba(20, 22, 28, 0.08);
+}
+
+.remind-detail-poster {
+  width: 180px;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  background-color: var(--color-brand-subtle);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-disabled);
+  margin-bottom: 20px;
+}
+
+.remind-detail-title {
+  margin: 0 0 8px;
+  color: var(--color-text-primary);
+}
+
+.remind-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 12px;
+  color: var(--color-text-tertiary);
+  margin-bottom: 16px;
+}
+
+.remind-detail-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.remind-detail-content {
+  margin: 0 0 16px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.remind-detail-emotions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.remind-detail-emotion-chip {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-text-brand);
+}
+
+.remind-detail-emotion-chip--more {
+  background-color: var(--color-bg-default);
+  color: var(--color-text-tertiary);
+}
+
+.remind-detail-footer {
+  position: fixed;
+  bottom: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  background-color: var(--color-surface-default);
+  box-sizing: border-box;
+}
+
+.remind-detail-secondary {
+  flex: 1;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-subtle);
+  color: var(--color-text-primary);
+}
+
+.remind-detail-primary {
+  flex: 1;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}

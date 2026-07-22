@@ -166,6 +166,7 @@ export default function ArchivePage() {
                         key={remind.remindId}
                         type="vertical"
                         recordId={remind.recordId}
+                        remindId={remind.remindId}
                         thumbnail={remind.posterUrl}
                         viewedAt={remind.viewedAt}
                         title={remind.exhibitionTitle}

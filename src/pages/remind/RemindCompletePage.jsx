@@ -1,8 +1,5 @@
-// 리마인드> 수정한 내용 저장 페이지
+// 리마인드 저장 완료
 import { useLocation, useNavigate } from "react-router-dom";
-
-// components
-import Header from "@components/common/Header";
 
 // styles
 import "@styles/remind/RemindCompletePage.css";
@@ -10,15 +7,15 @@ import "@styles/remind/RemindCompletePage.css";
 export default function RemindCompletePage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { recordId } = location.state ?? {};
+  const { remindId } = location.state ?? {};
 
-  const handleGoToArchive = () => {
-    navigate(recordId ? `/record/${recordId}` : "/yeowun");
+  const handleGoToSaved = () => {
+    // 저장한 여운 상세(감정 변화 요약)로. remindId가 없으면 아카이브 리마인드 탭으로.
+    navigate(remindId ? `/remind/summary/${remindId}` : "/archive");
   };
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="감정 변화 요약" onBack={() => navigate("/yeowun")} />
       <div className="app-content">
         <div className="app-content-pad remind-complete">
           <div className="remind-complete-thumb" />
@@ -32,8 +29,15 @@ export default function RemindCompletePage() {
       </div>
 
       <div className="remind-complete-footer">
-        <button type="button" className="remind-complete-btn text-body-1-medium" onClick={handleGoToArchive}>
-          아카이브 보러가기
+        <button type="button" className="remind-complete-primary text-body-1-medium" onClick={handleGoToSaved}>
+          저장한 여운 보기
+        </button>
+        <button
+          type="button"
+          className="remind-complete-secondary text-body-1-medium"
+          onClick={() => navigate("/yeowun")}
+        >
+          홈으로
         </button>
       </div>
     </div>

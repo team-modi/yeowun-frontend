@@ -23,6 +23,7 @@ const ExhibitCard = ({
   exhibitionId,
   type,
   recordId,
+  remindId,
   viewedAt,
   emotionCodes,
   artistSummary,
@@ -38,7 +39,12 @@ const ExhibitCard = ({
 
   const daysUntilStart = getDaysUntil(startDate);
   const startBadge = daysUntilStart == null ? null : daysUntilStart <= 0 ? "오픈" : `${daysUntilStart}일 후 오픈`;
-  const handleClick = () => navigate(isRecord ? `/record/${recordId}` : `/exhibition/${exhibitionId}`);
+  // 리마인드 항목은 감정 변화 요약으로, 기록 항목은 기록 상세로, 그 외는 전시 상세로.
+  const handleClick = () => {
+    if (remindId != null) navigate(`/remind/summary/${remindId}`);
+    else if (isRecord) navigate(`/record/${recordId}`);
+    else navigate(`/exhibition/${exhibitionId}`);
+  };
 
   const [prevBookmarkedKey, setPrevBookmarkedKey] = useState({ exhibitionId, bookmarked });
   const [isBookmarked, setIsBookmarked] = useState(Boolean(bookmarked));
