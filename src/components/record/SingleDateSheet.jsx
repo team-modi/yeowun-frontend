@@ -34,11 +34,27 @@ function DayButton({ day, modifiers, className, ...buttonProps }) {
   return <button type="button" className={`${className ?? ""} ${stateClass}`.trim()} {...buttonProps} />;
 }
 
-// 관람일(단일 날짜) 선택 시트 — DateRangeSheet(전시 기간, mode="range")와 같은 커스텀 nav/DayButton
-// 패턴을 쓰되 mode="single"이라 range 관련 modifier가 없어 별도 컴포넌트로 분리함.
-export default function SingleDateSheet({ isOpen, onClose, value, onApply }) {
+export default function SingleDateSheet({
+  isOpen,
+  onClose,
+  value,
+  onApply,
+  title = "관람 날짜를 선택해주세요",
+  placeholder = "날짜를 선택해 주세요",
+}) {
   const [selected, setSelected] = useState(toDate(value));
   const [month, setMonth] = useState(() => toDate(value) ?? new Date());
+
+  // 시트가 열릴 때마다 최신 값으로 리셋 — effect 대신 렌더 중 이전 isOpen과 비교해서 처리한다
+  // (BottomSheet.jsx의 prevIsOpen 패턴과 동일. GenreSheet.jsx, EmotionKeywordSheet.jsx도 같은 방식).
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (isOpen) {
+      setSelected(toDate(value));
+      setMonth(toDate(value) ?? new Date());
+    }
+  }
 
   const handleSubmit = () => {
     if (!selected) return;
@@ -46,9 +62,13 @@ export default function SingleDateSheet({ isOpen, onClose, value, onApply }) {
     onClose?.();
   };
 
+  const submitLabel = selected
+    ? `${selected.getMonth() + 1}월 ${selected.getDate()}일(${WEEKDAYS[selected.getDay()]}) 선택`
+    : placeholder;
+
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
-      <h2 className="single-date-sheet-title text-title-3">관람 날짜를 선택해주세요</h2>
+      <h2 className="single-date-sheet-title text-title-3">{title}</h2>
 
       <div className="single-date-sheet-nav">
         <button
@@ -93,7 +113,7 @@ export default function SingleDateSheet({ isOpen, onClose, value, onApply }) {
         disabled={!selected}
         onClick={handleSubmit}
       >
-        완료
+        {submitLabel}
       </button>
     </BottomSheet>
   );

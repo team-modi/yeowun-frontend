@@ -18,7 +18,7 @@ import { aiErrorMessage } from "@utils/aiError";
 import "@styles/record/RecordComposePage.css";
 
 // icons
-import refreshIcon from "@images/icons/Action/Refresh.svg";
+// import refreshIcon from "@images/icons/Action/Refresh.svg";
 
 const MAX_LENGTH = 300;
 
@@ -116,7 +116,7 @@ export default function RecordComposePage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="기록 작성" onBack={() => navigate(-1)} />
+      <Header type="back" title="질문으로 작성" onBack={() => navigate(-1)} />
       <div className="app-content">
         <div className="app-content-pad record-compose">
           <h1 className="record-compose-title text-title-3">
@@ -150,7 +150,8 @@ export default function RecordComposePage() {
             disabled={isStreaming}
             onClick={runCompose}
           >
-            <img src={refreshIcon} alt="" width={16} height={16} /> {isStreaming ? "다듬는 중…" : "다시 다듬기"}
+            {isStreaming ? "다듬는 중…" : "다시 다듬기"}
+            <span className="record-questions-shuffle-icon" aria-hidden="true" />
           </button>
         </div>
       </div>

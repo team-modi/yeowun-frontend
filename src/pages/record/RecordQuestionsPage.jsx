@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 // components
 import Header from "@components/common/Header";
-import StepDots from "@components/record/StepDots";
 
 // api
 import { getRecordQuestions, getRecordDraft } from "@api/record";
@@ -19,7 +18,6 @@ import { aiErrorMessage } from "@utils/aiError";
 import "@styles/record/RecordQuestionsPage.css";
 
 // icons
-import refreshIcon from "@images/icons/Action/Refresh.svg";
 
 const MAX_LENGTH = 300;
 const TOTAL_STEPS = 3;
@@ -128,7 +126,9 @@ export default function RecordQuestionsPage() {
       <Header type="back" title="질문으로 작성" onBack={() => navigate(-1)} />
       <div className="app-content">
         <div className="app-content-pad record-questions">
-          <StepDots total={TOTAL_STEPS} current={step} />
+          <div className="record-questions-progress">
+            <div className="record-questions-progress-fill" style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
+          </div>
 
           {!currentQuestion ? (
             <p className="record-questions-loading text-body-1-regular">
@@ -136,11 +136,8 @@ export default function RecordQuestionsPage() {
             </p>
           ) : (
             <>
-              <h1 className="record-questions-title text-title-3">
-                Q{step + 1}.
-                <br />
-                {currentQuestion}
-              </h1>
+              <span className="record-questions-tag text-label-2">질문 {step + 1}</span>
+              <h1 className="record-questions-title text-title-3">{currentQuestion}</h1>
 
               <div className="record-questions-box">
                 <textarea
@@ -161,8 +158,8 @@ export default function RecordQuestionsPage() {
                 onClick={handleShuffleQuestion}
                 disabled={isShuffling}
               >
-                {isShuffling ? "질문을 바꾸는 중…" : "다른 질문 보기"}{" "}
-                <img src={refreshIcon} alt="" width={16} height={16} />
+                {isShuffling ? "질문을 바꾸는 중…" : "다른 질문 보기"}
+                <span className="record-questions-shuffle-icon" aria-hidden="true" />
               </button>
             </>
           )}

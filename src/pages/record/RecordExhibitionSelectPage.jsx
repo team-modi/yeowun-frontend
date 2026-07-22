@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 // components
 import Header from "@components/common/Header";
 import SearchBox from "@components/layout/SearchBox";
-import ExhibitListHeader from "@components/common/ExhibitListHeader";
-import FilterSheet from "@components/common/FilterSheet";
+import ExhibitionConfirmSheet from "@components/record/ExhibitionConfirmSheet";
 
 // api
 import { getExhibitionList } from "@api/exhibition";
@@ -13,14 +12,13 @@ import { getExhibitionList } from "@api/exhibition";
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
 
-// utils
-import { REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/filterCodes";
-
 // styles
 import "@styles/record/RecordExhibitionSelectPage.css";
 
 // icons
 import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
+
+const SEARCH_DEBOUNCE_MS = 250;
 
 export default function RecordExhibitionSelectPage() {
   const navigate = useNavigate();
@@ -28,135 +26,139 @@ export default function RecordExhibitionSelectPage() {
   const setExhibitionId = useRecordDraftStore((state) => state.setExhibitionId);
 
   const [keyword, setKeyword] = useState("");
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [sort, setSort] = useState("latest");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [region, setRegion] = useState(undefined);
-  const [category, setCategory] = useState(undefined);
   const [exhibitions, setExhibitions] = useState([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [selectedId, setSelectedId] = useState(null);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [confirmTarget, setConfirmTarget] = useState(null);
+
+  const trimmedKeyword = keyword.trim();
+  const hasQuery = trimmedKeyword.length > 0;
+
+  const [prevHasQuery, setPrevHasQuery] = useState(hasQuery);
+  if (hasQuery !== prevHasQuery) {
+    setPrevHasQuery(hasQuery);
+    if (!hasQuery) setExhibitions([]);
+  }
 
   useEffect(() => {
-    (async () => {
+    if (!hasQuery) return;
+
+    let ignore = false;
+    const timer = setTimeout(async () => {
       try {
-        const response = await getExhibitionList({
-          sort,
-          size: 20,
-          region,
-          category,
-          keyword: searchKeyword || undefined,
-        });
-        const content = response.data.data.content ?? [];
-        setExhibitions(content);
-        setTotalCount(response.data.data.totalElements ?? response.data.data.totalCount ?? content.length);
+        const response = await getExhibitionList({ keyword: trimmedKeyword, size: 20 });
+        if (ignore) return;
+        setExhibitions(response.data.data.content ?? []);
       } catch (error) {
         console.log(error);
+        if (!ignore) setExhibitions([]);
       }
-    })();
-  }, [sort, region, category, searchKeyword]);
+    }, SEARCH_DEBOUNCE_MS);
 
-  const handleApplyFilter = ({ regions, genres }) => {
-    setRegion(toCodeParam(regions, REGION_CODE_MAP));
-    setCategory(toCodeParam(genres, GENRE_CODE_MAP));
-  };
+    return () => {
+      ignore = true;
+      clearTimeout(timer);
+    };
+  }, [trimmedKeyword, hasQuery]);
 
-  const selectedExhibition = exhibitions.find((item) => item.exhibitionId === selectedId);
+  const handleGoToAddExhibition = () => navigate("/record/new");
 
-  const handleNext = () => {
-    if (!selectedExhibition) return;
+  const handleConfirm = () => {
+    if (!confirmTarget) return;
     setExhibitionDraft({
-      title: selectedExhibition.title,
-      artistLine: selectedExhibition.artistName ?? selectedExhibition.artist ?? "",
-      venueLine: selectedExhibition.place ?? "",
-      posterUrl: selectedExhibition.posterUrl,
-      startDate: selectedExhibition.startDate,
-      endDate: selectedExhibition.endDate,
+      title: confirmTarget.title,
+      artistLine: confirmTarget.artistSummary ?? confirmTarget.artistName ?? confirmTarget.artist ?? "",
+      venueLine: confirmTarget.place ?? "",
+      posterUrl: confirmTarget.posterUrl,
+      startDate: confirmTarget.startDate,
+      endDate: confirmTarget.endDate,
     });
-    setExhibitionId(selectedExhibition.exhibitionId);
+    setExhibitionId(confirmTarget.exhibitionId);
+    setConfirmTarget(null);
     navigate("/record/detail");
   };
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="기록 작성" onBack={() => navigate(-1)} />
+      <Header type="back" title="관람한 전시 선택" onBack={() => navigate(-1)} />
       <div className="app-content">
         <div className="app-content-pad record-select-body">
-          <h1 className="record-select-guide text-title-3">관람한 전시를 선택해주세요</h1>
+          {!isSearchActive && (
+            <div className="record-select-intro">
+              <h1 className="record-select-intro-title text-title-3">어떤 전시를 관람하셨나요?</h1>
+              <button
+                type="button"
+                className="record-select-add-link text-body-1-medium"
+                onClick={handleGoToAddExhibition}
+              >
+                전시 직접 추가하기
+                <img src={chevronRightIcon} alt="" width={16} height={16} />
+              </button>
+            </div>
+          )}
 
           <SearchBox
             value={keyword}
             onChange={setKeyword}
-            onSubmit={setSearchKeyword}
-            placeholder="전시명을 검색해보세요"
+            onSubmit={setKeyword}
+            onFocus={() => setIsSearchActive(true)}
+            placeholder="전시명, 작가명, 장소를 검색해보세요"
           />
 
-          <ExhibitListHeader
-            total={totalCount}
-            sort={sort}
-            onSortChange={setSort}
-            onFilterClick={() => setIsFilterOpen(true)}
-          />
-
-          <FilterSheet
-            isOpen={isFilterOpen}
-            onClose={() => setIsFilterOpen(false)}
-            totalCount={totalCount}
-            onApply={handleApplyFilter}
-          />
-
-          <div className="record-select-list">
-            {exhibitions.map((exhibit) => (
+          {isSearchActive && hasQuery && exhibitions.length === 0 && (
+            <div className="record-select-empty">
+              <div className="record-select-empty-icon" aria-hidden="true" />
+              <p className="record-select-empty-title text-body-1-medium">찾는 전시가 없어요</p>
+              <p className="record-select-empty-desc text-body-2-regular">
+                검색어를 다시 확인하거나 직접 추가해 주세요
+              </p>
               <button
-                key={exhibit.exhibitionId}
                 type="button"
-                className={`record-select-item ${selectedId === exhibit.exhibitionId ? "is-selected" : ""}`}
-                onClick={() => setSelectedId(exhibit.exhibitionId)}
+                className="record-select-add-btn text-body-1-medium"
+                onClick={handleGoToAddExhibition}
               >
-                <div
-                  className="record-select-item-thumb"
-                  style={exhibit.posterUrl ? { backgroundImage: `url(${exhibit.posterUrl})` } : undefined}
-                />
-                <div className="record-select-item-content">
-                  <p className="record-select-item-title text-body-1-medium">{exhibit.title}</p>
-                  {(exhibit.artistName ?? exhibit.artist) && (
-                    <p className="record-select-item-artist text-body-2-regular">
-                      {exhibit.artistName ?? exhibit.artist}
-                    </p>
-                  )}
-                  <p className="record-select-item-place text-body-2-regular">{exhibit.place}</p>
-                  <p className="record-select-item-date text-caption-1">
-                    {exhibit.startDate} ~ {exhibit.endDate}
-                  </p>
-                </div>
+                전시 직접 추가하기
+                <img src={chevronRightIcon} alt="" width={16} height={16} />
               </button>
-            ))}
-          </div>
+            </div>
+          )}
+
+          {isSearchActive && hasQuery && exhibitions.length > 0 && (
+            <div className="record-select-list">
+              {exhibitions.map((exhibit) => (
+                <button
+                  key={exhibit.exhibitionId}
+                  type="button"
+                  className="record-select-item"
+                  onClick={() => setConfirmTarget(exhibit)}
+                >
+                  <div
+                    className="record-select-item-thumb"
+                    style={exhibit.posterUrl ? { backgroundImage: `url(${exhibit.posterUrl})` } : undefined}
+                  />
+                  <div className="record-select-item-content">
+                    <p className="record-select-item-title text-body-1-medium">{exhibit.title}</p>
+                    {(exhibit.artistSummary ?? exhibit.artistName ?? exhibit.artist) && (
+                      <p className="record-select-item-artist text-body-2-regular">
+                        {exhibit.artistSummary ?? exhibit.artistName ?? exhibit.artist}
+                      </p>
+                    )}
+                    <p className="record-select-item-place text-body-2-regular">{exhibit.place}</p>
+                    <p className="record-select-item-date text-caption-1">
+                      {exhibit.startDate} ~ {exhibit.endDate}
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      <div className="record-select-banner">
-        <span className="text-body-2-regular">찾으시는 전시가 없거나 종료 되었나요?</span>
-        <button
-          type="button"
-          className="record-select-banner-link text-body-1-medium"
-          onClick={() => navigate("/record/new")}
-        >
-          전시 직접 추가하기
-          <img src={chevronRightIcon} alt="" width={16} height={16} />
-        </button>
-      </div>
-
-      <div className="record-select-footer">
-        <button
-          type="button"
-          className="record-select-submit text-body-1-medium"
-          disabled={!selectedExhibition}
-          onClick={handleNext}
-        >
-          다음
-        </button>
-      </div>
+      <ExhibitionConfirmSheet
+        exhibition={confirmTarget}
+        onCancel={() => setConfirmTarget(null)}
+        onConfirm={handleConfirm}
+      />
     </div>
   );
 }

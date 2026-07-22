@@ -73,10 +73,10 @@
   justify-content: center;
   gap: 6px;
   margin: 16px auto 0;
-  padding: 10px 16px;
-  border: 1px solid var(--color-border-default);
-  border-radius: 999px;
-  color: var(--color-text-secondary);
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: #f1f3ff;
+  color: #6370e5;
 }
 
 .record-compose-footer {

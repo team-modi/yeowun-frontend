@@ -49,6 +49,23 @@
   color: var(--color-text-primary);
 }
 
+.record-detail-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.record-detail-section-header .record-detail-section-title {
+  margin: 0;
+}
+
+.record-detail-section-hint {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+}
+
 .record-detail-section-desc {
   margin: 0 0 12px;
   color: var(--color-text-tertiary);
@@ -75,31 +92,37 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+  margin-bottom: 12px;
 }
 
 .record-detail-emotion-chip {
-  padding: 10px 16px;
-  border-radius: 999px;
-  background-color: var(--color-brand-primary);
+  padding: 5px 10px;
+  border-radius: 8px;
+  background-color: var(--color-accent-primary);
   color: var(--color-text-inverse);
 }
 
-.record-detail-emotion-add,
-.record-detail-emotion-edit {
+.record-detail-emotion-add {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
   border: 1px solid var(--color-border-default);
   background-color: var(--color-surface-default);
-  color: var(--color-text-secondary);
+  color: #a0a4b1;
 }
 
-.record-detail-emotion-add {
-  width: 100%;
+.record-detail-emotion-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  padding: 5px 10px;
   border-radius: 12px;
+  background-color: #f4f4f6;
+  color: #7b808f;
 }
 
 .record-detail-media-grid {

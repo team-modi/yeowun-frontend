@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 
 // components
 import Header from "@components/common/Header";
+import SearchBox from "@components/layout/SearchBox";
 
 // api
 import { searchVenues } from "@api/venue";
+
+// styles
+import "@styles/record/VenueSearchPanel.css";
 
 export default function VenueSearchPanel({ isOpen, onClose, onSelect }) {
   const [keyword, setKeyword] = useState("");
@@ -43,17 +47,13 @@ export default function VenueSearchPanel({ isOpen, onClose, onSelect }) {
     <div className="venue-search-panel">
       <Header type="back" title="전시관 선택" onBack={onClose} />
       <div className="venue-search-panel-body">
-        <div className="venue-search-input-box">
-          <input
-            type="search"
-            inputMode="search"
-            className="venue-search-input text-body-1-regular"
-            value={keyword}
-            onChange={(event) => setKeyword(event.target.value)}
-            placeholder="전시관명 검색"
-            autoFocus
-          />
-        </div>
+        <SearchBox
+          value={keyword}
+          onChange={setKeyword}
+          onClear={() => setKeyword("")}
+          placeholder="전시관명 검색"
+          autoFocus
+        />
         <ul className="venue-search-list">
           {visibleVenues.map((venue) => (
             <li key={venue.venueId ?? venue.id ?? venue.name}>

@@ -19,7 +19,8 @@
 }
 
 .mode-option-card.is-selected {
-  border: 2px solid var(--color-brand-primary);
+  border: 2px solid var(--color-accent-primary);
+  background-color: var(--color-accent-subtle);
 }
 
 .mode-option-card-icon {

@@ -43,10 +43,10 @@ export default function RecordCompletePage() {
 
       <div className="record-complete-footer">
         <button type="button" className="record-complete-primary text-body-1-medium" onClick={handleGoToRecord}>
-          기록 보러가기
+          기록 보러 가기
         </button>
         <button type="button" className="record-complete-secondary text-body-1-medium" onClick={handleGoHome}>
-          홈으로 가기
+          홈으로
         </button>
       </div>
     </div>

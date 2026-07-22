@@ -1,0 +1,41 @@
+.genre-sheet-title {
+  margin: 0 0 4px;
+  color: var(--color-text-primary);
+}
+
+.genre-sheet-desc {
+  margin: 0 0 20px;
+  color: var(--color-text-tertiary);
+}
+
+.genre-sheet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.genre-chip {
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-secondary);
+}
+
+.genre-chip .is-selected {
+  background-color: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+  color: var(--color-text-inverse);
+
+  background-color: var(--color-accent-primary);
+  color: var(--color-text-inverse);
+}
+
+.genre-sheet-submit {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}

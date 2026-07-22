@@ -1,14 +1,68 @@
-.record-select-guide {
-  margin: 8px 0 16px;
+.record-select-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.record-select-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0 8px;
+  text-align: center;
+}
+
+.record-select-intro-title {
+  margin: 0;
   color: var(--color-text-primary);
 }
 
+.record-select-add-link,
+.record-select-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  background: #f4f4f6;
+}
+
+/* 검색 결과 없음 상태 */
+.record-select-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 56px 20px 24px;
+  text-align: center;
+}
+
+.record-select-empty-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+  border-radius: 16px;
+  background-color: var(--color-brand-subtle);
+}
+
+.record-select-empty-title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.record-select-empty-desc {
+  margin: 0 0 8px;
+  color: var(--color-text-tertiary);
+}
+
+/* 검색 결과 목록 */
 .record-select-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 12px;
-  padding-bottom: 72px;
 }
 
 .record-select-item {
@@ -20,10 +74,6 @@
   border: 1px solid var(--color-border-default);
   background-color: var(--color-surface-default);
   text-align: left;
-}
-
-.record-select-item.is-selected {
-  border: 2px solid var(--color-brand-primary);
 }
 
 .record-select-item-thumb {
@@ -41,6 +91,7 @@
   flex-direction: column;
   gap: 2px;
   justify-content: center;
+  min-width: 0;
 }
 
 .record-select-item-title {
@@ -53,55 +104,4 @@
 .record-select-item-date {
   margin: 0;
   color: var(--color-text-tertiary);
-}
-
-.record-select-banner {
-  position: fixed;
-  bottom: 84px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(var(--app-width) - 40px);
-  max-width: calc(100% - 40px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 14px 16px;
-  border-radius: 14px;
-  background-color: var(--color-overlay-dim);
-  color: var(--color-text-inverse);
-}
-
-.record-select-banner-link {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  color: var(--color-text-inverse);
-  white-space: nowrap;
-}
-
-.record-select-footer {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: var(--app-width);
-  max-width: 100%;
-  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
-  background-color: var(--color-surface-default);
-  box-sizing: border-box;
-}
-
-.record-select-submit {
-  width: 100%;
-  padding: 16px 0;
-  border-radius: 14px;
-  background-color: var(--color-brand-primary);
-  color: var(--color-text-inverse);
-}
-
-.record-select-submit:disabled {
-  background-color: var(--color-brand-subtle);
-  color: var(--color-text-disabled);
-  cursor: not-allowed;
 }

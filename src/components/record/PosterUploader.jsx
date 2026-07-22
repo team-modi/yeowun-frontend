@@ -27,7 +27,7 @@ export default function PosterUploader({ value = null, onChange }) {
       ) : (
         <div className="poster-uploader-placeholder">
           <img src={imageAddIcon} alt="" width={28} height={28} />
-          <span className="poster-uploader-label text-label-2">전시 포스터 추가</span>
+          <span className="poster-uploader-label text-label-2">포스터 사진 추가</span>
         </div>
       )}
       <input

@@ -16,37 +16,47 @@ import "@styles/record/EmotionKeywordSheet.css";
 
 // icons
 import addIcon from "@images/icons/Action/Add.svg";
+import closeIcon from "@images/icons/Action/Close.svg";
+import chevronDownIcon from "@images/icons/Action/Chevron Down.svg";
+import chevronUpIcon from "@images/icons/Action/Chevron Up.svg";
 
 const CUSTOM_MIN_LENGTH = 2;
 const CUSTOM_MAX_LENGTH = 10;
+const RECENT_VISIBLE_COUNT = 8;
 
 export default function EmotionKeywordSheet({ isOpen, onClose, value = [], onApply }) {
   const [selected, setSelected] = useState(value);
   const [customInput, setCustomInput] = useState("");
-  const [recent, setRecent] = useState(getRecentEmotionKeywords);
+  const [recentKeywords, setRecentKeywords] = useState(getRecentEmotionKeywords);
+  const [isRecentExpanded, setIsRecentExpanded] = useState(false);
 
-  // 시트가 열릴 때마다 부모의 최신 선택값·최근 키워드로 동기화한다.
-  const [prevOpen, setPrevOpen] = useState(isOpen);
-  if (isOpen !== prevOpen) {
-    setPrevOpen(isOpen);
+  // 시트가 열릴 때마다 부모의 최신 선택값·최근 키워드로 동기화한다 — effect 대신 렌더 중
+  // 이전 isOpen과 비교해서 처리한다(BottomSheet.jsx의 prevIsOpen 패턴과 동일).
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
     if (isOpen) {
       setSelected(value);
       setCustomInput("");
-      setRecent(getRecentEmotionKeywords());
+      setRecentKeywords(getRecentEmotionKeywords());
     }
   }
 
-  const toggle = (keyword) => {
+  const toggleOption = (keyword) => {
     setSelected((prev) => (prev.includes(keyword) ? prev.filter((item) => item !== keyword) : [...prev, keyword]));
   };
 
   const handleAddCustom = () => {
     const keyword = customInput.trim();
-    if (keyword.length < CUSTOM_MIN_LENGTH) return;
-    if (!selected.includes(keyword)) setSelected((prev) => [...prev, keyword]);
+    if (keyword.length < CUSTOM_MIN_LENGTH || selected.includes(keyword)) return;
+    setSelected((prev) => [...prev, keyword]);
     pushRecentEmotionKeyword(keyword);
-    setRecent(getRecentEmotionKeywords());
+    setRecentKeywords(getRecentEmotionKeywords());
     setCustomInput("");
+  };
+
+  const handleRemoveCustom = (keyword) => {
+    setSelected((prev) => prev.filter((item) => item !== keyword));
   };
 
   const handleApply = () => {
@@ -54,37 +64,28 @@ export default function EmotionKeywordSheet({ isOpen, onClose, value = [], onApp
     onClose?.();
   };
 
-  // 최근 키워드 중 추천에 이미 있는 건 추천 섹션에서 보이므로 중복 제거.
-  const recentOnly = recent.filter((keyword) => !RECOMMENDED_EMOTIONS.has(keyword));
-
-  const chip = (keyword) => (
-    <button
-      key={keyword}
-      type="button"
-      className={`emotion-chip text-label-2${selected.includes(keyword) ? " is-selected" : ""}`}
-      onClick={() => toggle(keyword)}
-    >
-      {keyword}
-    </button>
-  );
+  // 추천 목록에 이미 있는 키워드는 "나만의 키워드" 목록에 다시 안 보이게 걸러낸다.
+  const customKeywords = selected.filter((item) => !RECOMMENDED_EMOTIONS.has(item));
+  const visibleRecent = isRecentExpanded ? recentKeywords : recentKeywords.slice(0, RECENT_VISIBLE_COUNT);
+  const hiddenRecentCount = Math.max(recentKeywords.length - RECENT_VISIBLE_COUNT, 0);
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose} className="emotion-sheet">
-      <div className="emotion-sheet-head">
-        <h2 className="emotion-sheet-title text-title-3">감정 키워드 추가</h2>
+    <BottomSheet isOpen={isOpen} onClose={onClose} className="emotion-keyword-sheet">
+      <div className="emotion-sheet-header">
+        <h2 className="emotion-sheet-title text-title-3">감정 키워드</h2>
         <button type="button" className="emotion-sheet-close" onClick={onClose} aria-label="닫기">
-          ×
+          <img src={closeIcon} alt="" width={18} height={18} />
         </button>
       </div>
 
-      <div className="emotion-sheet-scroll">
-        <section className="emotion-sheet-section">
+      <div className="emotion-sheet-body">
+        <div className="emotion-sheet-custom">
           <h3 className="emotion-sheet-section-title text-heading-2">나만의 키워드</h3>
-          <p className="emotion-sheet-section-desc text-caption-1">목록에 없는 감정은 직접 입력해 보세요</p>
+          <p className="emotion-sheet-section-desc text-body-2-regular">목록에 없는 감정은 직접 입력해 보세요</p>
           <div className="emotion-sheet-custom-input-row">
             <input
               type="text"
-              className="emotion-sheet-custom-input text-body-2-regular"
+              className="emotion-sheet-custom-input text-body-1-regular"
               value={customInput}
               maxLength={CUSTOM_MAX_LENGTH}
               onChange={(event) => setCustomInput(event.target.value)}
@@ -103,32 +104,77 @@ export default function EmotionKeywordSheet({ isOpen, onClose, value = [], onApp
               onClick={handleAddCustom}
               aria-label="키워드 추가"
             >
-              <img src={addIcon} alt="" width={18} height={18} />
+              <img src={addIcon} alt="" width={16} height={16} />
             </button>
           </div>
-        </section>
 
-        {recentOnly.length > 0 && (
-          <section className="emotion-sheet-section">
+          {customKeywords.length > 0 && (
+            <div className="emotion-sheet-custom-list">
+              {customKeywords.map((keyword) => (
+                <span key={keyword} className="emotion-sheet-custom-pill text-label-2">
+                  {keyword}
+                  <button type="button" onClick={() => handleRemoveCustom(keyword)} aria-label={`${keyword} 삭제`}>
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {recentKeywords.length > 0 && (
+          <div className="emotion-sheet-recent">
             <h3 className="emotion-sheet-section-title text-heading-2">
-              최근 만든 키워드 <span className="emotion-sheet-count">{recentOnly.length}</span>
+              최근 만든 키워드{" "}
+              <span className="emotion-sheet-recent-count text-body-2-regular">{recentKeywords.length}</span>
             </h3>
-            <div className="emotion-sheet-chips">{recentOnly.map(chip)}</div>
-          </section>
+            <div className="emotion-sheet-chips">
+              {visibleRecent.map((keyword) => (
+                <button
+                  key={keyword}
+                  type="button"
+                  className={`emotion-chip text-label-2 ${selected.includes(keyword) ? "is-selected" : ""}`}
+                  onClick={() => toggleOption(keyword)}
+                >
+                  {keyword}
+                </button>
+              ))}
+              {hiddenRecentCount > 0 && (
+                <button
+                  type="button"
+                  className="emotion-chip emotion-chip--toggle text-label-2"
+                  onClick={() => setIsRecentExpanded((prev) => !prev)}
+                >
+                  {isRecentExpanded ? "접기" : `+${hiddenRecentCount}`}
+                  <img src={isRecentExpanded ? chevronUpIcon : chevronDownIcon} alt="" width={12} height={12} />
+                </button>
+              )}
+            </div>
+          </div>
         )}
 
-        <section className="emotion-sheet-section">
+        <div className="emotion-sheet-recommend">
           <h3 className="emotion-sheet-section-title text-heading-2">추천 키워드</h3>
-          <p className="emotion-sheet-section-desc text-caption-1">
-            전시를 다시 떠올렸을 때 마음에 가까운 감정을 골라보세요
-          </p>
+          <p className="emotion-sheet-section-desc text-body-2-regular">전시를 보고 마음에 남은 감정을 골라보세요</p>
+
           {RECOMMENDED_EMOTION_GROUPS.map((group) => (
             <div key={group.category} className="emotion-sheet-group">
-              <p className="emotion-sheet-group-title text-label-2">{group.category}</p>
-              <div className="emotion-sheet-chips">{group.keywords.map(chip)}</div>
+              <h4 className="emotion-sheet-group-title text-label-1">{group.category}</h4>
+              <div className="emotion-sheet-chips">
+                {group.keywords.map((keyword) => (
+                  <button
+                    key={keyword}
+                    type="button"
+                    className={`emotion-chip text-label-2 ${selected.includes(keyword) ? "is-selected" : ""}`}
+                    onClick={() => toggleOption(keyword)}
+                  >
+                    {keyword}
+                  </button>
+                ))}
+              </div>
             </div>
           ))}
-        </section>
+        </div>
       </div>
 
       <button type="button" className="emotion-sheet-submit text-body-1-medium" onClick={handleApply}>

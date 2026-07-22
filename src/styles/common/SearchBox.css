@@ -21,6 +21,14 @@
   outline: none;
   background: transparent;
   color: var(--color-text-primary);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-box-input::-webkit-search-cancel-button,
+.search-box-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  display: none;
 }
 
 .search-box-input::placeholder {
@@ -29,4 +37,12 @@
 
 .search-box:focus-within {
   border-color: var(--color-border-strong);
+}
+
+.search-box-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-icon-tertiary);
 }

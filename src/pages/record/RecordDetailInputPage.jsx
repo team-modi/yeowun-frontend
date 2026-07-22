@@ -10,20 +10,26 @@ import MediaAttachSheet from "@components/record/MediaAttachSheet";
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
 
+// utils
+import { WEEKDAYS } from "@utils/filterCodes";
+
 // styles
 import "@styles/record/RecordDetailInputPage.css";
 
 // icons
 import calendarIcon from "@images/icons/Info/Calendar.svg";
 import plusIcon from "@images/icons/Action/Add.svg";
+import writeIcon from "@images/icons/Action/Write.svg";
 import imageAddIcon from "@images/icons/Action/Image Add.svg";
 
 const MAX_MEDIA = 5;
 
+// "YYYY-MM-DD" -> "YYYY년 MM월 D일(요일)"
 function formatDateDot(dateKey) {
   if (!dateKey) return "";
   const [year, month, day] = dateKey.split("-");
-  return `${year}년 ${Number(month)}월 ${Number(day)}일`;
+  const weekday = WEEKDAYS[new Date(Number(year), Number(month) - 1, Number(day)).getDay()];
+  return `${year}년 ${month}월 ${Number(day)}일(${weekday})`;
 }
 
 export default function RecordDetailInputPage() {
@@ -39,7 +45,6 @@ export default function RecordDetailInputPage() {
   const [isDateSheetOpen, setIsDateSheetOpen] = useState(false);
   const [isEmotionSheetOpen, setIsEmotionSheetOpen] = useState(false);
   const [isMediaSheetOpen, setIsMediaSheetOpen] = useState(false);
-  // item.url별로 로드 실패 여부를 기록 — 깨진 URL이나 R2 접근 오류 등으로 이미지/영상이 안 열리면 자리에 "불러오기 실패"를 보여준다.
   const [mediaLoadErrors, setMediaLoadErrors] = useState({});
 
   const handleAddMedia = (items) => {
@@ -98,35 +103,40 @@ export default function RecordDetailInputPage() {
               전시를 보고 마음에 남았던 감정을 선택해 보세요
             </p>
             {emotionCodes.length > 0 ? (
-              <div className="record-detail-emotion-chips">
-                {emotionCodes.map((keyword) => (
-                  <span key={keyword} className="record-detail-emotion-chip text-label-2">
-                    {keyword}
-                  </span>
-                ))}
+              <>
+                <div className="record-detail-emotion-chips">
+                  {emotionCodes.map((keyword) => (
+                    <span key={keyword} className="record-detail-emotion-chip text-label-2">
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
                 <button
                   type="button"
-                  className="record-detail-emotion-edit"
+                  className="record-detail-emotion-edit text-body-2-regular"
                   onClick={() => setIsEmotionSheetOpen(true)}
-                  aria-label="감정 키워드 수정"
                 >
-                  <img src={plusIcon} alt="" width={16} height={16} />
+                  키워드 편집하기
+                  <img src={writeIcon} alt="" width={14} height={14} />
                 </button>
-              </div>
+              </>
             ) : (
               <button
                 type="button"
-                className="record-detail-emotion-add"
+                className="record-detail-emotion-add text-body-1-regular"
                 onClick={() => setIsEmotionSheetOpen(true)}
-                aria-label="감정 키워드 추가"
               >
-                <img src={plusIcon} alt="" width={16} height={16} />
+                감정 키워드 추가하기
+                <img src={plusIcon} alt="" width={18} height={18} />
               </button>
             )}
           </section>
 
           <section className="record-detail-section">
-            <h2 className="record-detail-section-title text-heading-2">기억에 남은 장면</h2>
+            <div className="record-detail-section-header">
+              <h2 className="record-detail-section-title text-heading-2">기억에 남은 장면</h2>
+              <span className="record-detail-section-hint text-caption-1">최대 {MAX_MEDIA}개 · 영상은 30초 이하</span>
+            </div>
             <p className="record-detail-section-desc text-body-2-regular">
               전시를 떠올릴 수 있는 장면이 있다면 추가해 주세요
             </p>
