@@ -14,6 +14,7 @@ import BookmarkedExhibitionsPage from "@pages/profile/BookmarkedExhibitionsPage"
 import ExhibitionPage from "@pages/ExhibitionPage";
 import DetailExhibitionPage from "@pages/exhibition/DetailExhibitionPage";
 import DetailRecordPage from "@pages/record/DetailRecordPage";
+import RecordEditPage from "@pages/record/RecordEditPage";
 import ArchivePage from "@pages/ArchivePage";
 import NotificationPage from "@pages/home/NotificationPage";
 import RecordPage from "@pages/RecordPage";
@@ -156,6 +157,14 @@ export const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <RecordCompletePage />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/record/:recordId/edit",
+    element: (
+      <RequireAuth>
+        <RecordEditPage />
       </RequireAuth>
     ),
   },

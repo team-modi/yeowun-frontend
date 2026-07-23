@@ -1,45 +1,173 @@
-.remind-summary-loading {
-  padding: 60px 20px;
-  text-align: center;
+.remind-summary {
+  padding-bottom: 40px;
+}
+
+.remind-summary-lead {
+  margin: 8px 0 4px;
+  color: var(--color-text-primary);
+  line-height: 1.45;
+}
+
+/* ── 타임라인 ── */
+.remind-timeline {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+}
+
+.remind-timeline-node {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 28px;
+}
+
+.remind-timeline-node:last-child {
+  padding-bottom: 0;
+}
+
+.remind-timeline-rail {
+  position: relative;
+  flex: 0 0 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.remind-timeline-dot {
+  width: 11px;
+  height: 11px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background-color: var(--color-brand-primary);
+  z-index: 1;
+}
+
+/* 노드 사이를 잇는 세로선(마지막 노드 제외) */
+.remind-timeline-node:not(:last-child) .remind-timeline-rail::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  background-color: var(--color-border-default);
+}
+
+.remind-timeline-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.remind-timeline-date {
+  margin: 0 0 2px;
   color: var(--color-text-tertiary);
 }
 
-.remind-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.remind-timeline-label {
+  margin: 0 0 10px;
+  color: var(--color-text-primary);
 }
 
-.remind-summary-exhibition {
+/* 전시 관람 카드(표시 전용) */
+.remind-timeline-exhibition {
   display: flex;
-  align-items: center;
-  gap: 14px;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
 }
 
-.remind-summary-poster {
-  flex-shrink: 0;
-  width: 64px;
-  height: 84px;
+.remind-timeline-poster {
+  flex: 0 0 auto;
+  width: 48px;
+  aspect-ratio: 3 / 4;
   border-radius: 8px;
-  background-color: var(--color-surface-2);
+  background-color: var(--color-brand-subtle);
   background-size: cover;
   background-position: center;
 }
 
-.remind-summary-title {
-  margin: 0 0 4px;
+.remind-timeline-ex-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.remind-timeline-ex-title {
+  margin: 0;
   color: var(--color-text-primary);
 }
 
-.remind-summary-meta {
+.remind-timeline-ex-place {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   margin: 0;
   color: var(--color-text-tertiary);
 }
 
-/* AI 감정 변화 요약 — 액센트 톤 박스 */
+/* 기록/여운 카드(탭 시 전문 시트) */
+.remind-timeline-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  text-align: left;
+}
+
+.remind-timeline-card-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.remind-timeline-card-text {
+  margin: 0;
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.remind-timeline-chevron {
+  flex: 0 0 auto;
+  color: var(--color-text-tertiary);
+}
+
+/* 감정칩(미리보기/시트 공용) */
+.remind-summary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.remind-summary-chip {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-text-brand);
+}
+
+.remind-summary-chip--more {
+  background-color: var(--color-bg-default);
+  color: var(--color-text-tertiary);
+}
+
+/* AI 요약 — 시안엔 없어 하단에 옅게 유지 */
 .remind-summary-ai {
+  margin-top: 28px;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 14px;
   background-color: var(--color-accent-subtle);
 }
 
@@ -54,30 +182,43 @@
   line-height: 1.6;
 }
 
-.remind-summary-section-title {
+.remind-summary-loading {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+/* ── 여운/기록 상세 바텀시트 ── */
+.bottom-sheet.remind-summary-sheet {
+  height: auto;
+}
+
+.remind-summary-sheet-title {
+  margin: 0 0 20px;
+  color: var(--color-text-primary);
+}
+
+.remind-summary-sheet-section {
+  margin-bottom: 20px;
+}
+
+.remind-summary-sheet-heading {
   margin: 0 0 10px;
   color: var(--color-text-primary);
 }
 
-.remind-summary-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.remind-summary-chip {
-  padding: 6px 12px;
-  border-radius: 8px;
-  background-color: var(--color-accent-subtle);
-  color: var(--color-text-brand);
-}
-
-.remind-summary-text {
+.remind-summary-sheet-text {
   margin: 0;
-  padding: 14px 16px;
-  border-radius: 12px;
-  background-color: var(--color-bg-default);
   color: var(--color-text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.remind-summary-sheet-close {
+  width: 100%;
+  margin-top: 8px;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
 }
