@@ -94,6 +94,21 @@ export function formatElapsed(dateInput) {
   return `${Math.floor(diffDay / 365)}년 전`;
 }
 
+// 두 시점 사이 경과를 "N일/주/개월/년" 크기로만 돌려준다(맥락 접미사는 호출부에서 붙임).
+// from=관람일("YYYY-MM-DD" LocalDate), to=여운 작성 시각(ISO ZonedDateTime).
+export function formatElapsedBetween(fromDate, toDate) {
+  if (!fromDate || !toDate) return "";
+  const from = new Date(typeof fromDate === "string" && fromDate.length === 10 ? `${fromDate}T00:00:00` : fromDate);
+  const to = new Date(toDate);
+  if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) return "";
+  const diffDay = Math.floor((to.getTime() - from.getTime()) / 86400000);
+  if (diffDay < 1) return "하루";
+  if (diffDay < 7) return `${diffDay}일`;
+  if (diffDay < 28) return `${Math.floor(diffDay / 7)}주`;
+  if (diffDay < 365) return `${Math.floor(diffDay / 30)}개월`;
+  return `${Math.floor(diffDay / 365)}년`;
+}
+
 const REMIND_COMPLETED_DATE_KEY = "modi:remindCompletedDate";
 
 function todayKey() {

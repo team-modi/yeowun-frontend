@@ -40,6 +40,11 @@
   gap: 20px 12px;
 }
 
+.archive-list {
+  display: flex;
+  flex-direction: column;
+}
+
 .archive-empty {
   padding: 80px 20px;
   text-align: center;
