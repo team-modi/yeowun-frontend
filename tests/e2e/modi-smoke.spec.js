@@ -6,7 +6,7 @@ test.describe("카카오 로그인 스모크", () => {
   test("초기 진입 → 로그인 버튼 노출", async ({ page }) => {
     await page.goto("/login");
     // await expect(page.getByRole("heading", { name: "여운" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "카카오로 로그인" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "카카오 로그인" })).toBeVisible();
   });
 
   test("루트(/) 접속 → /yeowun으로 리다이렉트", async ({ page }) => {
