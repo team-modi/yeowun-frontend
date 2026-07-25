@@ -1,0 +1,43 @@
+/* 기록 수정 — 입력 화면(RecordDetailInputPage.css) 스타일을 재사용하고 편집 전용만 덧붙인다. */
+.record-edit {
+  padding-bottom: 96px; /* 고정 푸터에 마지막 섹션이 가리지 않도록 */
+}
+
+.record-edit-box {
+  position: relative;
+}
+
+.record-edit-textarea {
+  width: 100%;
+  min-height: 160px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-primary);
+  resize: none;
+  box-sizing: border-box;
+  line-height: 1.7;
+}
+
+.record-edit-textarea::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.record-edit-count {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  color: var(--color-text-tertiary);
+}
+
+.record-edit-error {
+  margin: 0;
+  color: var(--color-status-error);
+}
+
+.record-edit-loading {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}

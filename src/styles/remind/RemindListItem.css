@@ -1,0 +1,63 @@
+/* 아카이브 리마인드 탭 리스트 행 */
+.remind-list-item {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 4px;
+  text-align: left;
+  align-items: flex-start;
+}
+
+.remind-list-item + .remind-list-item {
+  border-top: 1px solid var(--color-border-default);
+}
+
+.remind-list-thumb {
+  flex: 0 0 auto;
+  width: 66px;
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  background-color: var(--color-brand-subtle);
+  background-size: cover;
+  background-position: center;
+}
+
+.remind-list-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 경과 배지 — 연회색 둥근 박스 + 회색 텍스트(시안) */
+.remind-list-badge {
+  align-self: flex-start;
+  margin-bottom: 2px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-secondary);
+}
+
+.remind-list-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remind-list-preview {
+  margin: 2px 0 0;
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.remind-list-date {
+  margin-top: 4px;
+  color: var(--color-text-tertiary);
+}
