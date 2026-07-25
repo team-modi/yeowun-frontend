@@ -9,9 +9,11 @@ import { useRecordDraftStore } from "@store/useRecordDraftStore";
 // styles
 import "@styles/record/RecordCompletePage.css";
 
+// images
+import imgSaveSuccess from "@images/img_save_success.png";
+
 export default function RecordCompletePage() {
   const navigate = useNavigate();
-  const exhibitionDraft = useRecordDraftStore((state) => state.exhibitionDraft);
   const recordId = useRecordDraftStore((state) => state.recordId);
   const reset = useRecordDraftStore((state) => state.reset);
 
@@ -28,14 +30,11 @@ export default function RecordCompletePage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="기록 작성" onBack={handleGoHome} />
+      <Header type="sub" />
       <div className="app-content">
         <div className="app-content-pad record-complete">
-          <div className="record-complete-thumb">
-            {exhibitionDraft?.posterPreviewUrl && (
-              <img src={exhibitionDraft.posterPreviewUrl} alt="" className="record-complete-thumb-img" />
-            )}
-          </div>
+          <img src={imgSaveSuccess} alt="" width={120} height={120} />
+
           <h1 className="record-complete-title text-title-3">기록이 저장되었어요</h1>
           <p className="record-complete-subtitle text-body-2-regular">아카이브에서 언제든 다시 꺼내볼 수 있어요</p>
         </div>

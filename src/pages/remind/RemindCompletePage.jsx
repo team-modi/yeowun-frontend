@@ -4,6 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 // styles
 import "@styles/remind/RemindCompletePage.css";
 
+// images
+import imgSaveSuccess from "@images/img_save_success.png";
+
 export default function RemindCompletePage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,6 +22,7 @@ export default function RemindCompletePage() {
       <div className="app-content">
         <div className="app-content-pad remind-complete">
           <div className="remind-complete-thumb" />
+          <img src={imgSaveSuccess} alt="" width={120} height={120} />
           <h1 className="remind-complete-title text-title-3">오늘의 여운이 저장되었어요</h1>
           <p className="remind-complete-subtitle text-body-2-regular">
             아카이브의 &apos;리마인드&apos;에서

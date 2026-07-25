@@ -14,6 +14,9 @@ import { getExhibitionList } from "@api/exhibition";
 // util
 import { REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/filterCodes";
 
+// images
+import imgSearchEmpty from "@images/img_search_empty.png";
+
 const ExhibitionList = ({ type, data }) => {
   const [exhibitionData, setExhibitionData] = useState([]);
   const [sort, setSort] = useState("latest");
@@ -57,7 +60,7 @@ const ExhibitionList = ({ type, data }) => {
   };
 
   return (
-    <div>
+    <div className="exhibition-list-wrap">
       <ExhibitListHeader
         total={exhibitionData.length}
         sort={sort}
@@ -73,7 +76,7 @@ const ExhibitionList = ({ type, data }) => {
       <div className="exhibitionList-body">
         {isEmpty ? (
           <div className="exhibit-list-empty">
-            <div className="exhibit-list-empty-thumb" />
+            <img src={imgSearchEmpty} alt="" width={70} height={70} />
             <p className="exhibit-list-empty-title text-heading-2">검색 결과가 없어요</p>
             <p className="exhibit-list-empty-desc text-body-2-regular">다른 키워드로 검색해 보세요</p>
           </div>

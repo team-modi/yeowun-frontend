@@ -14,6 +14,11 @@ import { REDIRECT_AFTER_LOGIN_KEY } from "@router/RootRedirect";
 // components
 import Header from "@components/common/Header";
 
+// images
+import logo from "@images/Logo.svg";
+import kakaoLogo from "@images/icons/logo/kakao_logo.svg";
+import naverLogo from "@images/icons/logo/naver_logo.svg";
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -79,20 +84,22 @@ export default function LoginPage() {
     <div className="app-shell">
       <Header type="back" title="여운" onBack={() => navigate("/", { replace: true })} />
       <div className="app-content login-content">
-        <div className="login-logo">Logo</div>
+        <img src={logo} alt="여운로고" />
         <div className="text-title-3" style={{ textAlign: "center" }}>
-          가입하고 나만의
+          전시의 감정을 기록하고
           <br />
-          여운을 남겨보세요
+          다시 꺼내보는 공간
         </div>
         {status === "error" && <p role="alert">로그인에 실패했어요. 다시 시도해 주세요.</p>}
         <div className="login-buttons">
           <button type="button" className="login-button login-button--kakao" onClick={startKakaoLogin}>
-            카카오로 로그인
+            <img src={kakaoLogo} alt="카카오아이콘" />
+            카카오 로그인
           </button>
           {isNaverConfigured() && (
             <button type="button" className="login-button login-button--naver" onClick={startNaverLogin}>
-              네이버로 로그인
+              <img src={naverLogo} alt="네이버아이콘" />
+              네이버 로그인
             </button>
           )}
         </div>

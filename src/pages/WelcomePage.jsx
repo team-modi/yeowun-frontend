@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-// components
-import Header from "@components/common/Header";
-
 // api
 import { getUserInfo } from "@api/user";
 
 // styles
 import "@styles/login/WelcomePage.css";
+
+// images
+import logo from "@images/Logo.svg";
 
 export default function WelcomePage() {
   const navigate = useNavigate();
@@ -38,9 +38,8 @@ export default function WelcomePage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" onBack={() => navigate("/login", { replace: true })} />
       <div className="app-content welcome-content">
-        <div className="welcome-logo">Logo</div>
+        <img src={logo} alt="여운로고" />
         <p className="welcome-message text-title-3">
           반가워요{name && `, ${name}님`}
           <br />
@@ -51,10 +50,10 @@ export default function WelcomePage() {
       <div className="welcome-footer">
         <button
           type="button"
-          className="welcome-next text-body-1-medium"
+          className="profile-edit-submit text-body-1-medium"
           onClick={() => navigate("/yeowun", { replace: true })}
         >
-          다음
+          여운 시작하기
         </button>
       </div>
     </div>
