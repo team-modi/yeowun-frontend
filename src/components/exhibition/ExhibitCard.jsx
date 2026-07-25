@@ -11,6 +11,9 @@ import { addExhibitionBookmark, deleteExhibitionBookmark } from "@api/exhibition
 import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 import bookmarkSelectedIcon from "@images/icons/Action/Bookmark_Selected.svg";
 
+// utils
+import { useIsLoggedIn } from "@utils/useIsLoggedIn";
+
 const MAX_VISIBLE_EMOTIONS = 2;
 
 const ExhibitCard = ({
@@ -30,6 +33,7 @@ const ExhibitCard = ({
   dateRange,
   bookmarked,
 }) => {
+  const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
   const isRecord = recordId != null;
 
@@ -82,7 +86,8 @@ const ExhibitCard = ({
           style={thumbnail ? { backgroundImage: `url(${thumbnail})` } : undefined}
         >
           {isRecord && !thumbnail && <span className="text-caption-1">Poster</span>}
-          {!isRecord && (
+
+          {isLoggedIn && !isRecord && (
             <button
               type="button"
               className="exhibit-card-v-bookmark-btn"
@@ -97,7 +102,7 @@ const ExhibitCard = ({
           {isRecord ? (
             <>
               <p className="exhibit-card-date">{formatMonthDayDot(viewedAt)}</p>
-              <p className="exhibit-card-title exhibit-card-title--clamp">{title}</p>
+              <p className="exhibit-card-title">{title}</p>
               {codes.length > 0 && (
                 <div className="exhibit-card-emotion-chips">
                   {visibleCodes.map((keyword) => (
@@ -141,7 +146,6 @@ const ExhibitCard = ({
             <p className="exhibit-row-date text-caption-1">{dateRange}</p>
           </div>
         </div>
-        {/* 아이콘 원본이 검정 고정이라, 마스크로 액센트 색을 입힌다. */}
         {bookmarked && <span className="exhibit-row-bookmark" role="img" aria-label="저장한 전시" />}
       </button>
     );
@@ -160,15 +164,17 @@ const ExhibitCard = ({
             {endBadge && <span className="exhibit-card-dday">{endBadge}</span>}
           </div>
         </div>
+        {isLoggedIn && (
+          <button
+            type="button"
+            className="exhibit-card-bookmark-btn"
+            onClick={handleToggleBookmark}
+            aria-label={isBookmarked ? "관심 전시 해제" : "관심 전시 등록"}
+          >
+            <img src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon} alt="" width={20} height={20} />
+          </button>
+        )}
       </div>
-      <button
-        type="button"
-        className="exhibit-card-bookmark-btn"
-        onClick={handleToggleBookmark}
-        aria-label={isBookmarked ? "관심 전시 해제" : "관심 전시 등록"}
-      >
-        <img src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon} alt="" width={20} height={20} />
-      </button>
     </div>
   );
 };

@@ -6,9 +6,13 @@ import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 import ExhibitionList from "@components/layout/ExhibitionList";
 import SearchBox from "@components/layout/SearchBox";
-import RemindEntryBanner from "@components/common/RemindEntryBanner";
+import RemindEntryBanner from "@components/remind/RemindEntryBanner";
+
+// utils
+import { useIsLoggedIn } from "@utils/useIsLoggedIn";
 
 const ExhibitionPage = () => {
+  const isLoggedIn = useIsLoggedIn();
   const [keyword, setKeyword] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const handleSearch = (value) => {
@@ -26,7 +30,7 @@ const ExhibitionPage = () => {
             onSubmit={handleSearch}
             placeholder="전시명, 작가명, 장소를 검색해보세요"
           />
-          <RemindEntryBanner />
+          {isLoggedIn && <RemindEntryBanner />}
           <ExhibitionList data={{ keyword: searchKeyword }} />
         </div>
       </div>

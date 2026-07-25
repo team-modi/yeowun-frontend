@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 17px;
-  margin-bottom: 30px;
+  margin: 30px 0;
 }
 
 .home-section-vertical {
@@ -113,13 +113,13 @@
   bottom: 16px;
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 16px;
   z-index: 2;
 }
 
 .banner-dot {
-  width: 65px;
-  height: 6px;
+  width: 44px;
+  height: 2px;
   border-radius: 7px;
   padding: 0;
   cursor: pointer;

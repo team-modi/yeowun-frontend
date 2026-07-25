@@ -7,6 +7,7 @@ import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
 import SortDropdown from "@components/layout/SortDropdown";
 import ExhibitCard from "@components/exhibition/ExhibitCard";
+import RemindListItem from "@components/remind/RemindListItem";
 
 // api
 import { getRecordList } from "@api/record";
@@ -140,9 +141,7 @@ export default function ArchivePage() {
 
         <div className="app-content-pad archive-body">
           <div className="archive-sort-row">
-            <span className="archive-count text-body-2-regular">
-              {config.label} {totalCount}
-            </span>
+            <span className="archive-count text-body-2-regular">전체 {totalCount}</span>
             <SortDropdown value={sort} onChange={setSort} options={SORT_OPTIONS} />
           </div>
 
@@ -152,32 +151,27 @@ export default function ArchivePage() {
             <p className="archive-empty text-body-1-regular">{config.emptyText}</p>
           ) : (
             <>
-              <div className="archive-grid">
-                {tab === "record"
-                  ? items.map((record) => (
-                      <ExhibitCard
-                        key={record.recordId}
-                        type="vertical"
-                        recordId={record.recordId}
-                        thumbnail={record.exhibitionPosterUrl}
-                        viewedAt={record.viewedAt}
-                        title={record.exhibitionTitle}
-                        emotionCodes={record.emotionCodes}
-                      />
-                    ))
-                  : items.map((remind) => (
-                      <ExhibitCard
-                        key={remind.remindId}
-                        type="vertical"
-                        recordId={remind.recordId}
-                        remindId={remind.remindId}
-                        thumbnail={remind.posterUrl}
-                        viewedAt={remind.viewedAt}
-                        title={remind.exhibitionTitle}
-                        emotionCodes={remind.emotionCodes}
-                      />
-                    ))}
-              </div>
+              {tab === "record" ? (
+                <div className="archive-grid">
+                  {items.map((record) => (
+                    <ExhibitCard
+                      key={record.recordId}
+                      type="vertical"
+                      recordId={record.recordId}
+                      thumbnail={record.exhibitionPosterUrl}
+                      viewedAt={record.viewedAt}
+                      title={record.exhibitionTitle}
+                      emotionCodes={record.emotionCodes}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="archive-list">
+                  {items.map((remind) => (
+                    <RemindListItem key={remind.remindId} remind={remind} />
+                  ))}
+                </div>
+              )}
               <div ref={sentinelRef} className="archive-sentinel" />
               {isLoadingMore && <p className="archive-loading-more text-body-2-regular">불러오는 중...</p>}
             </>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 // components
 import BottomSheet from "@components/common/BottomSheet";
+import ChipGroup from "@components/common/ChipGroup";
 
 // styles
 import "@styles/common/FilterSheet.css";
@@ -69,14 +70,22 @@ export default function FilterSheet({ isOpen, onClose, totalCount = 0, onApply }
       <h2 className="filter-sheet-title text-title-3">필터</h2>
 
       <ChipGroup
-        label="지역"
+        title="지역"
+        titleClassName="filter-sheet-group-title text-heading-2"
+        groupClassName="filter-sheet-group"
+        chipsClassName="filter-sheet-chips"
+        chipClassName="chip-group-option text-label-2"
         options={REGION_OPTIONS}
         selected={selectedRegions}
         onToggle={(value) => setSelectedRegions((prev) => toggleChip(prev, value))}
       />
 
       <ChipGroup
-        label="장르"
+        title="장르"
+        titleClassName="filter-sheet-group-title text-heading-2"
+        groupClassName="filter-sheet-group"
+        chipsClassName="filter-sheet-chips"
+        chipClassName="chip-group-option text-label-2"
         options={GENRE_OPTIONS}
         selected={selectedGenres}
         onToggle={(value) => setSelectedGenres((prev) => toggleChip(prev, value))}
@@ -92,25 +101,5 @@ export default function FilterSheet({ isOpen, onClose, totalCount = 0, onApply }
         </button>
       </div>
     </BottomSheet>
-  );
-}
-
-function ChipGroup({ label, options, selected, onToggle }) {
-  return (
-    <div className="filter-sheet-group">
-      <h3 className="filter-sheet-group-title text-heading-2">{label}</h3>
-      <div className="filter-sheet-chips">
-        {options.map((option) => (
-          <button
-            key={option.value}
-            type="button"
-            className={`filter-chip text-label-2 ${selected.includes(option.value) ? "is-selected" : ""}`}
-            onClick={() => onToggle(option.value)}
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
-    </div>
   );
 }
