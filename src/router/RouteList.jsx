@@ -1,25 +1,28 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-// pages
 // 홈
 import HomePage from "@pages/HomePage";
+import HomeDetailExhibitionPage from "@pages/home/HomeDetailExhibitionPage";
+
+// 전시상세정보
+import ExhibitionPage from "@pages/ExhibitionPage";
+import DetailExhibitionPage from "@pages/exhibition/DetailExhibitionPage";
+
+// 공통
+import NotificationPage from "@pages/common/NotificationPage"; // 알림
 
 import LoginPage from "@pages/LoginPage";
 import WelcomePage from "@pages/WelcomePage";
 
-import HomeDetailExhibitionPage from "@pages/home/HomeDetailExhibitionPage";
 import ProfilePage from "@pages/ProfilePage";
 import ProfileEditPage from "@pages/profile/ProfileEditPage";
 import RegionSelectPage from "@pages/profile/RegionSelectPage";
 import SettingsPage from "@pages/profile/SettingsPage";
 import VisitedExhibitionsPage from "@pages/profile/VisitedExhibitionsPage";
 import BookmarkedExhibitionsPage from "@pages/profile/BookmarkedExhibitionsPage";
-import ExhibitionPage from "@pages/ExhibitionPage";
-import DetailExhibitionPage from "@pages/exhibition/DetailExhibitionPage";
 import DetailRecordPage from "@pages/record/DetailRecordPage";
 import RecordEditPage from "@pages/record/RecordEditPage";
 import ArchivePage from "@pages/ArchivePage";
-import NotificationPage from "@pages/home/NotificationPage";
 import RecordPage from "@pages/RecordPage";
 import RecordExhibitionSelectPage from "@pages/record/RecordExhibitionSelectPage";
 import RecordDetailInputPage from "@pages/record/RecordDetailInputPage";

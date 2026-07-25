@@ -33,7 +33,7 @@ const Header = ({ type, title, onBack }) => {
   if (type === "notification" || type === "profile" || type === "bookmark") {
     return (
       <header className="app-header app-header--archive">
-        <h1 className="header-title-left text-heading-1">{title}</h1>
+        <p className="header-title-left text-heading-2">{title}</p>
         <div className="header-right-slot">
           {type === "notification" && (
             <button
