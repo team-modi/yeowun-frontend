@@ -20,7 +20,7 @@
   bottom: 0;
   width: var(--app-width);
   max-width: 100%;
-  margin: 0 auto;
+  margin: 5px auto;
   padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
   background-color: var(--color-surface-default);
   box-sizing: border-box;

@@ -82,7 +82,7 @@ export default function SettingsPage() {
   return (
     <div className="app-shell">
       <Header type="sub" title="설정" />
-      <div className="app-content">
+      <div className="app-content settings-page-content">
         <div className="app-content-pad settings-body">
           <section className="settings-section">
             <h2 className="settings-section-title text-heading-2">알림</h2>

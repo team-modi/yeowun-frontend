@@ -22,7 +22,7 @@
   bottom: 0;
   width: var(--app-width);
   max-width: 100%;
-  margin: 0 auto;
+  margin: 5px auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
