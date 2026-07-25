@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "@styles/common/Header.css";
 
 // images
+import logo from "@images/Logo.svg";
 import chevronLeftIcon from "@images/icons/Action/Chevron Left.svg";
 import settingsIcon from "@images/icons/Action/Settings.svg";
 import bellIcon from "@images/icons/Action/Bell.svg";
@@ -78,12 +79,18 @@ const Header = ({ type, title, onBack }) => {
 
   return (
     <header className="app-header app-header--main">
-      <div className="header-logo">Logo</div>
-      {isLoggedIn && (
-        <button type="button" className="header-icon-btn" onClick={() => navigate("/notifications")} aria-label="알림">
-          <img src={bellIcon} alt="" width={20} height={20} />
-        </button>
-      )}
+      <img src={logo} alt="여운로고" />
+      {isLoggedIn ||
+        (type !== "sub" && (
+          <button
+            type="button"
+            className="header-icon-btn"
+            onClick={() => navigate("/notifications")}
+            aria-label="알림"
+          >
+            <img src={bellIcon} alt="" width={20} height={20} />
+          </button>
+        ))}
     </header>
   );
 };

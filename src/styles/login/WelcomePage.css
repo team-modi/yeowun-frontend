@@ -9,18 +9,6 @@
   padding-bottom: 96px;
 }
 
-.welcome-logo {
-  width: 96px;
-  height: 40px;
-  border-radius: 8px;
-  background-color: var(--color-text-secondary);
-  color: var(--color-text-inverse);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: var(--fw-semibold);
-}
-
 .welcome-message {
   margin: 0;
   text-align: center;

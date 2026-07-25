@@ -15,7 +15,8 @@ import { useRecordDraftStore } from "@store/useRecordDraftStore";
 // styles
 import "@styles/record/RecordExhibitionSelectPage.css";
 
-// icons
+// images
+import imgSearchEmpty from "@images/img_search_empty.png";
 import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
 
 const SEARCH_DEBOUNCE_MS = 250;
@@ -106,7 +107,7 @@ export default function RecordExhibitionSelectPage() {
 
           {isSearchActive && hasQuery && exhibitions.length === 0 && (
             <div className="record-select-empty">
-              <div className="record-select-empty-icon" aria-hidden="true" />
+              <img src={imgSearchEmpty} alt="" width={70} height={70} />
               <p className="record-select-empty-title text-body-1-medium">찾는 전시가 없어요</p>
               <p className="record-select-empty-desc text-body-2-regular">
                 검색어를 다시 확인하거나 직접 추가해 주세요

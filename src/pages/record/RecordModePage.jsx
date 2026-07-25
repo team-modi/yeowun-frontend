@@ -10,6 +10,10 @@ import { useRecordDraftStore } from "@store/useRecordDraftStore";
 // styles
 import "@styles/record/RecordModePage.css";
 
+// images
+import imgWriteDirect from "@images/img_write_direct.png";
+import imgWriteQuestion from "@images/img_write_question.png";
+
 export default function RecordModePage() {
   const navigate = useNavigate();
   const mode = useRecordDraftStore((state) => state.mode);
@@ -30,6 +34,7 @@ export default function RecordModePage() {
           <ModeOptionCard
             title="직접 작성"
             description={"내 감상을 바로 글로 남겨요\n빠르게 기록하고 싶은 분께 추천해요"}
+            icon={imgWriteDirect}
             isSelected={mode === "direct"}
             onClick={() => setMode("direct")}
           />
@@ -37,6 +42,7 @@ export default function RecordModePage() {
           <ModeOptionCard
             title="질문으로 작성"
             description={"질문에 답하면 AI가 감상문으로 정리해줘요\n글 작성이 어려운 분께 추천해요"}
+            icon={imgWriteQuestion}
             isSelected={mode === "ai"}
             onClick={() => setMode("ai")}
           />
