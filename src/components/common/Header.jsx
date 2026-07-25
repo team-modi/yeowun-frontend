@@ -80,17 +80,11 @@ const Header = ({ type, title, onBack }) => {
   return (
     <header className="app-header app-header--main">
       <img src={logo} alt="여운로고" />
-      {isLoggedIn ||
-        (type !== "sub" && (
-          <button
-            type="button"
-            className="header-icon-btn"
-            onClick={() => navigate("/notifications")}
-            aria-label="알림"
-          >
-            <img src={bellIcon} alt="" width={20} height={20} />
-          </button>
-        ))}
+      {isLoggedIn && type !== "sub" && (
+        <button type="button" className="header-icon-btn" onClick={() => navigate("/notifications")} aria-label="알림">
+          <img src={bellIcon} alt="" width={20} height={20} />
+        </button>
+      )}
     </header>
   );
 };
