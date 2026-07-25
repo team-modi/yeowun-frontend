@@ -9,7 +9,11 @@ import settingsIcon from "@images/icons/Action/Settings.svg";
 import bellIcon from "@images/icons/Action/Bell.svg";
 import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 
+// utils
+import { useIsLoggedIn } from "@utils/useIsLoggedIn";
+
 const Header = ({ type, title, onBack }) => {
+  const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -34,38 +38,40 @@ const Header = ({ type, title, onBack }) => {
     return (
       <header className="app-header app-header--archive">
         <p className="header-title-left text-heading-2">{title}</p>
-        <div className="header-right-slot">
-          {type === "notification" && (
-            <button
-              type="button"
-              className="header-icon-btn"
-              onClick={() => navigate("/notifications")}
-              aria-label="알림"
-            >
-              <img src={bellIcon} alt="" width={20} height={20} />
-            </button>
-          )}
-          {type === "profile" && (
-            <button
-              type="button"
-              className="header-icon-btn"
-              onClick={() => navigate("/profile/settings")}
-              aria-label="설정"
-            >
-              <img src={settingsIcon} alt="" width={20} height={20} />
-            </button>
-          )}
-          {type === "bookmark" && (
-            <button
-              type="button"
-              className="header-icon-btn"
-              onClick={() => navigate("/profile/bookmarked-exhibitions")}
-              aria-label="북마크"
-            >
-              <img src={bookmarkDefaultIcon} alt="" width={20} height={20} />
-            </button>
-          )}
-        </div>
+        {isLoggedIn && (
+          <div className="header-right-slot">
+            {type === "notification" && (
+              <button
+                type="button"
+                className="header-icon-btn"
+                onClick={() => navigate("/notifications")}
+                aria-label="알림"
+              >
+                <img src={bellIcon} alt="" width={20} height={20} />
+              </button>
+            )}
+            {type === "profile" && (
+              <button
+                type="button"
+                className="header-icon-btn"
+                onClick={() => navigate("/profile/settings")}
+                aria-label="설정"
+              >
+                <img src={settingsIcon} alt="" width={20} height={20} />
+              </button>
+            )}
+            {type === "bookmark" && (
+              <button
+                type="button"
+                className="header-icon-btn"
+                onClick={() => navigate("/profile/bookmarked-exhibitions")}
+                aria-label="북마크"
+              >
+                <img src={bookmarkDefaultIcon} alt="" width={20} height={20} />
+              </button>
+            )}
+          </div>
+        )}
       </header>
     );
   }
@@ -73,9 +79,11 @@ const Header = ({ type, title, onBack }) => {
   return (
     <header className="app-header app-header--main">
       <div className="header-logo">Logo</div>
-      <button type="button" className="header-icon-btn" onClick={() => navigate("/notifications")} aria-label="알림">
-        <img src={bellIcon} alt="" width={20} height={20} />
-      </button>
+      {isLoggedIn && (
+        <button type="button" className="header-icon-btn" onClick={() => navigate("/notifications")} aria-label="알림">
+          <img src={bellIcon} alt="" width={20} height={20} />
+        </button>
+      )}
     </header>
   );
 };
