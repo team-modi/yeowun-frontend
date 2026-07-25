@@ -12,6 +12,7 @@ const SubHeader = ({ title, type }) => {
       <p className="sub-header-title">{title}</p>
       <button type="button" className="sub-header-moveBtn" onClick={handleMove}>
         전체보기
+        <span className="sub-header-moveBtn-icon" aria-hidden="true" />
       </button>
     </header>
   );

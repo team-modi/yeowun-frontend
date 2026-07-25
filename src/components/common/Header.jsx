@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 // styles
 import "@styles/common/Header.css";
 
-// icons
+// images
 import chevronLeftIcon from "@images/icons/Action/Chevron Left.svg";
 import settingsIcon from "@images/icons/Action/Settings.svg";
 import bellIcon from "@images/icons/Action/Bell.svg";
@@ -29,6 +29,7 @@ const Header = ({ type, title, onBack }) => {
     );
   }
 
+  // title + icon
   if (type === "notification" || type === "profile" || type === "bookmark") {
     return (
       <header className="app-header app-header--archive">

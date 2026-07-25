@@ -1,19 +1,23 @@
-// 홈 페이지
+// 홈
 import { useEffect, useState } from "react";
 
 // components
 import Header from "@components/common/Header";
 import Footer from "@components/common/Footer";
-import SubHeader from "@components/exhibition/SubHeader";
+import SubHeader from "@components/home/SubHeader";
 import ExhibitCard from "@components/exhibition/ExhibitCard";
 import BannerCarousel from "@components/home/BannerCarousel";
-import RemindEntryModal from "@components/common/RemindEntryModal";
+import RemindEntryModal from "@components/remind/RemindEntryModal";
 import BusinessInfo from "@components/common/BusinessInfo";
 
 // api
 import { getExhibitionList, getExhibitionBanners } from "@api/exhibition";
 
+// utils
+import { useIsLoggedIn } from "@utils/useIsLoggedIn";
+
 const HomePage = () => {
+  const isLoggedIn = useIsLoggedIn();
   const [endingSoonData, setEndingSoonData] = useState([]);
   const [freeData, setFreeData] = useState([]);
   const [openingThisData, setOpeningThisData] = useState([]);
@@ -60,7 +64,7 @@ const HomePage = () => {
 
   return (
     <div className="app-shell">
-      <Header type="main" />
+      <Header />
       <div className="app-content">
         <BannerCarousel banners={bannerData} />
         <div className="app-content-pad">
@@ -119,7 +123,7 @@ const HomePage = () => {
         <BusinessInfo />
       </div>
       <Footer />
-      <RemindEntryModal />
+      {isLoggedIn && <RemindEntryModal />}
     </div>
   );
 };

@@ -1,9 +1,12 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 // pages
+// 홈
+import HomePage from "@pages/HomePage";
+
 import LoginPage from "@pages/LoginPage";
 import WelcomePage from "@pages/WelcomePage";
-import HomePage from "@pages/HomePage";
+
 import HomeDetailExhibitionPage from "@pages/home/HomeDetailExhibitionPage";
 import ProfilePage from "@pages/ProfilePage";
 import ProfileEditPage from "@pages/profile/ProfileEditPage";

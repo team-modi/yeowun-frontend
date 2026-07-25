@@ -77,7 +77,7 @@ export default function LoginPage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="여운" />
+      <Header type="back" title="여운" />
       <div className="app-content login-content">
         <div className="login-logo">Logo</div>
         <div className="text-title-3" style={{ textAlign: "center" }}>
