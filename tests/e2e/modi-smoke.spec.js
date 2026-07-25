@@ -84,7 +84,7 @@ test.describe("카카오 로그인 스모크", () => {
 
     const [request] = await Promise.all([
       page.waitForRequest("https://kauth.kakao.com/oauth/authorize**"),
-      page.getByRole("button", { name: "카카오로 로그인" }).click(),
+      page.getByRole("button", { name: "카카오 로그인" }).click(),
     ]);
 
     expect(request.url()).toContain("response_type=code");
