@@ -167,9 +167,11 @@ export default function RecordQuestionsPage() {
       </div>
 
       <div className="record-questions-footer">
-        <button type="button" className="record-questions-prev text-body-1-medium" onClick={handlePrev}>
-          이전
-        </button>
+        {step > 0 && (
+          <button type="button" className="record-questions-prev text-body-1-medium" onClick={handlePrev}>
+            이전
+          </button>
+        )}
         <button
           type="button"
           className="record-questions-next text-body-1-medium"
