@@ -1,16 +1,14 @@
 .record-questions-progress {
   width: 100%;
   height: 4px;
-  border-radius: 999px;
-  background-color: var(--color-brand-subtle);
+  background-color: #f1f3ff;
   overflow: hidden;
   margin: 12px 0 20px;
 }
 
 .record-questions-progress-fill {
   height: 100%;
-  border-radius: 999px;
-  background-color: var(--color-brand-primary);
+  background-color: #6370e5;
   transition: width 0.2s ease;
 }
 
@@ -116,7 +114,7 @@
 }
 
 .record-questions-next {
-  flex: 2;
+  flex: 1;
   padding: 16px 0;
   border-radius: 14px;
   background-color: var(--color-brand-primary);
