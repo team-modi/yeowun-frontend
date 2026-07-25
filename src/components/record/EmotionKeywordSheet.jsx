@@ -2,6 +2,7 @@ import { useState } from "react";
 
 // components
 import BottomSheet from "@components/common/BottomSheet";
+import ChipGroup from "@components/common/ChipGroup";
 
 // utils
 import {
@@ -158,21 +159,18 @@ export default function EmotionKeywordSheet({ isOpen, onClose, value = [], onApp
           <p className="emotion-sheet-section-desc text-body-2-regular">전시를 보고 마음에 남은 감정을 골라보세요</p>
 
           {RECOMMENDED_EMOTION_GROUPS.map((group) => (
-            <div key={group.category} className="emotion-sheet-group">
-              <h4 className="emotion-sheet-group-title text-label-1">{group.category}</h4>
-              <div className="emotion-sheet-chips">
-                {group.keywords.map((keyword) => (
-                  <button
-                    key={keyword}
-                    type="button"
-                    className={`emotion-chip text-label-2 ${selected.includes(keyword) ? "is-selected" : ""}`}
-                    onClick={() => toggleOption(keyword)}
-                  >
-                    {keyword}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <ChipGroup
+              key={group.category}
+              title={group.category}
+              titleAs="h4"
+              titleClassName="emotion-sheet-group-title text-label-1"
+              groupClassName="emotion-sheet-group"
+              chipsClassName="emotion-sheet-chips"
+              chipClassName="chip-group-option text-label-2"
+              options={group.keywords}
+              selected={selected}
+              onToggle={toggleOption}
+            />
           ))}
         </div>
       </div>
