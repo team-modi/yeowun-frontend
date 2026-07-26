@@ -30,7 +30,7 @@ export default function RecordCompletePage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" />
+      <Header />
       <div className="app-content">
         <div className="app-content-pad record-complete">
           <img src={imgSaveSuccess} alt="" width={120} height={120} />
