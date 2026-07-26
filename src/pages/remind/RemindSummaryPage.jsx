@@ -174,7 +174,7 @@ export default function RemindSummaryPage() {
                 <p className="remind-timeline-date text-caption-1">
                   {formatShortDateDot(toDateKey(exhibition.viewedAt))}
                 </p>
-                <p className="remind-timeline-label text-heading-2">전시 관람</p>
+                <p className="remind-timeline-label text-heading-3">전시 관람</p>
                 <div className="remind-timeline-exhibition">
                   <div
                     className="remind-timeline-poster"
@@ -199,7 +199,7 @@ export default function RemindSummaryPage() {
                   <span className="remind-timeline-dot" />
                 </div>
                 <div className="remind-timeline-content">
-                  <p className="remind-timeline-label text-heading-2">그날의 기록</p>
+                  <p className="remind-timeline-label text-heading-3">그날의 기록</p>
                   <button
                     type="button"
                     className="remind-timeline-card"
@@ -228,7 +228,7 @@ export default function RemindSummaryPage() {
               </div>
               <div className="remind-timeline-content">
                 <p className="remind-timeline-date text-caption-1">{formatShortDateDot(toDateKey(data.createdAt))}</p>
-                <p className="remind-timeline-label text-heading-2">다시 떠오른 여운</p>
+                <p className="remind-timeline-label text-heading-3">다시 떠오른 여운</p>
                 <button
                   type="button"
                   className="remind-timeline-card"
