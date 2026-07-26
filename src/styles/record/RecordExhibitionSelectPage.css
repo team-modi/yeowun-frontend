@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  padding: 24px 0 8px;
+  padding: 120px 0 8px;
   text-align: center;
 }
 
@@ -30,6 +30,7 @@
   color: var(--color-text-primary);
   white-space: nowrap;
   background: #f4f4f6;
+  height: 33px;
 }
 
 /* 검색 결과 없음 상태 */
@@ -65,9 +66,9 @@
   display: flex;
   gap: 12px;
   width: 100%;
-  padding: 12px;
+  /* padding: 12px; */
   border-radius: 14px;
-  border: 1px solid var(--color-border-default);
+  /* border: 1px solid var(--color-border-default); */
   background-color: var(--color-surface-default);
   text-align: left;
 }

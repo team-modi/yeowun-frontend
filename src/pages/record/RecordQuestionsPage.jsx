@@ -174,7 +174,7 @@ export default function RecordQuestionsPage() {
         )}
         <button
           type="button"
-          className="record-questions-next text-body-1-medium"
+          className={`record-questions-next text-body-1-medium${isLastStep ? " record-questions-next--primary" : ""}`}
           disabled={!currentAnswer.trim()}
           onClick={handleNext}
         >

@@ -29,7 +29,11 @@ function addMonths(date, amount) {
 function DayButton({ day, modifiers, className, ...buttonProps }) {
   void day;
 
-  const stateClass = modifiers.selected ? "single-date-day--selected" : "";
+  const stateClass = modifiers.selected
+    ? "single-date-day--selected"
+    : modifiers.disabled
+    ? "single-date-day--disabled"
+    : "";
 
   return <button type="button" className={`${className ?? ""} ${stateClass}`.trim()} {...buttonProps} />;
 }
@@ -41,9 +45,18 @@ export default function SingleDateSheet({
   onApply,
   title = "관람 날짜를 선택해주세요",
   placeholder = "날짜를 선택해 주세요",
+  // 관람일처럼 "오늘 이후"는 선택할 수 없는 날짜 선택에서만 true로 켠다
+  // (전시 시작일/종료일 선택처럼 미래 날짜도 허용해야 하는 곳에서는 기본값 false 유지).
+  disableFuture = false,
 }) {
   const [selected, setSelected] = useState(toDate(value));
   const [month, setMonth] = useState(() => toDate(value) ?? new Date());
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const isNextMonthDisabled =
+    disableFuture && month.getFullYear() === today.getFullYear() && month.getMonth() === today.getMonth();
 
   // 시트가 열릴 때마다 최신 값으로 리셋 — effect 대신 렌더 중 이전 isOpen과 비교해서 처리한다
   // (BottomSheet.jsx의 prevIsOpen 패턴과 동일. GenreSheet.jsx, EmotionKeywordSheet.jsx도 같은 방식).
@@ -87,6 +100,7 @@ export default function SingleDateSheet({
           className="single-date-sheet-nav-btn"
           onClick={() => setMonth((prev) => addMonths(prev, 1))}
           aria-label="다음 달"
+          disabled={isNextMonthDisabled}
         >
           ›
         </button>
@@ -100,6 +114,7 @@ export default function SingleDateSheet({
         onMonthChange={setMonth}
         showOutsideDays={false}
         hideNavigation
+        disabled={disableFuture ? { after: today } : undefined}
         className="single-date-sheet-calendar"
         formatters={{
           formatWeekdayName: (date) => WEEKDAYS[date.getDay()],
