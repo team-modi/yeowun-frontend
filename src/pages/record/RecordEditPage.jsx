@@ -273,6 +273,7 @@ export default function RecordEditPage() {
         onClose={() => setIsDateSheetOpen(false)}
         value={viewedAt}
         onApply={setViewedAt}
+        disableFuture
       />
 
       <EmotionKeywordSheet

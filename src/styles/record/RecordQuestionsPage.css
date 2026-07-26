@@ -43,7 +43,7 @@
 
 .record-questions-textarea {
   width: 100%;
-  min-height: 160px;
+  min-height: 250px;
   border: none;
   outline: none;
   resize: none;
@@ -119,6 +119,10 @@
   border-radius: 14px;
   background-color: var(--color-brand-primary);
   color: var(--color-text-inverse);
+}
+
+.record-questions-next--primary {
+  flex: 2;
 }
 
 .record-questions-next:disabled {

@@ -1,0 +1,26 @@
+.delete-confirm-sheet-title {
+  margin: 0 0 8px;
+  color: var(--color-text-primary);
+}
+
+.delete-confirm-sheet-desc {
+  margin: 0 0 20px;
+  color: var(--color-text-tertiary);
+}
+
+.delete-confirm-sheet-confirm {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-status-error);
+  color: var(--color-text-inverse);
+  margin-bottom: 8px;
+}
+
+.delete-confirm-sheet-cancel {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-primary);
+}

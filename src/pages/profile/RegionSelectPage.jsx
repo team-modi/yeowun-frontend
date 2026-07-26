@@ -66,7 +66,7 @@ export default function RegionSelectPage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="지역 선택" />
+      <Header type="back" title="지역 선택" />
       <div className="app-content">
         <div className="app-content-pad region-select-body">
           <div className="region-select-search">

@@ -86,11 +86,7 @@ export default function RecordExhibitionSelectPage() {
           {!isSearchActive && (
             <div className="record-select-intro">
               <h1 className="record-select-intro-title text-title-3">어떤 전시를 관람하셨나요?</h1>
-              <button
-                type="button"
-                className="record-select-add-link text-body-1-medium"
-                onClick={handleGoToAddExhibition}
-              >
+              <button type="button" className="record-select-add-link" onClick={handleGoToAddExhibition}>
                 전시 직접 추가하기
                 <img src={chevronRightIcon} alt="" width={16} height={16} />
               </button>
@@ -112,11 +108,7 @@ export default function RecordExhibitionSelectPage() {
               <p className="record-select-empty-desc text-body-2-regular">
                 검색어를 다시 확인하거나 직접 추가해 주세요
               </p>
-              <button
-                type="button"
-                className="record-select-add-btn text-body-1-medium"
-                onClick={handleGoToAddExhibition}
-              >
+              <button type="button" className="record-select-add-btn " onClick={handleGoToAddExhibition}>
                 전시 직접 추가하기
                 <img src={chevronRightIcon} alt="" width={16} height={16} />
               </button>

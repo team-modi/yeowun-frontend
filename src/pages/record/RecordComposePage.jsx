@@ -119,15 +119,11 @@ export default function RecordComposePage() {
       <Header type="back" title="질문으로 작성" onBack={() => navigate(-1)} />
       <div className="app-content">
         <div className="app-content-pad record-compose">
-          <h1 className="record-compose-title text-title-3">
-            AI가 당신의 답변을 바탕으로
-            <br />
-            감상문을 정리했어요
-          </h1>
+          <h1 className="record-compose-title text-title-3">AI가 정리한 감상문을 확인해보세요</h1>
           <p className="record-compose-subtitle text-body-2-regular">
-            AI에게 다시 정리를 요청하거나,
+            글을 눌러 직접 수정하거나
             <br />
-            글을 눌러 직접 수정할 수 있어요
+            AI에게 다시 정리를 요청할 수 있어요
           </p>
 
           <div className={`record-compose-box${isStreaming ? " is-streaming" : ""}`}>
@@ -150,7 +146,7 @@ export default function RecordComposePage() {
             disabled={isStreaming}
             onClick={runCompose}
           >
-            {isStreaming ? "다듬는 중…" : "다시 다듬기"}
+            {isStreaming ? "다듬는 중…" : "AI로 다시 다듬기"}
             <span className="record-questions-shuffle-icon" aria-hidden="true" />
           </button>
         </div>

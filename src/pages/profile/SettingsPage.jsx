@@ -81,7 +81,7 @@ export default function SettingsPage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="설정" />
+      <Header type="back" title="설정" />
       <div className="app-content settings-page-content">
         <div className="app-content-pad settings-body">
           <section className="settings-section">
@@ -168,4 +168,3 @@ function ToggleSwitch({ checked, disabled, onChange }) {
     </button>
   );
 }
-

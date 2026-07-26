@@ -136,7 +136,7 @@ export default function ProfileEditPage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="내 정보 수정" />
+      <Header type="back" title="내 정보 수정" />
       <div className="app-content">
         <div className="app-content-pad profile-edit-body">
           {isLoading ? (

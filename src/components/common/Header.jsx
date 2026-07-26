@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
+// components
+import HeaderMenuButton from "@components/common/HeaderMenuButton";
+
 // styles
 import "@styles/common/Header.css";
 
@@ -13,7 +16,7 @@ import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 // utils
 import { useIsLoggedIn } from "@utils/useIsLoggedIn";
 
-const Header = ({ type, title, onBack }) => {
+const Header = ({ type, title, onBack, onMenuClick }) => {
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
 
@@ -23,13 +26,14 @@ const Header = ({ type, title, onBack }) => {
   };
 
   // 이전 페이지로 되돌아가기
-  if (type === "back") {
+  if (type === "back" || type === "menu") {
     return (
-      <header className="app-header app-header--sub">
+      <header className={`app-header app-header--sub${type === "menu" ? " app-header--sub-with-menu" : ""}`}>
         <button type="button" className="header-icon-btn" onClick={handleBack} aria-label="뒤로가기">
           <img src={chevronLeftIcon} alt="" width={20} height={20} />
         </button>
         <h1 className="header-title">{title}</h1>
+        {type === "menu" && <HeaderMenuButton onClick={onMenuClick} />}
       </header>
     );
   }
