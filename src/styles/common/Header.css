@@ -30,6 +30,10 @@
   margin-right: 36px;
 }
 
+.app-header--sub-with-menu .header-title {
+  margin-right: 0;
+}
+
 .header-icon-btn {
   width: 36px;
   height: 36px;

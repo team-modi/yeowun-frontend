@@ -1,0 +1,21 @@
+.header-menu-button-slot {
+  position: fixed;
+  top: 0;
+  width: var(--app-width);
+  max-width: 100%;
+  height: var(--header-height);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 var(--space-sm);
+  pointer-events: none;
+}
+
+.header-menu-button-slot .header-icon-btn {
+  pointer-events: auto;
+}
+
+.app-shell:has(.header-menu-button-slot) .app-header--sub .header-title {
+  margin-right: 0;
+}

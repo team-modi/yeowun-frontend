@@ -5,10 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 
 // components
 import Header from "@components/common/Header";
+import HeaderMenuButton from "@components/common/HeaderMenuButton";
 import BottomSheet from "@components/common/BottomSheet";
+import { EditIcon, RemindIcon, InfoIcon, TrashIcon } from "@components/common/ActionSheet";
+import DeleteConfirmSheet from "@components/common/DeleteConfirmSheet";
 
 // api
 import { getDetailRemind } from "@api/remind";
+import { deleteRecord } from "@api/record";
 
 // utils
 import { formatElapsedBetween, formatShortDateDot } from "@utils/common";
@@ -56,6 +60,8 @@ export default function RemindSummaryPage() {
   const navigate = useNavigate();
   const [data, setData] = useState(undefined); // undefined=로딩, null=실패
   const [sheet, setSheet] = useState(null); // { title, label, text, emotionCodes }
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -73,10 +79,23 @@ export default function RemindSummaryPage() {
     };
   }, [remindId]);
 
+  const handleDeleteRecord = async () => {
+    if (!data) return;
+    setIsDeleting(true);
+    try {
+      await deleteRecord(data.recordId);
+      navigate("/archive", { replace: true });
+    } catch (error) {
+      console.log(error);
+      setIsDeleting(false);
+      setIsDeleteOpen(false);
+    }
+  };
+
   if (data === undefined || data === null) {
     return (
       <div className="app-shell">
-        <Header type="back" title="" onBack={() => navigate(-1)} />
+        {/* <Header type="" title="" onBack={() => navigate(-1)} /> */}
         <div className="app-content">
           <p className="remind-summary-loading text-body-1-regular">
             {data === null ? "불러오지 못했어요." : "불러오는 중..."}
@@ -95,6 +114,45 @@ export default function RemindSummaryPage() {
   return (
     <div className="app-shell">
       <Header type="back" title="" onBack={() => navigate(-1)} />
+      <HeaderMenuButton
+        actions={[
+          before && {
+            label: "기록 수정",
+            icon: <EditIcon />,
+            onClick: () => navigate(`/record/${data.recordId}/edit`),
+          },
+          before && {
+            label: "리마인드 남기기",
+            icon: <RemindIcon />,
+            onClick: () =>
+              navigate("/remind/write", {
+                state: {
+                  candidate: {
+                    recordId: data.recordId,
+                    exhibitionId: exhibition.exhibitionId,
+                    exhibitionTitle: exhibition.title,
+                    posterUrl: exhibition.posterUrl,
+                    place: exhibition.place,
+                    viewedAt: exhibition.viewedAt,
+                    originalContent: before.text,
+                    originalEmotionCodes: before.emotionCodes,
+                  },
+                },
+              }),
+          },
+          exhibition.exhibitionId != null && {
+            label: "전시 정보 보기",
+            icon: <InfoIcon />,
+            onClick: () => navigate(`/exhibition/${exhibition.exhibitionId}`),
+          },
+          before && {
+            label: "기록 삭제",
+            icon: <TrashIcon />,
+            danger: true,
+            onClick: () => setIsDeleteOpen(true),
+          },
+        ]}
+      />
       <div className="app-content">
         <div className="app-content-pad remind-summary">
           <h1 className="remind-summary-lead text-title-3">
@@ -113,7 +171,9 @@ export default function RemindSummaryPage() {
                 <span className="remind-timeline-dot" />
               </div>
               <div className="remind-timeline-content">
-                <p className="remind-timeline-date text-caption-1">{formatShortDateDot(toDateKey(exhibition.viewedAt))}</p>
+                <p className="remind-timeline-date text-caption-1">
+                  {formatShortDateDot(toDateKey(exhibition.viewedAt))}
+                </p>
                 <p className="remind-timeline-label text-heading-2">전시 관람</p>
                 <div className="remind-timeline-exhibition">
                   <div
@@ -144,7 +204,12 @@ export default function RemindSummaryPage() {
                     type="button"
                     className="remind-timeline-card"
                     onClick={() =>
-                      setSheet({ title: "그날의 기록", label: "그날의 감상", text: before.text, emotionCodes: before.emotionCodes })
+                      setSheet({
+                        title: "그날의 기록",
+                        label: "그날의 감상",
+                        text: before.text,
+                        emotionCodes: before.emotionCodes,
+                      })
                     }
                   >
                     <div className="remind-timeline-card-main">
@@ -168,7 +233,12 @@ export default function RemindSummaryPage() {
                   type="button"
                   className="remind-timeline-card"
                   onClick={() =>
-                    setSheet({ title: "다시 떠오른 여운", label: "그날의 여운", text: after.text, emotionCodes: after.emotionCodes })
+                    setSheet({
+                      title: "다시 떠오른 여운",
+                      label: "그날의 여운",
+                      text: after.text,
+                      emotionCodes: after.emotionCodes,
+                    })
                   }
                 >
                   <div className="remind-timeline-card-main">
@@ -206,12 +276,23 @@ export default function RemindSummaryPage() {
                 <p className="remind-summary-sheet-text text-body-2-regular">{sheet.text}</p>
               </section>
             )}
-            <button type="button" className="remind-summary-sheet-close text-body-1-medium" onClick={() => setSheet(null)}>
+            <button
+              type="button"
+              className="remind-summary-sheet-close text-body-1-medium"
+              onClick={() => setSheet(null)}
+            >
               닫기
             </button>
           </div>
         )}
       </BottomSheet>
+
+      <DeleteConfirmSheet
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={handleDeleteRecord}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }
