@@ -110,7 +110,7 @@ export default function NotificationPage() {
 
   return (
     <div className="app-shell">
-      <Header type="sub" title="알림" />
+      <Header type="back" title="알림" />
       <div className="app-content">
         <div className="notification-tabs">
           {TABS.map((t) => (
