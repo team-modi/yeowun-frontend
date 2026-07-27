@@ -2,10 +2,52 @@
 
 > **AI 기반 전시 감상 기록·회고 서비스**
 > 전시가 끝난 후에도, 당신만의 여운을 이어가세요.
-
 <p align="center">
   <img width="600" alt="여운 소개" src="https://github.com/user-attachments/assets/80e11f5d-8199-4c57-b431-172808157a42" />
+
+  > https://yeowun.vercel.app/
+
 </p>
+
+## 프로젝트 개요
+
+<table>
+  <tr>
+    <td width="110"><b>기간</b></td>
+    <td>2026.06.11 ~ 진행 중</td>
+  </tr>
+  <tr>
+    <td><b>팀 구성</b></td>
+    <td>총 5명 · PM 1 / Designer 1 / Frontend 1 / Backend 2</td>
+  </tr>
+  <tr>
+    <td valign="top"><b>팀</b></td>
+    <td>
+      <table>
+        <tr>
+          <td align="center" width="150">
+            <a href="https://github.com/plan11plan">
+              <img src="https://github.com/plan11plan.png?size=200" width="80" height="80" alt="plan11plan" /><br />
+              <b>plan11plan</b>
+            </a><br />Backend
+          </td>
+          <td align="center" width="150">
+            <a href="https://github.com/SeoBYP">
+              <img src="https://github.com/SeoBYP.png?size=200" width="80" height="80" alt="SeoBYP" /><br />
+              <b>SeoBYP</b>
+            </a><br />Backend
+          </td>
+          <td align="center" width="150">
+            <a href="https://github.com/immyeonn">
+              <img src="https://github.com/immyeonn.png?size=200" width="80" height="80" alt="immyeonn" /><br />
+              <b>immyeonn</b>
+            </a><br />Frontend
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
 
 ## 서비스 소개
 
