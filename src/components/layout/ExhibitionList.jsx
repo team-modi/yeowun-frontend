@@ -14,6 +14,7 @@ import { getExhibitionList } from "@api/exhibition";
 // util
 import { REGION_CODE_MAP, GENRE_CODE_MAP, toCodeParam } from "@utils/filterCodes";
 import useCursorList from "@utils/useCursorList";
+import useGeolocation from "@utils/useGeolocation";
 
 // images
 import imgSearchEmpty from "@images/img_search_empty.png";
@@ -26,20 +27,36 @@ const ExhibitionList = ({ type, data }) => {
   const [region, setRegion] = useState(undefined);
   const [category, setCategory] = useState(undefined);
 
+  const { coords, error: geoError, isRequesting: isLocating, request: requestLocation } = useGeolocation();
+
   const dataKey = JSON.stringify(data ?? null);
+  // 거리순은 좌표가 있어야 성립한다. 좌표를 못 받으면 서버가 400을 주므로 요청 자체를 하지 않는다.
+  const isDistance = sort === "distance";
+  const canQuery = !isDistance || !!coords;
 
   const fetchPage = useCallback(
     async ({ size, cursor }) => {
-      const response = await getExhibitionList({ sort, size, cursor, region, category, ...data });
+      const geo = isDistance && coords ? { lat: coords.lat, lng: coords.lng } : undefined;
+      const response = await getExhibitionList({ sort, size, cursor, region, category, ...geo, ...data });
       return response.data.data;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [sort, region, category, dataKey],
+    [sort, region, category, dataKey, isDistance, coords],
   );
 
   const { items, totalCount, isLoading, isLoadingMore, sentinelRef } = useCursorList(fetchPage, {
+    enabled: canQuery,
     pageSize: PAGE_SIZE,
   });
+
+  // 거리순을 고른 순간에만 위치를 묻는다 — 화면 진입과 동시에 뜨는 권한 팝업은 거부율이 높다.
+  const handleSortChange = async (nextSort) => {
+    if (nextSort === "distance" && !coords) {
+      const granted = await requestLocation();
+      if (!granted) return; // 거부·실패면 정렬을 바꾸지 않는다(빈 목록을 보여주지 않기 위해)
+    }
+    setSort(nextSort);
+  };
 
   const isEmpty = !isLoading && items.length === 0;
 
@@ -54,7 +71,7 @@ const ExhibitionList = ({ type, data }) => {
       <ExhibitListHeader
         total={totalCount}
         sort={sort}
-        onSortChange={setSort}
+        onSortChange={handleSortChange}
         onFilterClick={() => setIsFilterOpen(true)}
       />
       <FilterSheet
@@ -64,7 +81,14 @@ const ExhibitionList = ({ type, data }) => {
         onApply={handleApplyFilter}
       />
       <div className="exhibitionList-body">
-        {isEmpty ? (
+        {geoError && (
+          <p className="exhibit-list-geo-error text-body-2-regular" role="status">
+            {geoError.message}
+          </p>
+        )}
+        {isLocating ? (
+          <p className="exhibit-list-loading-more text-body-2-regular">위치를 확인하는 중...</p>
+        ) : isEmpty ? (
           <div className="exhibit-list-empty">
             <img src={imgSearchEmpty} alt="" width={70} height={70} />
             <p className="exhibit-list-empty-title text-heading-2">검색 결과가 없어요</p>
