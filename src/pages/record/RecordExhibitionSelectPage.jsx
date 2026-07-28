@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // components
@@ -12,6 +12,9 @@ import { getExhibitionList } from "@api/exhibition";
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
 
+// util
+import useCursorList from "@utils/useCursorList";
+
 // styles
 import "@styles/record/RecordExhibitionSelectPage.css";
 
@@ -20,6 +23,7 @@ import imgSearchEmpty from "@images/img_search_empty.png";
 import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
 
 const SEARCH_DEBOUNCE_MS = 250;
+const PAGE_SIZE = 20;
 
 export default function RecordExhibitionSelectPage() {
   const navigate = useNavigate();
@@ -27,39 +31,37 @@ export default function RecordExhibitionSelectPage() {
   const setExhibitionId = useRecordDraftStore((state) => state.setExhibitionId);
 
   const [keyword, setKeyword] = useState("");
-  const [exhibitions, setExhibitions] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [confirmTarget, setConfirmTarget] = useState(null);
 
   const trimmedKeyword = keyword.trim();
   const hasQuery = trimmedKeyword.length > 0;
 
-  const [prevHasQuery, setPrevHasQuery] = useState(hasQuery);
-  if (hasQuery !== prevHasQuery) {
-    setPrevHasQuery(hasQuery);
-    if (!hasQuery) setExhibitions([]);
-  }
+  // 타이핑마다 요청하지 않도록 확정된 검색어를 따로 둔다 — 목록은 이 값이 바뀔 때만 다시 부른다.
+  const [searchTerm, setSearchTerm] = useState(trimmedKeyword);
 
   useEffect(() => {
-    if (!hasQuery) return;
+    const timer = setTimeout(() => setSearchTerm(trimmedKeyword), SEARCH_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [trimmedKeyword]);
 
-    let ignore = false;
-    const timer = setTimeout(async () => {
-      try {
-        const response = await getExhibitionList({ keyword: trimmedKeyword, size: 20 });
-        if (ignore) return;
-        setExhibitions(response.data.data.content ?? []);
-      } catch (error) {
-        console.log(error);
-        if (!ignore) setExhibitions([]);
-      }
-    }, SEARCH_DEBOUNCE_MS);
+  const fetchPage = useCallback(
+    async ({ size, cursor }) => {
+      const response = await getExhibitionList({ keyword: searchTerm, size, cursor });
+      return response.data.data;
+    },
+    [searchTerm],
+  );
 
-    return () => {
-      ignore = true;
-      clearTimeout(timer);
-    };
-  }, [trimmedKeyword, hasQuery]);
+  // 검색 결과도 커서로 이어 받는다 — 예전엔 첫 20건에서 멈춰 그 뒤 전시는 고를 수 없었다.
+  const {
+    items: exhibitions,
+    isLoadingMore,
+    sentinelRef,
+  } = useCursorList(fetchPage, {
+    enabled: searchTerm.length > 0,
+    pageSize: PAGE_SIZE,
+  });
 
   const handleGoToAddExhibition = () => navigate("/record/new");
 
@@ -142,6 +144,9 @@ export default function RecordExhibitionSelectPage() {
                   </div>
                 </button>
               ))}
+              {/* 이 빈 div가 화면에 들어오면 다음 페이지를 당겨온다(무한 스크롤). */}
+              <div ref={sentinelRef} className="record-select-sentinel" />
+              {isLoadingMore && <p className="record-select-loading-more text-body-2-regular">불러오는 중...</p>}
             </div>
           )}
         </div>

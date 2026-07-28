@@ -122,3 +122,14 @@
   background-color: #f8f8fa;
   font-weight: var(--fw-semibold);
 }
+
+/* 무한 스크롤 — 목록 끝에 두는 감지용 빈 요소와 추가 로딩 표시 */
+.exhibit-list-sentinel {
+  height: 1px;
+}
+
+.exhibit-list-loading-more {
+  padding: 20px 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
