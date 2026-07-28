@@ -35,3 +35,27 @@ export const updateNotificationSettings = async (params) => {
   const data = await axiosInstance.put("/users/me/notification-settings", params);
   return data;
 };
+
+// 최근 검색어 목록 조회
+export const getSearchHistory = async () => {
+  const data = await axiosInstance.get("/users/me/search-history");
+  return data;
+};
+
+// 검색어 기록
+export const addSearchHistory = async (keyword) => {
+  const data = await axiosInstance.post("/users/me/search-history", { keyword });
+  return data;
+};
+
+// 검색어 전체 삭제
+export const deleteAllSearchHistory = async () => {
+  const data = await axiosInstance.delete("/users/me/search-history");
+  return data;
+};
+
+// 검색 기록 하나 삭제
+export const deleteSearchHistory = async (searchHistoryId) => {
+  const data = await axiosInstance.delete(`/users/me/search-history/${searchHistoryId}`);
+  return data;
+};
