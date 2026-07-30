@@ -32,6 +32,7 @@ const ExhibitCard = ({
   artistSummary,
   dateRange,
   bookmarked,
+  onUnbookmark,
 }) => {
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ const ExhibitCard = ({
         await addExhibitionBookmark(exhibitionId);
       } else {
         await deleteExhibitionBookmark(exhibitionId);
+        onUnbookmark?.(exhibitionId);
       }
     } catch (error) {
       console.log(error);
@@ -94,7 +96,13 @@ const ExhibitCard = ({
               onClick={handleToggleBookmark}
               aria-label={isBookmarked ? "관심 전시 해제" : "관심 전시 등록"}
             >
-              <img src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon} alt="" width={20} height={20} />
+              <img
+                src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon}
+                alt=""
+                width={20}
+                height={20}
+                className={isBookmarked ? "" : "exhibit-card-v-bookmark-icon--default"}
+              />
             </button>
           )}
         </div>
@@ -136,7 +144,7 @@ const ExhibitCard = ({
   // 프로필 > 기록한 전시 / 관심 전시 목록의 행. D-day 없이 작가·장소·기간만 보여준다.
   if (type === "list") {
     return (
-      <button type="button" className="exhibit-row" onClick={handleClick}>
+      <div className="exhibit-row" onClick={handleClick} role="button" tabIndex={0}>
         <div className="exhibit-row-thumb" style={thumbnail ? { backgroundImage: `url(${thumbnail})` } : undefined} />
         <div className="exhibit-row-body">
           <p className="exhibit-row-title text-body-1-medium">{title}</p>
@@ -146,8 +154,17 @@ const ExhibitCard = ({
             <p className="exhibit-row-date text-caption-1">{dateRange}</p>
           </div>
         </div>
-        {bookmarked && <span className="exhibit-row-bookmark" role="img" aria-label="저장한 전시" />}
-      </button>
+        {isLoggedIn && isBookmarked && (
+          <button
+            type="button"
+            className="exhibit-row-bookmark-btn"
+            onClick={handleToggleBookmark}
+            aria-label="관심 전시 해제"
+          >
+            <span className="exhibit-row-bookmark" aria-hidden="true" />
+          </button>
+        )}
+      </div>
     );
   }
 
