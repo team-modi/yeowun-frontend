@@ -19,7 +19,7 @@ import "@styles/remind/RemindWritePage.css";
 import addIcon from "@images/icons/Action/Add.svg";
 import writeIcon from "@images/icons/Action/Write.svg";
 
-const REFLECTION_MAX_LENGTH = 200;
+const REFLECTION_MAX_LENGTH = 300;
 
 export default function RemindWritePage() {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 // components
 import Header from "@components/common/Header";
@@ -10,6 +10,7 @@ import { getUserBookmarks } from "@api/user";
 
 // utils
 import { formatShortDateRange } from "@utils/common";
+import useCursorList from "@utils/useCursorList";
 
 // styles
 import "@styles/profile/exhibitionListPage.css";
@@ -22,72 +23,18 @@ const SORT_OPTIONS = [
 
 export default function BookmarkedExhibitionsPage() {
   const [sort, setSort] = useState("latest");
-  const [items, setItems] = useState([]);
-  const [cursor, setCursor] = useState(null);
-  const [hasNext, setHasNext] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const sentinelRef = useRef(null);
 
-  useEffect(() => {
-    let ignore = false;
+  const fetchPage = useCallback(
+    async ({ size, cursor }) => {
+      const response = await getUserBookmarks({ sort, size, cursor });
+      return response.data.data;
+    },
+    [sort],
+  );
 
-    (async () => {
-      setIsLoading(true);
-      try {
-        const response = await getUserBookmarks({ sort, size: PAGE_SIZE });
-        if (ignore) return;
-        const data = response.data.data;
-        setItems(data.content ?? []);
-        setCursor(data.nextCursor ?? null);
-        setHasNext(!!data.hasNext);
-      } catch (error) {
-        console.log(error);
-        if (!ignore) {
-          setItems([]);
-          setCursor(null);
-          setHasNext(false);
-        }
-      } finally {
-        if (!ignore) setIsLoading(false);
-      }
-    })();
-
-    return () => {
-      ignore = true;
-    };
-  }, [sort]);
-
-  const loadMore = useCallback(async () => {
-    if (!hasNext || isLoadingMore || !cursor) return;
-    setIsLoadingMore(true);
-    try {
-      const response = await getUserBookmarks({ sort, size: PAGE_SIZE, cursor });
-      const data = response.data.data;
-      setItems((prev) => [...prev, ...(data.content ?? [])]);
-      setCursor(data.nextCursor ?? null);
-      setHasNext(!!data.hasNext);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingMore(false);
-    }
-  }, [sort, cursor, hasNext, isLoadingMore]);
-
-  useEffect(() => {
-    const sentinel = sentinelRef.current;
-    if (!sentinel) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) loadMore();
-      },
-      { rootMargin: "200px" },
-    );
-    observer.observe(sentinel);
-
-    return () => observer.disconnect();
-  }, [loadMore]);
+  const { items, totalCount, isLoading, isLoadingMore, sentinelRef } = useCursorList(fetchPage, {
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <div className="app-shell">
@@ -95,7 +42,8 @@ export default function BookmarkedExhibitionsPage() {
       <div className="app-content">
         <div className="app-content-pad exhibit-list-body">
           <div className="exhibit-list-sort-row">
-            <span className="exhibit-list-count text-body-2-regular">전시 {items.length}</span>
+            {/* 담은 전시 개수는 불러온 만큼이 아니라 전체 건수(totalCount)다. */}
+            <span className="exhibit-list-count text-body-2-regular">전시 {totalCount}</span>
             <SortDropdown value={sort} onChange={setSort} options={SORT_OPTIONS} />
           </div>
           {isLoading ? (

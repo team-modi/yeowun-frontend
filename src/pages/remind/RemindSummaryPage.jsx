@@ -11,8 +11,7 @@ import { EditIcon, RemindIcon, InfoIcon, TrashIcon } from "@components/common/Ac
 import DeleteConfirmSheet from "@components/common/DeleteConfirmSheet";
 
 // api
-import { getDetailRemind } from "@api/remind";
-import { deleteRecord } from "@api/record";
+import { getDetailRemind, deleteRemind } from "@api/remind";
 
 // utils
 import { formatElapsedBetween, formatShortDateDot } from "@utils/common";
@@ -79,12 +78,12 @@ export default function RemindSummaryPage() {
     };
   }, [remindId]);
 
-  const handleDeleteRecord = async () => {
-    if (!data) return;
+  // 여운(리마인드)만 삭제한다 — 원본 기록은 유지. 삭제 후 리마인드 탭으로.
+  const handleDeleteRemind = async () => {
     setIsDeleting(true);
     try {
-      await deleteRecord(data.recordId);
-      navigate("/archive", { replace: true });
+      await deleteRemind(remindId);
+      navigate("/archive?tab=remind", { replace: true });
     } catch (error) {
       console.log(error);
       setIsDeleting(false);
@@ -145,8 +144,8 @@ export default function RemindSummaryPage() {
             icon: <InfoIcon />,
             onClick: () => navigate(`/exhibition/${exhibition.exhibitionId}`),
           },
-          before && {
-            label: "기록 삭제",
+          {
+            label: "여운 삭제",
             icon: <TrashIcon />,
             danger: true,
             onClick: () => setIsDeleteOpen(true),
@@ -290,8 +289,10 @@ export default function RemindSummaryPage() {
       <DeleteConfirmSheet
         isOpen={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
-        onConfirm={handleDeleteRecord}
+        onConfirm={handleDeleteRemind}
         isDeleting={isDeleting}
+        title="여운을 삭제할까요?"
+        description="삭제한 여운은 다시 볼 수 없어요."
       />
     </div>
   );

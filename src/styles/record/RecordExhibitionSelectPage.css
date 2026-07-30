@@ -102,3 +102,14 @@
   margin: 0;
   color: var(--color-text-tertiary);
 }
+
+/* 무한 스크롤 — 목록 끝 감지용 빈 요소와 추가 로딩 표시 */
+.record-select-sentinel {
+  height: 1px;
+}
+
+.record-select-loading-more {
+  padding: 16px 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
