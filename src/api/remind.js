@@ -23,3 +23,9 @@ export const getDetailRemind = async (remindId) => {
   const data = await axiosInstance.get(`/reminds/${remindId}`);
   return data;
 };
+
+// 리마인드(여운) 삭제 — 원본 기록은 유지하고 이 여운만 지운다.
+export const deleteRemind = async (remindId) => {
+  const data = await axiosInstance.delete(`/reminds/${remindId}`);
+  return data;
+};
