@@ -32,15 +32,19 @@ export default function BookmarkedExhibitionsPage() {
     [sort],
   );
 
-  const { items, setItems, totalCount, isLoading, isLoadingMore, sentinelRef } = useCursorList(fetchPage, {
-    pageSize: PAGE_SIZE,
-  });
+  const { items, setItems, totalCount, setTotalCount, isLoading, isLoadingMore, sentinelRef } = useCursorList(
+    fetchPage,
+    {
+      pageSize: PAGE_SIZE,
+    },
+  );
 
   const handleUnbookmark = useCallback(
     (exhibitionId) => {
       setItems((prev) => prev.filter((exhibition) => exhibition.exhibitionId !== exhibitionId));
+      setTotalCount((prev) => Math.max(0, prev - 1));
     },
-    [setItems],
+    [setItems, setTotalCount],
   );
 
   return (
