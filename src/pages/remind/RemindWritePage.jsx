@@ -104,7 +104,11 @@ export default function RemindWritePage() {
                 </button>
               </div>
             ) : (
-              <button type="button" className="remind-write-emotion-add text-body-2-regular" onClick={() => setIsSheetOpen(true)}>
+              <button
+                type="button"
+                className="remind-write-emotion-add text-body-2-regular"
+                onClick={() => setIsSheetOpen(true)}
+              >
                 감정 키워드 추가하기
                 <img src={addIcon} alt="" width={18} height={18} />
               </button>
@@ -122,7 +126,10 @@ export default function RemindWritePage() {
                 placeholder="지금 떠오르는 생각을 적어보세요"
               />
               <span className="remind-write-count text-caption-1">
-                {reflection.length}/{REFLECTION_MAX_LENGTH}
+                <span className={reflection.length > 0 ? "remind-write-count-current" : ""}>
+                  {reflection.length}
+                </span>
+                /{REFLECTION_MAX_LENGTH}
               </span>
             </div>
           </section>

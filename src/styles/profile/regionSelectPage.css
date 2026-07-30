@@ -12,9 +12,8 @@
   align-items: center;
   gap: 8px;
   padding: 12px 14px;
-  border: 1px solid var(--color-border-default);
   border-radius: 12px;
-  background-color: var(--color-surface-default);
+  background-color: var(--color-surface-subtle);
 }
 
 .region-select-input {
@@ -28,12 +27,24 @@
 }
 
 .region-select-input::placeholder {
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 .region-select-clear {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
   padding: 0;
+  background-color: var(--color-text-placeholder);
+}
+
+.region-select-clear img {
+  filter: brightness(0) invert(1);
 }
 
 .region-select-list {
@@ -46,8 +57,7 @@
   width: 100%;
   padding: 14px 4px;
   text-align: left;
-  color: var(--color-text-primary);
-  border-bottom: 1px solid var(--color-border-default);
+  color: var(--color-text-secondary);
 }
 
 .region-select-item.is-selected {

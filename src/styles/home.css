@@ -65,7 +65,7 @@
   height: 372px;
   /* object-fit: cover; */
   display: block;
-  background: var(--color-surface-2, #e8e8e8);
+  background: var(--color-brand-subtle);
 }
 
 .banner-gradient {

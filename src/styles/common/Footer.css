@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   background: #fff;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-default);
   z-index: 100;
 }
 
@@ -18,12 +18,12 @@
   align-items: center;
   gap: 2px;
   font-size: 11px;
-  color: var(--color-text-sub);
+  color: var(--color-text-tertiary);
   text-decoration: none;
 }
 
 .footer-tab--active {
-  color: var(--color-text);
+  color: var(--color-text-primary);
   font-weight: 600;
 }
 
@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text);
+  color: var(--color-text-primary);
   text-decoration: none;
   position: relative;
   transform: translateY(-15px);
@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0e111a;
+  background: var(--color-brand-primary);
   border-radius: 50%;
   padding: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);

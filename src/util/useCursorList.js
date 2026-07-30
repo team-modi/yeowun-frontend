@@ -107,5 +107,5 @@ export default function useCursorList(fetchPage, { enabled = true, pageSize = 20
     return () => observer.disconnect();
   }, [loadMore]);
 
-  return { items, setItems, totalCount, hasNext, isLoading, isLoadingMore, loadMore, sentinelRef };
+  return { items, setItems, totalCount, setTotalCount, hasNext, isLoading, isLoadingMore, loadMore, sentinelRef };
 }

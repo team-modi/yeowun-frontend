@@ -103,6 +103,13 @@
   font-weight: var(--fw-regular);
 }
 
+.text-caption-1-medium {
+  font-size: var(--fs-caption-1);
+  line-height: var(--lh-caption-1);
+  letter-spacing: var(--ls-caption-1);
+  font-weight: var(--fw-medium);
+}
+
 .text-caption-2 {
   font-size: var(--fs-caption-2);
   line-height: var(--lh-caption-2);
@@ -115,4 +122,11 @@
   line-height: var(--lh-caption-3);
   letter-spacing: var(--ls-caption-3);
   font-weight: var(--fw-regular);
+}
+
+.text-caption-3-medium {
+  font-size: var(--fs-caption-3);
+  line-height: var(--lh-caption-3);
+  letter-spacing: var(--ls-caption-3);
+  font-weight: var(--fw-medium);
 }

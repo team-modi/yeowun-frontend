@@ -68,3 +68,7 @@
   border-radius: 6px;
   background-color: var(--color-border-default);
 }
+
+.header-bookmark-icon {
+  filter: brightness(0);
+}
