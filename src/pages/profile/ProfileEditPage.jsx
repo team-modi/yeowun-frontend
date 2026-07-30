@@ -171,7 +171,9 @@ export default function ProfileEditPage() {
               </div>
 
               <div className="profile-edit-field">
-                <label className="profile-edit-label text-label-2">이름</label>
+                <label className="profile-edit-label text-label-2">
+                  이름 <span className="profile-edit-required-badge text-caption-2">필수</span>
+                </label>
                 <input
                   type="text"
                   className="profile-edit-input text-body-1-regular"
@@ -183,7 +185,9 @@ export default function ProfileEditPage() {
               </div>
 
               <div className="profile-edit-field">
-                <label className="profile-edit-label text-label-2">연령대</label>
+                <label className="profile-edit-label text-label-2">
+                  연령대 <span className="profile-edit-required-badge text-caption-2">필수</span>
+                </label>
                 <button type="button" className="profile-edit-select text-body-1-regular" onClick={handleOpenAgeSheet}>
                   <span className={form.ageGroup === "UNSPECIFIED" ? "profile-edit-select-placeholder" : ""}>
                     {form.ageGroup === "UNSPECIFIED" ? "연령대를 선택해주세요" : AGE_GROUP_LABEL_BY_CODE[form.ageGroup]}
@@ -193,7 +197,9 @@ export default function ProfileEditPage() {
               </div>
 
               <div className="profile-edit-field">
-                <label className="profile-edit-label text-label-2">지역</label>
+                <label className="profile-edit-label text-label-2">
+                  지역 <span className="profile-edit-required-badge text-caption-2">필수</span>
+                </label>
                 <button
                   type="button"
                   className="profile-edit-select text-body-1-regular"

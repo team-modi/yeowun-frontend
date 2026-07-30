@@ -58,7 +58,19 @@
 }
 
 .profile-edit-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   color: var(--color-text-tertiary);
+}
+
+.profile-edit-required-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-text-brand);
 }
 
 .profile-edit-input {
@@ -83,7 +95,7 @@
 }
 
 .profile-edit-select-placeholder {
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 .profile-edit-error {

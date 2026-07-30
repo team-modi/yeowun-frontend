@@ -7,7 +7,9 @@ import filterIcon from "@images/icons/Action/Filter.svg";
 export default function ExhibitListHeader({ total, sort, onSortChange, onFilterClick }) {
   return (
     <div className="exhibit-list-header">
-      <span className="exhibit-list-header-count text-body-2-regular">전시 {total}</span>
+      <span className="exhibit-list-header-count text-body-2-regular">
+        전시 <span className="exhibit-list-header-count-number">{total}</span>
+      </span>
 
       <div className="exhibit-list-header-actions">
         <SortDropdown value={sort} onChange={onSortChange} />

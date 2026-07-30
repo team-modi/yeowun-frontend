@@ -58,6 +58,22 @@
   padding: 18px 8px;
 }
 
+.profile-stat-icon {
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-icon-secondary);
+}
+
+.profile-stat-icon--bookmark {
+  -webkit-mask: url("../../images/icons/Action/Bookmark_Default.svg") center / contain no-repeat;
+  mask: url("../../images/icons/Action/Bookmark_Default.svg") center / contain no-repeat;
+}
+
+.profile-stat-icon--archive {
+  -webkit-mask: url("../../images/icons/Navigation/Archive_Default.svg") center / contain no-repeat;
+  mask: url("../../images/icons/Navigation/Archive_Default.svg") center / contain no-repeat;
+}
+
 .profile-stat-text {
   display: flex;
   align-items: center;

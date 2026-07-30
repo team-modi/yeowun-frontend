@@ -11,8 +11,6 @@ import { getUserInfo } from "@api/user";
 
 // icons
 import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
-import archiveIcon from "@images/icons/Navigation/Archive_Default.svg";
-import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 
 const KEYWORD_PREVIEW_COUNT = 5;
 
@@ -79,7 +77,7 @@ const ProfilePage = () => {
               className="profile-stat-item"
               onClick={() => navigate("/profile/bookmarked-exhibitions")}
             >
-              <img src={bookmarkDefaultIcon} alt="" width={24} height={24} />
+              <span className="profile-stat-icon profile-stat-icon--bookmark" aria-hidden="true" />
               <span className="profile-stat-text">
                 <span className="profile-stat-label text-body-2-medium">저장한 전시</span>
                 <span className="profile-stat-count text-body-2-medium">{userInfo.stats?.bookmarkCount ?? 0}</span>
@@ -87,7 +85,7 @@ const ProfilePage = () => {
             </button>
             <span className="profile-stat-divider" />
             <button type="button" className="profile-stat-item" onClick={() => navigate("/profile/visited-exhibitions")}>
-              <img src={archiveIcon} alt="" width={24} height={24} />
+              <span className="profile-stat-icon profile-stat-icon--archive" aria-hidden="true" />
               <span className="profile-stat-text">
                 <span className="profile-stat-label text-body-2-medium">기록한 전시</span>
                 <span className="profile-stat-count text-body-2-medium">{userInfo.stats?.exhibitionCount ?? 0}</span>

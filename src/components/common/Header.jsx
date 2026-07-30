@@ -72,7 +72,7 @@ const Header = ({ type, title, onBack, onMenuClick }) => {
                 onClick={() => navigate("/profile/bookmarked-exhibitions")}
                 aria-label="북마크"
               >
-                <img src={bookmarkDefaultIcon} alt="" width={20} height={20} />
+                <img src={bookmarkDefaultIcon} alt="" width={20} height={20} className="header-bookmark-icon" />
               </button>
             )}
           </div>

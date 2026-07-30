@@ -32,7 +32,7 @@
   border-radius: 12px;
   border: 1px solid var(--color-border-default);
   background-color: var(--color-surface-default);
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 /* 선택된 감정 칩 + 편집 버튼 */
@@ -82,14 +82,18 @@
 }
 
 .remind-write-textarea::placeholder {
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 .remind-write-count {
   position: absolute;
   right: 16px;
   bottom: 12px;
-  color: var(--color-text-tertiary);
+  color: var(--color-text-placeholder);
+}
+
+.remind-write-count-current {
+  color: var(--color-text-primary);
 }
 
 .remind-write-error {

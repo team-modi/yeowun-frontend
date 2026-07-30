@@ -21,10 +21,10 @@ import chevronLeftIcon from "@images/icons/Action/Chevron Left.svg";
 import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
 import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 import bookmarkSelectedIcon from "@images/icons/Action/Bookmark_Selected.svg";
-import calendarIcon from "@images/icons/Info/Calendar.svg";
-import locationIcon from "@images/icons/Info/Location.svg";
-import clockIcon from "@images/icons/Info/Clock.svg";
-import ticketIcon from "@images/icons/Info/Ticket.svg";
+import calendarIcon from "@images/icons/Info/Calendar_Secondary.svg";
+import locationIcon from "@images/icons/Info/Location_Secondary.svg";
+import clockIcon from "@images/icons/Info/Clock_Secondary.svg";
+import ticketIcon from "@images/icons/Info/Ticket_Secondary.svg";
 
 function formatDateDot(dateString) {
   return dateString ? dateString.replaceAll("-", ".") : "";
@@ -161,7 +161,13 @@ const DetailExhibitionPage = () => {
           onClick={handleToggleBookmark}
           aria-label={isBookmarked ? "관심 전시 해제" : "관심 전시 등록"}
         >
-          <img src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon} alt="" width={20} height={20} />
+          <img
+            src={isBookmarked ? bookmarkSelectedIcon : bookmarkDefaultIcon}
+            alt=""
+            width={20}
+            height={20}
+            className={isBookmarked ? "" : "detail-exhibition-bookmark-icon--default"}
+          />
         </button>
       </div>
 
