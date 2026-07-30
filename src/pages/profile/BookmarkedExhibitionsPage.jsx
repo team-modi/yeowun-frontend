@@ -32,9 +32,16 @@ export default function BookmarkedExhibitionsPage() {
     [sort],
   );
 
-  const { items, totalCount, isLoading, isLoadingMore, sentinelRef } = useCursorList(fetchPage, {
+  const { items, setItems, totalCount, isLoading, isLoadingMore, sentinelRef } = useCursorList(fetchPage, {
     pageSize: PAGE_SIZE,
   });
+
+  const handleUnbookmark = useCallback(
+    (exhibitionId) => {
+      setItems((prev) => prev.filter((exhibition) => exhibition.exhibitionId !== exhibitionId));
+    },
+    [setItems],
+  );
 
   return (
     <div className="app-shell">
@@ -67,6 +74,7 @@ export default function BookmarkedExhibitionsPage() {
                     endDate={exhibition.endDate}
                     dateRange={formatShortDateRange(exhibition.startDate, exhibition.endDate)}
                     bookmarked
+                    onUnbookmark={handleUnbookmark}
                   />
                 ))}
               </div>
