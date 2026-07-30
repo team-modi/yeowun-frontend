@@ -29,6 +29,7 @@
   padding: 16px 0;
   text-align: left;
   border-bottom: 1px solid var(--color-border-default);
+  cursor: pointer;
 }
 
 .exhibit-row-thumb {
@@ -72,6 +73,18 @@
 .exhibit-row-date {
   margin: 0;
   color: var(--color-text-tertiary);
+}
+
+.exhibit-row-bookmark-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin: -4px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 /* Bookmark_Selected.svg 는 fill 이 검정으로 박혀 있어, 마스크로 액센트 색을 입힌다. */
