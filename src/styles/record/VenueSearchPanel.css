@@ -32,3 +32,24 @@
   color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-border-default);
 }
+
+/* 목록에 없는 전시장 직접 추가 */
+.venue-search-direct {
+  margin-top: 16px;
+}
+
+.venue-search-empty {
+  margin: 0 0 12px;
+  padding: 4px;
+  color: var(--color-text-tertiary);
+}
+
+.venue-search-direct-btn {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-brand-primary);
+  background-color: var(--color-surface-default);
+  color: var(--color-text-brand);
+  text-align: center;
+}
