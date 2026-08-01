@@ -44,12 +44,12 @@
   color: var(--color-text-tertiary);
 }
 
+/* 앱 표준 버튼(채움형 primary)과 동일하게 — 다음/저장 버튼과 톤 일치 */
 .venue-search-direct-btn {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--color-brand-primary);
-  background-color: var(--color-surface-default);
-  color: var(--color-text-brand);
+  padding: 16px 0;
+  border-radius: 14px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
   text-align: center;
 }
