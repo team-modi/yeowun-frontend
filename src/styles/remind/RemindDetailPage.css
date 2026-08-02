@@ -104,8 +104,8 @@
 }
 
 .remind-detail-emotion-chip--more {
-  background-color: var(--color-bg-default);
-  color: var(--color-text-tertiary);
+  background-color: var(--color-accent-subtle);
+  color: var(--color-text-brand);
 }
 
 .remind-detail-footer {

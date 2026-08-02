@@ -17,7 +17,6 @@ import "@styles/remind/RemindWritePage.css";
 
 // icons
 import addIcon from "@images/icons/Action/Add.svg";
-import writeIcon from "@images/icons/Action/Write.svg";
 
 const REFLECTION_MAX_LENGTH = 300;
 
@@ -100,7 +99,7 @@ export default function RemindWritePage() {
                   onClick={() => setIsSheetOpen(true)}
                 >
                   키워드 편집하기
-                  <img src={writeIcon} alt="" width={14} height={14} />
+                  <span className="remind-write-emotion-edit-icon" aria-hidden="true" />
                 </button>
               </div>
             ) : (
