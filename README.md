@@ -17,6 +17,7 @@
 <br />
 
 ## 서비스 소개
+<img width="895" height="503" alt="image" src="https://github.com/user-attachments/assets/061ae909-376d-4c62-b100-b2f5f89a9931" />
 
 전시의 감동은 시간이 지나면 희미해집니다. 사진은 남아 있어도, 그 작품이 왜 좋았는지는 사라집니다.
 
