@@ -112,7 +112,7 @@
 }
 
 .emotion-sheet-custom-input::placeholder {
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 .emotion-sheet-custom-add {

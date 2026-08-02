@@ -4528,6 +4528,43 @@
             }
         },
         "/api/v1/reminds/{remindId}": {
+            "delete": {
+                "description": "\ub0b4 \uc5ec\uc6b4 1\uac74\uc744 \uc0ad\uc81c\ud55c\ub2e4(soft-delete). \uc6d0\ubcf8 \uae30\ub85d\uc740 \uc720\uc9c0\ub41c\ub2e4.",
+                "operationId": "delete_1",
+                "parameters": [
+                    {
+                        "description": "\ub9ac\ub9c8\uc778\ub4dc ID",
+                        "in": "path",
+                        "name": "remindId",
+                        "required": true,
+                        "schema": {
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseObject"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "summary": "\ub9ac\ub9c8\uc778\ub4dc(\uc5ec\uc6b4) \uc0ad\uc81c",
+                "tags": [
+                    "Remind"
+                ]
+            },
             "get": {
                 "description": "\uc6d0\ubcf8(\uadf8\ub54c)\uacfc \ud68c\uace0(\uc9c0\uae08)\ub97c \ub098\ub780\ud788, AI \uc11c\uc220 \uc694\uc57d\uacfc \ud568\uaed8 \ubc18\ud658\ud55c\ub2e4.\n\uc6d0\ubcf8 \uae30\ub85d\uc774 \uc0ad\uc81c\ub410\ub2e4\uba74 before\ub294 null.",
                 "operationId": "get_1",
@@ -4986,7 +5023,7 @@
         "/api/v1/users/me/search-history/{searchHistoryId}": {
             "delete": {
                 "description": "\uac80\uc0c9 \uae30\ub85d \ud558\ub098\ub97c \uc9c0\uc6b4\ub2e4(\uba71\ub4f1 \u2014 \uc774\ubbf8 \uc5c6\uc5b4\ub3c4 200). \ud0c0\uc778\uc758 \uae30\ub85d\uc774\uba74 403.",
-                "operationId": "delete_1",
+                "operationId": "delete_2",
                 "parameters": [
                     {
                         "description": "\uac80\uc0c9 \uae30\ub85d ID",

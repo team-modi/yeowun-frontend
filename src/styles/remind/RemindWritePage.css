@@ -60,6 +60,15 @@
   color: var(--color-text-tertiary);
 }
 
+.remind-write-emotion-edit-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-icon-tertiary);
+  -webkit-mask: url("../../images/icons/Action/Edit.svg") center / contain no-repeat;
+  mask: url("../../images/icons/Action/Edit.svg") center / contain no-repeat;
+}
+
 .remind-write-box {
   position: relative;
   border: 1px solid var(--color-border-default);

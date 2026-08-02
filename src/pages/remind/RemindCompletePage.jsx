@@ -29,7 +29,7 @@ export default function RemindCompletePage() {
           <img src={imgSaveSuccess} alt="" width={120} height={120} />
           <h1 className="remind-complete-title text-title-3">오늘의 여운이 저장되었어요</h1>
           <p className="remind-complete-subtitle text-body-2-regular">
-            아카이브 &apos;리마인드&apos;에서
+            아카이브의 &apos;리마인드&apos;에서
             <br />
             확인해 보세요
           </p>
