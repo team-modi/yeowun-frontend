@@ -450,6 +450,22 @@
                 },
                 "type": "object"
             },
+            "CountResponse": {
+                "properties": {
+                    "count": {
+                        "description": "\ud544\ud130 \uc870\uac74\uc5d0 \ub9de\ub294 \uc804\uc2dc \ucd1d \uac74\uc218",
+                        "example": 126,
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "exact": {
+                        "description": "count\uac00 \uc815\ud655\ud55c \uac12\uc778\uc9c0 \uc5ec\ubd80. \ud604\uc7ac \uad6c\ud604\uc740 \ud56d\uc0c1 true(\uc815\ud655\ud55c count).",
+                        "example": true,
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "CreatedResponse": {
                 "properties": {
                     "exhibitionId": {
@@ -2873,7 +2889,7 @@
         },
         "/api/v1/exhibitions": {
             "get": {
-                "description": "\ud544\ud130\u00b7\uc815\ub82c\u00b7\ucee4\uc11c\ub85c \uc804\uc2dc\ub97c \uc870\ud68c\ud55c\ub2e4(\ucee4\uc11c \ud398\uc774\uc9c0\ub124\uc774\uc158). \ud544\ud130 \ubbf8\uc9c0\uc815 \uc2dc \uc624\ub298 \uc9c4\ud589 \uc911\uc778 \uc804\uc2dc\ub97c \uae30\ubcf8 \ub178\ucd9c\ud55c\ub2e4.\n\ube44\ub85c\uadf8\uc778\uc740 CATALOG\ub9cc, \ub85c\uadf8\uc778\uc740 CATALOG + \ubcf8\uc778 CUSTOM\uc744 \ud568\uaed8 \ubcf8\ub2e4(\ub85c\uadf8\uc778 \uc2dc bookmarked \uac1c\uc778\ud654).\n\uc778\uc99d\uc740 \uc120\ud0dd(Optional)\uc774\ub2e4 \u2014 Authorization \ud5e4\ub354\uac00 \uc5c6\uac70\ub098 \ud1a0\ud070\uc774 \ubb34\ud6a8\ud574\ub3c4 401\uc744 \ub0b4\uc9c0 \uc54a\uace0\n\ube44\ub85c\uadf8\uc778(\uc775\uba85)\uc73c\ub85c \ucde8\uae09\ud574 \uc870\ud68c\ub97c \uacc4\uc18d\ud55c\ub2e4.\n\uc815\ub82c\uc774 \ubc14\ub00c\uba74 \ucee4\uc11c\ub97c \ubc84\ub9ac\uace0 \ucc98\uc74c\ubd80\ud130 \uc7ac\uc870\ud68c\ud55c\ub2e4(\ucee4\uc11c\uc758 \uc815\ub82c \ud310\ubcc4\uc790\uc640 sort\uac00 \ub2e4\ub974\uba74 INVALID_CURSOR).",
+                "description": "\ud544\ud130\u00b7\uc815\ub82c\u00b7\ucee4\uc11c\ub85c \uc804\uc2dc\ub97c \uc870\ud68c\ud55c\ub2e4(\ucee4\uc11c \ud398\uc774\uc9c0\ub124\uc774\uc158). \ud544\ud130 \ubbf8\uc9c0\uc815 \uc2dc \uc624\ub298 \uc9c4\ud589 \uc911\uc778 \uc804\uc2dc\ub97c \uae30\ubcf8 \ub178\ucd9c\ud55c\ub2e4.\n\uc751\ub2f5\uc5d0 \uc870\uac74 \uae30\uc900 \ucd1d \uac74\uc218(totalCount)\ub97c \ud568\uaed8 \ub2f4\ub294\ub2e4. \ubaa9\ub85d \uc5c6\uc774 \uc22b\uc790\ub9cc \ud544\uc694\ud55c \ud654\uba74\uc740\n\uac19\uc740 \ud544\ud130\ub85c GET /exhibitions/count\ub97c \uc4f8 \uc218 \uc788\ub2e4(\uac19\uc740 \uc870\uac74 \uc870\ub9bd \uacbd\ub85c\ub77c \ub450 \uc22b\uc790\ub294 \uac19\ub2e4).\n\ube44\ub85c\uadf8\uc778\uc740 CATALOG\ub9cc, \ub85c\uadf8\uc778\uc740 CATALOG + \ubcf8\uc778 CUSTOM\uc744 \ud568\uaed8 \ubcf8\ub2e4(\ub85c\uadf8\uc778 \uc2dc bookmarked \uac1c\uc778\ud654).\n\uc778\uc99d\uc740 \uc120\ud0dd(Optional)\uc774\ub2e4 \u2014 Authorization \ud5e4\ub354\uac00 \uc5c6\uac70\ub098 \ud1a0\ud070\uc774 \ubb34\ud6a8\ud574\ub3c4 401\uc744 \ub0b4\uc9c0 \uc54a\uace0\n\ube44\ub85c\uadf8\uc778(\uc775\uba85)\uc73c\ub85c \ucde8\uae09\ud574 \uc870\ud68c\ub97c \uacc4\uc18d\ud55c\ub2e4.\n\uc815\ub82c\uc774 \ubc14\ub00c\uba74 \ucee4\uc11c\ub97c \ubc84\ub9ac\uace0 \ucc98\uc74c\ubd80\ud130 \uc7ac\uc870\ud68c\ud55c\ub2e4(\ucee4\uc11c\uc758 \uc815\ub82c \ud310\ubcc4\uc790\uc640 sort\uac00 \ub2e4\ub974\uba74 INVALID_CURSOR).",
                 "operationId": "list_2",
                 "parameters": [
                     {
@@ -3031,8 +3047,7 @@
                                                     }
                                                 ],
                                                 "hasNext": true,
-                                                "nextCursor": "eyJzb3J0IjoibGF0ZXN0IiwibGFzdElkIjo1MX0",
-                                                "totalCount": 160
+                                                "nextCursor": "eyJzb3J0IjoibGF0ZXN0IiwibGFzdElkIjo1MX0"
                                             },
                                             "meta": {
                                                 "errorCode": null,
@@ -3117,6 +3132,135 @@
                     }
                 },
                 "summary": "\ud648 \ubc30\ub108 \uc870\ud68c",
+                "tags": [
+                    "Exhibition"
+                ]
+            }
+        },
+        "/api/v1/exhibitions/count": {
+            "get": {
+                "description": "\ubaa9\ub85d\uacfc \uac19\uc740 \ud544\ud130 \uc870\uac74\uc758 \uc804\uc2dc \ucd1d \uac74\uc218\ub97c \ubc18\ud658\ud55c\ub2e4. \ubaa9\ub85d(GET /exhibitions)\uc5d0\uc11c \ubd84\ub9ac\ub41c \uc5d4\ub4dc\ud3ec\uc778\ud2b8\ub2e4.\n\ud544\ud130 \uc2dc\ud2b8(\"126\uac1c \uc804\uc2dc \ubcf4\uae30\")\ub294 \ubaa9\ub85d \uc5c6\uc774 \uc774\uac83\ub9cc \ud638\ucd9c\ud558\uace0, \ubaa9\ub85d \ud5e4\ub354(\"\uc804\uc2dc 20\")\ub294 \ubaa9\ub85d\uacfc \uc774\uac83\uc744 \ubcd1\ub82c \ud638\ucd9c\ud55c\ub2e4\n\u2014 \uadf8\ub798\uc57c \ubaa9\ub85d\uc774 \ucd1d \uac74\uc218\ub97c \uae30\ub2e4\ub9ac\uc9c0 \uc54a\uace0 \uba3c\uc800 \ub72c\ub2e4.\n\ud544\ud130 \ud30c\ub77c\ubbf8\ud130\ub294 \ubaa9\ub85d\uacfc \ub3d9\uc77c\ud558\uba70(keyword\u00b7section\u00b7period\u00b7region\u00b7category\u00b7date), \uc11c\ubc84\uac00 \ubaa9\ub85d\uacfc \uac19\uc740\n\uc870\uac74 \uc870\ub9bd \uacbd\ub85c\ub97c \uacf5\uc720\ud558\ubbc0\ub85c \ub450 \uc751\ub2f5\uc758 \ud544\ud130 \ud574\uc11d\uc774 \uc5b4\uae0b\ub098\uc9c0 \uc54a\ub294\ub2e4.\n\uc815\ub82c(sort)\u00b7\ucee4\uc11c(cursor)\u00b7\ud398\uc774\uc9c0 \ud06c\uae30(size)\u00b7\uc88c\ud45c(lat/lng)\ub294 \ucd1d \uac74\uc218\uc640 \ubb34\uad00\ud574 \ubc1b\uc9c0 \uc54a\ub294\ub2e4.\n\uc778\uc99d\uc740 \uc120\ud0dd(Optional) \u2014 \ub85c\uadf8\uc778 \uc2dc \ubcf8\uc778 CUSTOM \uc804\uc2dc\uac00 \ubaa9\ub85d\uacfc \ub3d9\uc77c\ud558\uac8c \uc9d1\uacc4\uc5d0 \ud3ec\ud568\ub41c\ub2e4.\nexact\ub294 \ud604\uc7ac \ud56d\uc0c1 true\ub2e4(\uc815\ud655\ud55c count). \ub098\uc911\uc5d0 \uc0c1\ud55c \uadfc\uc0ac\ub85c \ubc14\ub00c\uba74 \uc774 \uac12\uc774 false\uac00 \ub420 \uc218 \uc788\ub2e4.",
+                "operationId": "count",
+                "parameters": [
+                    {
+                        "description": "\uc804\uc2dc\uba85\u00b7\uc804\uc2dc\uc7a5\uba85 \ubd80\ubd84 \uc77c\uce58(\ucd5c\uc18c 2\uae00\uc790)",
+                        "example": "\ubaa8\ub124",
+                        "in": "query",
+                        "name": "keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "\uc139\uc158 \ud544\ud130",
+                        "example": "ending-soon",
+                        "in": "query",
+                        "name": "section",
+                        "required": false,
+                        "schema": {
+                            "enum": [
+                                "ending-soon",
+                                "opening-this-month",
+                                "free"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "opening-this-month \uae30\uac04 \ubc94\uc704(\uae30\ubcf8 month)",
+                        "example": "month",
+                        "in": "query",
+                        "name": "period",
+                        "required": false,
+                        "schema": {
+                            "enum": [
+                                "month",
+                                "week"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "\uc9c0\uc5ed \ucf54\ub4dc \ucf64\ub9c8 \ub2e4\uc911(SEOUL,GYEONGGI \ub4f1)",
+                        "example": "SEOUL,GYEONGGI",
+                        "in": "query",
+                        "name": "region",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "\uce74\ud14c\uace0\ub9ac \ucf54\ub4dc \ucf64\ub9c8 \ub2e4\uc911(PAINTING\u00b7PHOTO\u00b7MEDIA\u00b7SCULPTURE\u00b7DESIGN\u00b7CRAFT\u00b7ARCHITECTURE\u00b7PERFORMANCE\u00b7ETC)",
+                        "example": "PHOTO,MEDIA",
+                        "in": "query",
+                        "name": "category",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "\ud574\ub2f9 \ub0a0\uc9dc\uc5d0 \uc9c4\ud589 \uc911\uc778 \uc804\uc2dc(YYYY-MM-DD)",
+                        "example": "2026-06-30",
+                        "in": "query",
+                        "name": "date",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "\ucd1d \uac74\uc218 \uc870\ud68c \uc131\uacf5": {
+                                        "description": "\ucd1d \uac74\uc218 \uc870\ud68c \uc131\uacf5",
+                                        "value": {
+                                            "data": {
+                                                "count": 126,
+                                                "exact": true
+                                            },
+                                            "meta": {
+                                                "errorCode": null,
+                                                "message": null,
+                                                "result": "SUCCESS"
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountResponse"
+                                }
+                            }
+                        },
+                        "description": "\uc870\ud68c \uc131\uacf5"
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "\uac80\uc0c9\uc5b4\uac00 1\uae00\uc790": {
+                                        "description": "\uac80\uc0c9\uc5b4\uac00 1\uae00\uc790",
+                                        "value": {
+                                            "data": null,
+                                            "meta": {
+                                                "errorCode": "INVALID_INPUT",
+                                                "message": "\uc785\ub825\uac12\uc774 \uc62c\ubc14\ub974\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.",
+                                                "result": "FAIL"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "INVALID_INPUT \u2014 keyword 1\uae00\uc790, \ubbf8\uc815\uc758 region/category/section \ucf54\ub4dc, date \ud615\uc2dd \uc624\ub958(\ubaa9\ub85d\uacfc \uac19\uc740 \uac80\uc99d \uaddc\uce59)"
+                    }
+                },
+                "summary": "\uc804\uc2dc \ucd1d \uac74\uc218",
                 "tags": [
                     "Exhibition"
                 ]
