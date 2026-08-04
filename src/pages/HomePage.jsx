@@ -69,7 +69,7 @@ const HomePage = () => {
         <BannerCarousel banners={bannerData} />
         <div className="app-content-pad">
           <div className="home-box-vertical">
-            <SubHeader title="곧 끝나기 전에 봐야할 전시" type="soon" />
+            <SubHeader title="곧 끝나기 전에 봐야 할 전시" type="soon" />
             <div className="home-section-vertical">
               {endingSoonData.map((exhibit) => (
                 <ExhibitCard

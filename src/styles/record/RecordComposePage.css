@@ -75,8 +75,8 @@
   margin: 16px auto 0;
   padding: 5px 10px;
   border-radius: 8px;
-  background-color: #f1f3ff;
-  color: #6370e5;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent-primary);
 }
 
 .record-compose-footer {

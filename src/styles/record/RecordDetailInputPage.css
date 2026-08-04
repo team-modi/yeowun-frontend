@@ -84,7 +84,7 @@
 }
 
 .record-detail-date-select .is-placeholder {
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 .record-detail-emotion-chips {
@@ -111,7 +111,7 @@
   border-radius: 12px;
   border: 1px solid var(--color-border-default);
   background-color: var(--color-surface-default);
-  color: #a0a4b1;
+  color: var(--color-text-placeholder);
 }
 
 .record-detail-emotion-edit {
@@ -121,8 +121,8 @@
   width: fit-content;
   padding: 5px 10px;
   border-radius: 12px;
-  background-color: #f4f4f6;
-  color: #7b808f;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-tertiary);
 }
 
 .record-detail-media-grid {

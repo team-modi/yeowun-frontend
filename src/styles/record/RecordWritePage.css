@@ -25,7 +25,7 @@
 }
 
 .record-write-textarea::placeholder {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-placeholder);
 }
 
 .record-write-count {

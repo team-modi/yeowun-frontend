@@ -31,7 +31,7 @@
 }
 
 .record-form-badge--optional {
-  background-color: var(--color-brand-subtle);
+  background-color: var(--color-surface-subtle);
   color: var(--color-text-tertiary);
 }
 
@@ -47,7 +47,7 @@
 }
 
 .record-form-input::placeholder {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-placeholder);
 }
 
 .record-form-select {
@@ -63,7 +63,7 @@
 }
 
 .record-form-select .is-placeholder {
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 .record-form-period-toggle {
@@ -82,9 +82,9 @@
   flex: 1;
   padding: 10px 0;
   border-radius: 8px;
-  border: 1px solid #e1e2e8;
+  border: 1px solid var(--color-border-default);
   background-color: var(--color-surface-default);
-  color: var(--color-text-secondary);
+  color: var(--color-text-tertiary);
   text-align: center;
 }
 
@@ -123,7 +123,7 @@
 }
 
 .record-form-period-field .is-placeholder {
-  color: var(--color-text-disabled);
+  color: var(--color-text-placeholder);
 }
 
 .record-form-period-field--disabled {
@@ -161,8 +161,8 @@
   padding: 5px 10px;
   border-radius: 8px;
   border: 1px solid var(--color-border-default);
-  background-color: #f4f4f6;
-  color: #7b808f;
+  background-color: var(--color-bg-default);
+  color: var(--color-text-tertiary);
 }
 
 /* 전시 포스터 업로더 */
@@ -195,7 +195,7 @@
 }
 
 .poster-uploader-label {
-  color: #a0a4b1;
+  color: var(--color-text-placeholder);
 }
 
 .poster-uploader-input {

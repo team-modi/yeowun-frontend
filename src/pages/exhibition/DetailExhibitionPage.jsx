@@ -180,11 +180,11 @@ const DetailExhibitionPage = () => {
             {!data.posterUrl && <span className="text-caption-1">Poster</span>}
           </div>
 
-          <h1 className="detail-exhibition-title text-title-3">{`<${data.title}>`}</h1>
+          {genreLabel && <span className="detail-exhibition-genre-chip text-label-2">{genreLabel}</span>}
+          <h1 className="detail-exhibition-title text-title-3">{data.title}</h1>
           {(data.artistName ?? data.artist) && (
             <p className="detail-exhibition-artist text-body-2-regular">{data.artistName ?? data.artist}</p>
           )}
-          {genreLabel && <span className="detail-exhibition-genre-chip text-label-2">{genreLabel}</span>}
 
           <div className="detail-exhibition-info">
             {periodLabel && (

@@ -62,8 +62,8 @@
 .exhibit-card-dday {
   width: fit-content;
   padding: 4px 8px;
-  background-color: rgba(220, 53, 69, 0.1);
-  color: var(--color-status-error);
+  background-color: var(--color-status-closing-subtle);
+  color: var(--color-status-closing-strong);
   border-radius: 4px;
   font-size: 12px;
 

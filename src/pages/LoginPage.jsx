@@ -82,7 +82,7 @@ export default function LoginPage() {
 
   return (
     <div className="app-shell">
-      <Header type="back" title="여운" onBack={() => navigate("/", { replace: true })} />
+      <Header type="back" title="" onBack={() => navigate("/", { replace: true })} />
       <div className="app-content login-content">
         <img src={logo} alt="여운로고" />
         <div className="text-title-3" style={{ textAlign: "center" }}>

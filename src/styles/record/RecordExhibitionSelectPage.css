@@ -29,7 +29,7 @@
   border-radius: 8px;
   color: var(--color-text-primary);
   white-space: nowrap;
-  background: #f4f4f6;
+  background: var(--color-surface-subtle);
   height: 33px;
 }
 
