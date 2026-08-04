@@ -4,7 +4,7 @@ import "@styles/common/SearchBox.css";
 import searchIcon from "@images/icons/Action/Search.svg";
 import closeIcon from "@images/icons/Action/Close.svg";
 
-export default function SearchBox({ value, onChange, onSubmit, onFocus, onClear, placeholder, autoFocus }) {
+export default function SearchBox({ value, onChange, onSubmit, onFocus, onBlur, onClear, placeholder, autoFocus }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit?.(value);
@@ -30,6 +30,7 @@ export default function SearchBox({ value, onChange, onSubmit, onFocus, onClear,
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={onFocus}
+          onBlur={onBlur}
           placeholder={placeholder}
           autoFocus={autoFocus}
         />

@@ -6,6 +6,7 @@ import HomeDetailExhibitionPage from "@pages/home/HomeDetailExhibitionPage";
 
 // 전시상세정보
 import ExhibitionPage from "@pages/ExhibitionPage";
+import ExhibitionSearchPage from "@pages/exhibition/ExhibitionSearchPage";
 import DetailExhibitionPage from "@pages/exhibition/DetailExhibitionPage";
 
 // 공통
@@ -101,6 +102,7 @@ export const router = createBrowserRouter([
     ),
   },
   { path: "/exhibition", element: <ExhibitionPage /> },
+  { path: "/exhibition/search", element: <ExhibitionSearchPage /> },
   { path: "/exhibition/:exhibitionId", element: <DetailExhibitionPage /> },
   {
     path: "/record",

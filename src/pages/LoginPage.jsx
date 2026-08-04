@@ -8,6 +8,9 @@ import { login } from "@api/auth";
 // util
 import { startKakaoLogin, startNaverLogin, takeProvider, consumeState, isNaverConfigured } from "@utils/oauth";
 
+// store
+import { useAuthStore } from "@store/useAuthStore";
+
 // router
 import { REDIRECT_AFTER_LOGIN_KEY } from "@router/RootRedirect";
 
@@ -50,6 +53,9 @@ export default function LoginPage() {
       try {
         const response = await login(provider, code, state);
         if (response.data.meta.result === "SUCCESS") {
+          // 로그인 성공 직후 useAuthStore가 다시 /users/me 로 확인하지 않도록 반영
+          useAuthStore.getState().setLoggedIn(true);
+
           // RequireAuth가 로그인으로 보내기 전 sessionStorage에 적어둔 원래 경로가 있으면 거기로, 없으면 /yeowun으로 이동
           const redirectTo = sessionStorage.getItem(REDIRECT_AFTER_LOGIN_KEY);
           sessionStorage.removeItem(REDIRECT_AFTER_LOGIN_KEY);
@@ -82,7 +88,7 @@ export default function LoginPage() {
 
   return (
     <div className="app-shell">
-      <Header type="back" title="여운" onBack={() => navigate("/", { replace: true })} />
+      <Header type="back" title="" onBack={() => navigate("/", { replace: true })} />
       <div className="app-content login-content">
         <img src={logo} alt="여운로고" />
         <div className="text-title-3" style={{ textAlign: "center" }}>

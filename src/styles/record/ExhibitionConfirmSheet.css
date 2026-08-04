@@ -85,7 +85,7 @@
 }
 
 .exhibition-confirm-cancel {
-  background-color: var(--color-bg-default);
+  background-color: var(--color-brand-subtle);
   color: var(--color-text-primary);
 }
 

@@ -207,6 +207,7 @@ export default function RecordDetailInputPage() {
         onClose={() => setIsDateSheetOpen(false)}
         value={viewedAt}
         onApply={setViewedAt}
+        title="관람일 선택"
         disableFuture
       />
 

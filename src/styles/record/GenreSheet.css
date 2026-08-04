@@ -23,12 +23,9 @@
   color: var(--color-text-secondary);
 }
 
-.genre-chip .is-selected {
+.genre-chip.is-selected {
   background-color: var(--color-accent-primary);
   border-color: var(--color-accent-primary);
-  color: var(--color-text-inverse);
-
-  background-color: var(--color-accent-primary);
   color: var(--color-text-inverse);
 }
 

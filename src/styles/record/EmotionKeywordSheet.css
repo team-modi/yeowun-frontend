@@ -40,7 +40,7 @@
 }
 
 .emotion-sheet-recent-count {
-  color: #6370e5;
+  color: var(--color-accent-primary);
 }
 
 .emotion-sheet-section-desc {
@@ -79,7 +79,7 @@
   padding: 5px 10px;
   border-radius: 8px;
   border: 1px solid var(--color-border-default);
-  color: var(--color-text-secondary);
+  color: var(--color-text-tertiary);
 }
 
 .emotion-chip.is-selected {

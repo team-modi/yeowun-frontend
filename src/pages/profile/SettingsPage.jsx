@@ -11,6 +11,9 @@ import BusinessInfo from "@components/common/BusinessInfo";
 import { logout } from "@api/auth";
 import { getNotificationSettings, updateNotificationSettings, withdrawUser } from "@api/user";
 
+// store
+import { useAuthStore } from "@store/useAuthStore";
+
 // router
 import { REDIRECT_AFTER_LOGIN_KEY } from "@router/RootRedirect";
 
@@ -63,6 +66,8 @@ export default function SettingsPage() {
     } catch (error) {
       console.log(error);
     } finally {
+      // 로그아웃 직후 useAuthStore가 다시 /users/me 로 확인하지 않도록 반영
+      useAuthStore.getState().setLoggedIn(false);
       sessionStorage.removeItem(REDIRECT_AFTER_LOGIN_KEY);
       navigate("/login");
     }
@@ -71,6 +76,7 @@ export default function SettingsPage() {
   const handleWithdraw = async () => {
     try {
       await withdrawUser();
+      useAuthStore.getState().setLoggedIn(false);
       sessionStorage.removeItem(REDIRECT_AFTER_LOGIN_KEY);
       navigate("/login");
     } catch (error) {

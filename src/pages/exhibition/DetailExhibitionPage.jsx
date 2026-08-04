@@ -9,6 +9,7 @@ import { getDetailExhibition, addExhibitionBookmark, deleteExhibitionBookmark } 
 
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
+import { useRecentlyViewedStore } from "@store/useRecentlyViewedStore";
 
 // utils
 import { GENRE_LABEL_BY_CODE } from "@utils/filterCodes";
@@ -76,6 +77,7 @@ const DetailExhibitionPage = () => {
   const navigate = useNavigate();
   const setExhibitionDraft = useRecordDraftStore((state) => state.setExhibitionDraft);
   const setExhibitionId = useRecordDraftStore((state) => state.setExhibitionId);
+  const addRecentlyViewed = useRecentlyViewedStore((state) => state.addRecentlyViewed);
 
   const [data, setData] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -90,6 +92,15 @@ const DetailExhibitionPage = () => {
           const detail = response.data.data;
           setData(detail);
           setIsBookmarked(Boolean(detail.isBookmarked ?? detail.bookmarked));
+          // 최근 살펴본 전시"에 기록됨
+          addRecentlyViewed({
+            exhibitionId: detail.exhibitionId ?? Number(exhibitionId),
+            title: detail.title,
+            posterUrl: detail.posterUrl,
+            place: detail.place,
+            startDate: detail.startDate,
+            endDate: detail.endDate,
+          });
         }
       } catch (error) {
         console.log(error);
@@ -180,11 +191,11 @@ const DetailExhibitionPage = () => {
             {!data.posterUrl && <span className="text-caption-1">Poster</span>}
           </div>
 
-          <h1 className="detail-exhibition-title text-title-3">{`<${data.title}>`}</h1>
+          {genreLabel && <span className="detail-exhibition-genre-chip text-label-2">{genreLabel}</span>}
+          <h1 className="detail-exhibition-title text-title-3">{data.title}</h1>
           {(data.artistName ?? data.artist) && (
             <p className="detail-exhibition-artist text-body-2-regular">{data.artistName ?? data.artist}</p>
           )}
-          {genreLabel && <span className="detail-exhibition-genre-chip text-label-2">{genreLabel}</span>}
 
           <div className="detail-exhibition-info">
             {periodLabel && (

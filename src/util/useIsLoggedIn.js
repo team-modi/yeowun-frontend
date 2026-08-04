@@ -1,28 +1,15 @@
 // 로그인 여부 확인
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-// api
-import { getUserInfo } from "@api/user";
+import { useAuthStore } from "@store/useAuthStore";
 
 export function useIsLoggedIn() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const checkAuth = useAuthStore((state) => state.checkAuth);
 
   useEffect(() => {
-    let ignore = false;
-
-    (async () => {
-      try {
-        await getUserInfo();
-        if (!ignore) setIsLoggedIn(true);
-      } catch {
-        if (!ignore) setIsLoggedIn(false);
-      }
-    })();
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
+    checkAuth();
+  }, [checkAuth]);
 
   return isLoggedIn;
 }

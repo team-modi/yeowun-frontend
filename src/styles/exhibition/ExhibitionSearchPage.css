@@ -1,0 +1,160 @@
+.exhibition-search-page {
+  min-height: 100svh;
+}
+
+.exhibition-search-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+}
+
+.exhibition-search-header .search-box-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.exhibition-search-body {
+  padding: 12px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exhibition-search-history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.exhibition-search-history-title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.exhibition-search-history-clear {
+  color: var(--color-text-tertiary);
+}
+
+/* 클릭 전: 세로 목록 */
+.exhibition-search-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.exhibition-search-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 0;
+}
+
+.exhibition-search-history-item-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  color: var(--color-text-primary);
+}
+
+.exhibition-search-history-item-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.exhibition-search-history-item-remove img {
+  opacity: 0.4;
+}
+
+/* 클릭 후: 칩(가로) 목록 */
+.exhibition-search-history-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exhibition-search-history-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px 8px 14px;
+  border-radius: 999px;
+  background-color: var(--color-surface-subtle);
+}
+
+.exhibition-search-history-chip-label {
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.exhibition-search-history-chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.exhibition-search-history-chip-remove img {
+  opacity: 0.4;
+}
+
+/* 검색어 있음: 로딩 / 결과없음 / 결과목록 */
+.exhibition-search-loading {
+  padding: 24px 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.exhibition-search-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  padding: 80px 20px 24px;
+  text-align: center;
+}
+
+.exhibition-search-empty-title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.exhibition-search-empty-desc {
+  margin: 0 0 8px;
+  color: var(--color-text-tertiary);
+}
+
+.exhibition-search-empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  background: var(--color-surface-subtle);
+  height: 33px;
+}
+
+.exhibition-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exhibition-search-sentinel {
+  height: 1px;
+}
