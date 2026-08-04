@@ -1,34 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
-// api
-import { getUserInfo } from "@api/user";
+// store
+import { useAuthStore } from "@store/useAuthStore";
 
 export const REDIRECT_AFTER_LOGIN_KEY = "modi:redirectAfterLogin";
 
+// 로그인 여부 확인은 useAuthStore가 앱 전체에서 공유
 export default function RequireAuth({ children }) {
-  const [status, setStatus] = useState("checking");
   const location = useLocation();
+  const isChecked = useAuthStore((state) => state.isChecked);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const checkAuth = useAuthStore((state) => state.checkAuth);
 
   useEffect(() => {
-    let ignore = false;
+    checkAuth();
+  }, [checkAuth]);
 
-    (async () => {
-      try {
-        await getUserInfo();
-        if (!ignore) setStatus("authed");
-      } catch {
-        if (!ignore) setStatus("guest");
-      }
-    })();
+  if (!isChecked) return null;
 
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  if (status === "checking") return null;
-  if (status === "guest") {
+  if (!isLoggedIn) {
     sessionStorage.setItem(REDIRECT_AFTER_LOGIN_KEY, location.pathname + location.search);
     return <Navigate to="/login" replace />;
   }
