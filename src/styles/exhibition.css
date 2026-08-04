@@ -5,6 +5,60 @@
   min-height: calc(100svh - var(--header-height) - var(--footer-height));
 }
 
+/* ========== ExhibitionPage.jsx 최근 검색어(목록형) =========== */
+.exhibition-page-history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.exhibition-page-history-title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.exhibition-page-history-clear {
+  color: var(--color-text-tertiary);
+}
+
+.exhibition-page-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.exhibition-page-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 0;
+}
+
+.exhibition-page-history-item-label {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  color: var(--color-text-primary);
+}
+
+.exhibition-page-history-item-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.exhibition-page-history-item-remove img {
+  opacity: 0.4;
+}
+
 /* ========== ExhibitCard.jsx =========== */
 .exhibit-card {
   position: relative;

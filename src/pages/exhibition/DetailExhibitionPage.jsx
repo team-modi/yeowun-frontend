@@ -9,6 +9,7 @@ import { getDetailExhibition, addExhibitionBookmark, deleteExhibitionBookmark } 
 
 // store
 import { useRecordDraftStore } from "@store/useRecordDraftStore";
+import { useRecentlyViewedStore } from "@store/useRecentlyViewedStore";
 
 // utils
 import { GENRE_LABEL_BY_CODE } from "@utils/filterCodes";
@@ -76,6 +77,7 @@ const DetailExhibitionPage = () => {
   const navigate = useNavigate();
   const setExhibitionDraft = useRecordDraftStore((state) => state.setExhibitionDraft);
   const setExhibitionId = useRecordDraftStore((state) => state.setExhibitionId);
+  const addRecentlyViewed = useRecentlyViewedStore((state) => state.addRecentlyViewed);
 
   const [data, setData] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -90,6 +92,15 @@ const DetailExhibitionPage = () => {
           const detail = response.data.data;
           setData(detail);
           setIsBookmarked(Boolean(detail.isBookmarked ?? detail.bookmarked));
+          // 최근 살펴본 전시"에 기록됨
+          addRecentlyViewed({
+            exhibitionId: detail.exhibitionId ?? Number(exhibitionId),
+            title: detail.title,
+            posterUrl: detail.posterUrl,
+            place: detail.place,
+            startDate: detail.startDate,
+            endDate: detail.endDate,
+          });
         }
       } catch (error) {
         console.log(error);
