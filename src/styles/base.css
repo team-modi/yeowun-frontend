@@ -207,9 +207,12 @@ body {
   overflow-x: hidden;
 }
 
+.app-content--no-header {
+  padding-top: 0;
+}
+
 .app-content-pad {
   padding: 20px;
-  padding-bottom: 50px;
 }
 
 button {

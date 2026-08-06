@@ -21,7 +21,7 @@ import imgSearchEmpty from "@images/img_search_empty.png";
 
 const PAGE_SIZE = 20;
 
-const ExhibitionList = ({ type, data }) => {
+const ExhibitionList = ({ type, data, hideHeader, hideEndBadge }) => {
   const [sort, setSort] = useState("latest");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [region, setRegion] = useState(undefined);
@@ -67,13 +67,14 @@ const ExhibitionList = ({ type, data }) => {
 
   return (
     <div className="exhibition-list-wrap">
-      {/* 개수는 불러온 만큼이 아니라 조건 기준 전체 건수(totalCount)를 보여준다. */}
-      <ExhibitListHeader
-        total={totalCount}
-        sort={sort}
-        onSortChange={handleSortChange}
-        onFilterClick={() => setIsFilterOpen(true)}
-      />
+      {!hideHeader && (
+        <ExhibitListHeader
+          total={totalCount}
+          sort={sort}
+          onSortChange={handleSortChange}
+          onFilterClick={() => setIsFilterOpen(true)}
+        />
+      )}
       <FilterSheet
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
@@ -108,6 +109,7 @@ const ExhibitionList = ({ type, data }) => {
                   endDate={exhibit.endDate}
                   exhibitionId={exhibit.exhibitionId}
                   bookmarked={exhibit.bookmarked}
+                  hideEndBadge={hideEndBadge}
                 />
               ))}
             </div>

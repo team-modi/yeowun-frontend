@@ -33,6 +33,7 @@ const ExhibitCard = ({
   dateRange,
   bookmarked,
   onUnbookmark,
+  hideEndBadge,
 }) => {
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
@@ -178,7 +179,7 @@ const ExhibitCard = ({
           <div className="exhibit-card-content2">
             <p className="exhibit-card-place">{place}</p>
             <p className="exhibit-card-date">{dateRange ?? formatDateRange(startDate, endDate)}</p>
-            {endBadge && <span className="exhibit-card-dday">{endBadge}</span>}
+            {!hideEndBadge && endBadge && <span className="exhibit-card-dday">{endBadge}</span>}
           </div>
         </div>
         {isLoggedIn && (

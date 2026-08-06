@@ -161,7 +161,7 @@
   gap: 2px;
   padding: 5px 10px;
   border-radius: 8px;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   white-space: nowrap;
   background: var(--color-surface-subtle);
   height: 33px;
