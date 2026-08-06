@@ -22,7 +22,6 @@ import "@styles/record/RecordExhibitionSelectPage.css";
 
 // images
 import imgSearchEmpty from "@images/img_search_empty.png";
-import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
 import closeIcon from "@images/icons/Action/Close.svg";
 
 const SEARCH_DEBOUNCE_MS = 250;
@@ -123,10 +122,17 @@ export default function RecordExhibitionSelectPage() {
         <div className="app-content-pad record-select-body">
           {!hasEnteredSearch && (
             <div className="record-select-intro">
-              <h1 className="record-select-intro-title text-title-3">어떤 전시를 관람하셨나요?</h1>
+              <h1 className="record-select-intro-title text-title-2">어떤 전시를 관람하셨나요?</h1>
               <button type="button" className="record-select-add-link" onClick={handleGoToAddExhibition}>
                 전시 직접 추가하기
-                <img src={chevronRightIcon} alt="" width={16} height={16} />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M7.79289 19.7071C8.18342 20.0976 8.81658 20.0976 9.20711 19.7071L16.2071 12.7071C16.5976 12.3166 16.5976 11.6834 16.2071 11.2929L9.20711 4.29289C8.81658 3.90237 8.18342 3.90237 7.79289 4.29289C7.40237 4.68342 7.40237 5.31658 7.79289 5.70711L14.0858 12L7.79289 18.2929C7.40237 18.6834 7.40237 19.3166 7.79289 19.7071Z"
+                    fill="currentColor"
+                  />
+                </svg>
               </button>
             </div>
           )}
@@ -251,7 +257,14 @@ export default function RecordExhibitionSelectPage() {
               </p>
               <button type="button" className="record-select-add-btn " onClick={handleGoToAddExhibition}>
                 전시 직접 추가하기
-                <img src={chevronRightIcon} alt="" width={16} height={16} />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M7.79289 19.7071C8.18342 20.0976 8.81658 20.0976 9.20711 19.7071L16.2071 12.7071C16.5976 12.3166 16.5976 11.6834 16.2071 11.2929L9.20711 4.29289C8.81658 3.90237 8.18342 3.90237 7.79289 4.29289C7.40237 4.68342 7.40237 5.31658 7.79289 5.70711L14.0858 12L7.79289 18.2929C7.40237 18.6834 7.40237 19.3166 7.79289 19.7071Z"
+                    fill="currentColor"
+                  />
+                </svg>
               </button>
             </div>
           )}

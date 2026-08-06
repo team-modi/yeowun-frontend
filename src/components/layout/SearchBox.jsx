@@ -25,7 +25,7 @@ export default function SearchBox({ value, onChange, onSubmit, onFocus, onBlur, 
           type="text"
           inputMode="search"
           enterKeyHint="search"
-          className="search-box-input text-body-1-regular"
+          className="search-box-input text-label-2"
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={handleKeyDown}

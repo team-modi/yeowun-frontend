@@ -9,7 +9,6 @@ import "@styles/common/Header.css";
 // images
 import logo from "@images/Logo.svg";
 import chevronLeftIcon from "@images/icons/Action/Chevron Left.svg";
-import settingsIcon from "@images/icons/Action/Settings.svg";
 import bellIcon from "@images/icons/Action/Bell.svg";
 import bookmarkDefaultIcon from "@images/icons/Action/Bookmark_Default.svg";
 
@@ -53,16 +52,6 @@ const Header = ({ type, title, onBack, onMenuClick }) => {
                 aria-label="알림"
               >
                 <img src={bellIcon} alt="" width={20} height={20} />
-              </button>
-            )}
-            {type === "profile" && (
-              <button
-                type="button"
-                className="header-icon-btn"
-                onClick={() => navigate("/profile/settings")}
-                aria-label="설정"
-              >
-                <img src={settingsIcon} alt="" width={20} height={20} />
               </button>
             )}
             {type === "bookmark" && (

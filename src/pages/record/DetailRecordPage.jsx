@@ -19,6 +19,9 @@ import "@styles/record/DetailRecordPage.css";
 // util
 import { formatDateDot } from "@utils/common.js";
 
+// icons
+import chevronRightIcon from "@images/icons/Action/Chevron Right.svg";
+
 const DetailRecordPage = () => {
   const { recordId } = useParams();
   const navigate = useNavigate();
@@ -88,8 +91,9 @@ const DetailRecordPage = () => {
   const artistLine = data.exhibitionArtist ?? data.artistLine;
   const emotionCodes = data.emotionCodes ?? [];
   const media = data.media ?? [];
+  const hasMedia = media.length > 0;
   // 사진/영상이 있으면 상단 캐러셀에 쓰고, 없으면 포스터 한 장으로 대신 채운다.
-  const slides = media.length > 0 ? media : posterUrl ? [{ type: "PHOTO", url: posterUrl }] : [];
+  const slides = hasMedia ? media : posterUrl ? [{ type: "PHOTO", url: posterUrl }] : [];
 
   return (
     <div className="app-shell">
@@ -159,14 +163,22 @@ const DetailRecordPage = () => {
           )}
 
           {slides.length > 1 && (
-            <span className="detail-record-hero-counter text-caption-1">
+            <button
+              type="button"
+              className="detail-record-hero-counter text-caption-1"
+              onClick={() => setLightboxIndex(slideIndex)}
+              aria-label="사진 전체보기"
+            >
               {slideIndex + 1}/{slides.length}
-            </span>
+              <img src={chevronRightIcon} alt="" className="detail-record-hero-counter-icon" width={14} height={14} />
+            </button>
           )}
         </div>
 
         <div className="app-content-pad detail-record">
-          {posterUrl && <div className="detail-record-poster" style={{ backgroundImage: `url(${posterUrl})` }} />}
+          {hasMedia && posterUrl && (
+            <div className="detail-record-poster" style={{ backgroundImage: `url(${posterUrl})` }} />
+          )}
 
           <div className="detail-record-head">
             <h1 className="detail-record-title text-title-3">{title}</h1>
