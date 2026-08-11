@@ -155,6 +155,17 @@
                 },
                 "type": "object"
             },
+            "ApiResponseOverview": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Overview"
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Metadata"
+                    }
+                },
+                "type": "object"
+            },
             "ApiResponsePageResponseListItemResponse": {
                 "properties": {
                     "data": {
@@ -367,6 +378,62 @@
                     "recordId": {
                         "format": "int64",
                         "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "CacheStat": {
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "hitRate": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "l1Evictions": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "l1HitRate": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "l1Hits": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "l1Size": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "l2Hits": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "loadedInL2": {
+                        "type": "boolean"
+                    },
+                    "misses": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "redisTtlSeconds": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "singleEntry": {
+                        "type": "boolean"
+                    },
+                    "ttlSeconds": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "type": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
@@ -1141,6 +1208,34 @@
                 },
                 "type": "object"
             },
+            "InvalidationHealth": {
+                "properties": {
+                    "publishFailure": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "publishSuccess": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "receiveFailure": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "receiveSuccess": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "resubscribeCount": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "subscribed": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
             "Item": {
                 "properties": {
                     "address": {
@@ -1385,6 +1480,36 @@
                     },
                     "remindEnabled": {
                         "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "Overview": {
+                "properties": {
+                    "caches": {
+                        "items": {
+                            "$ref": "#/components/schemas/CacheStat"
+                        },
+                        "type": "array"
+                    },
+                    "invalidation": {
+                        "$ref": "#/components/schemas/InvalidationHealth"
+                    },
+                    "overallHitRate": {
+                        "format": "double",
+                        "type": "number"
+                    },
+                    "totalL1Hits": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "totalL2Hits": {
+                        "format": "int64",
+                        "type": "integer"
+                    },
+                    "totalMisses": {
+                        "format": "int64",
+                        "type": "integer"
                     }
                 },
                 "type": "object"
@@ -2428,6 +2553,28 @@
     },
     "openapi": "3.1.0",
     "paths": {
+        "/api-admin/v1/cache/stats": {
+            "get": {
+                "description": "\uce90\uc2dc \uc120\uc5b8\ubcc4 \uacc4\uce35 \ud788\ud2b8\uc728(L1/L2/\ubbf8\uc2a4)\uacfc \uc801\uc7ac \uc0c1\ud0dc, \uadf8\ub9ac\uace0 \ubb34\ud6a8\ud654 \uacbd\ub85c\uc758 \uac74\uac15 \uc0c1\ud0dc\ub97c \ub3cc\ub824\uc900\ub2e4.\n\ud788\ud2b8\uc728\uc774 -1\uc774\uba74 \uc544\uc9c1 \uc870\ud68c\uac00 \uc5c6\uc5b4 \ud310\ub2e8\ud560 \uc218 \uc5c6\ub2e4\ub294 \ub73b\uc774\ub2e4(0%\uc640 \uad6c\ubd84).\n",
+                "operationId": "overview",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiResponseOverview"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    }
+                },
+                "summary": "\uce90\uc2dc \ud788\ud2b8\uc728\u00b7\uc801\uc7ac \ud604\ud669",
+                "tags": [
+                    "Admin Cache"
+                ]
+            }
+        },
         "/api-admin/v1/login": {
             "post": {
                 "description": "\uc774\uba54\uc77c\uc774 \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8\uc5d0 \uc788\uace0 \ube44\ubc00\ubc88\ud638\uac00 \ub9de\uc73c\uba74 admin_session \ucfe0\ud0a4\ub97c \ubc1c\uae09\ud55c\ub2e4.",
@@ -5287,6 +5434,10 @@
         {
             "description": "\uad00\ub9ac\uc790 \ub9ac\ub9c8\uc778\ub4dc \uc124\uc815. \uc18c\ud658 \ub300\uae30 \uc2dc\uac04\uc744 \uc7ac\ubc30\ud3ec \uc5c6\uc774 \ub7f0\ud0c0\uc784\uc5d0 \uc870\uc815(\uad00\ub9ac\uc790\ub9cc \uc811\uadfc).",
             "name": "Admin - Remind"
+        },
+        {
+            "description": "\uad00\ub9ac\uc790 \uce90\uc2dc \ud604\ud669(\ub0b4\ubd80 \ucf58\uc194)",
+            "name": "Admin Cache"
         },
         {
             "description": "\uc804\uc2dc\uad00 \uac80\uc0c9(\uc790\ub3d9\uc644\uc131)",
